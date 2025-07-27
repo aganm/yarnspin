@@ -46,6 +46,7 @@ When you open up the engine source folder, you'll find a set of folders and file
 Here's a quick overview of what each file contains:
 
 | File name | Description | Lines |
+| --------- | ----------- | ----- |
 | `libs/app.h`| Small cross-platform base framework for graphical apps. | |
 | `libs/array.h`| Dynamic array library for C/C++. | |
 | `libs/audiosys.h`| Sound and music playback (mixing only) for C/C++. | |
