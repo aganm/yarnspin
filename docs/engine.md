@@ -47,53 +47,55 @@ Here's a quick overview of what each file contains:
 
 | File name | Description | Lines |
 | --------- | ----------- | ----- |
-| `libs/app.h`| Small cross-platform base framework for graphical apps. | |
-| `libs/array.h`| Dynamic array library for C/C++. | |
-| `libs/audiosys.h`| Sound and music playback (mixing only) for C/C++. | |
-| `libs/buffer.h`| Memory buffer with read/write operations, for C/C++. | |
-| `libs/crtemu.h`| Cathode ray tube emulation shader for C/C++. | |
-| `libs/cstr.h`| String interning library for C/C++. | |
-| `libs/dir.h`| Directory listing functions for C/C++. | |
-| `libs/dr_flac.h`| FLAC audio decoder. | |
-| `libs/dr_mp3.h`| WAV audio loader and writer. | |
-| `libs/file.h`| C/C++ functions to load/save an entire file to/from memory. | |
-| `libs/frametimer.h`| Framerate timer functionality. | |
-| `libs/glad.h`| Automatically generated OpenGL loader. | |
-| `libs/img.h`| Image processing functions for C/C++. | |
-| `libs/ini.h`| Simple ini-file reader for C/C++. | |
-| `libs/lzma.h`| Single header version of Igor Pavlov's LzmaLib. | |
-| `libs/paldither.h`| Convert true-color image to custom palette, with dither. | |
-| `libs/palettize.h`| Median-cut palette generation and remapping for C/C++. | |
-| `libs/palrle.h`| Run-length encoding of palettized bitmaps, for C/C++. | |
-| `libs/pixelfont.h`| Custom pixel font format builder and renderer. | |
-| `libs/qoa.h`| QOA - The "Quite OK Audio" format for fast, lossy audio compression. | |
-| `libs/qoi.h`| QOI - The "Quite OK Image" format for fast, lossless image compression. | |
-| `libs/rnd.h`| Pseudo-random number generators for C/C++. | |
-| `libs/samplerate.h`| An audio Sample Rate Conversion library. | |
-| `libs/stb_image.h`| Image loading/decoding from file/memory| JPG, PNG, TGA, BMP, PSD, GIF, HDR, PIC. | |
-| `libs/stb_image_resize.h`| Resize images larger/smaller with good quality. | |
-| `libs/stb_image_write.h`| Writes out PNG/BMP/TGA/JPEG/HDR images to C stdio. | |
-| `libs/stb_rect_pack.h`| Simple 2D rectangle packer with decent quality. | |
-| `libs/stb_truetype.h`| Parse, decode, and rasterize characters from truetype fonts. | |
-| `libs/stb_vorbis.h`| Decode ogg vorbis files from file/memory to float/16-bit signed output. | |
-| `libs/sysfont.h`| Simple debug text renderer for C/C++. | |
-| `libs/thread.h`| Cross platform threading functions for C/C++. | |
-| `libs/ya_getopt.h`| Single header version of ya_getopt| parse command-line options. | |
+| `libs/app.h` | Small cross-platform base framework for graphical apps. | |
+| `libs/array.h` | Dynamic array library for C/C++. | |
+| `libs/audiosys.h` | Sound and music playback (mixing only) for C/C++. | |
+| `libs/buffer.h` | Memory buffer with read/write operations, for C/C++. | |
+| `libs/crtemu.h` | Cathode ray tube emulation shader for C/C++. | |
+| `libs/cstr.h` | String interning library for C/C++. | |
+| `libs/dir.h` | Directory listing functions for C/C++. | |
+| `libs/dr_flac.h` | FLAC audio decoder. | |
+| `libs/dr_mp3.h` | WAV audio loader and writer. | |
+| `libs/file.h` | C/C++ functions to load/save an entire file to/from memory. | |
+| `libs/frametimer.h` | Framerate timer functionality. | |
+| `libs/glad.h` | Automatically generated OpenGL loader. | |
+| `libs/img.h` | Image processing functions for C/C++. | |
+| `libs/ini.h` | Simple ini-file reader for C/C++. | |
+| `libs/lzma.h` | Single header version of Igor Pavlov's LzmaLib. | |
+| `libs/paldither.h` | Convert true-color image to custom palette, with dither. | |
+| `libs/palettize.h` | Median-cut palette generation and remapping for C/C++. | |
+| `libs/palrle.h` | Run-length encoding of palettized bitmaps, for C/C++. | |
+| `libs/pixelfont.h` | Custom pixel font format builder and renderer. | |
+| `libs/qoa.h` | QOA - The "Quite OK Audio" format for fast, lossy audio compression. | |
+| `libs/qoi.h` | QOI - The "Quite OK Image" format for fast, lossless image compression. | |
+| `libs/rnd.h` | Pseudo-random number generators for C/C++. | |
+| `libs/samplerate.h` | An audio Sample Rate Conversion library. | |
+| `libs/stb_image.h` | Image loading/decoding from file/memory: JPG, PNG, TGA, BMP, PSD, GIF, HDR, PIC. | |
+| `libs/stb_image_resize.h` | Resize images larger/smaller with good quality. | |
+| `libs/stb_image_write.h` | Writes out PNG/BMP/TGA/JPEG/HDR images to C stdio. | |
+| `libs/stb_rect_pack.h` | Simple 2D rectangle packer with decent quality. | |
+| `libs/stb_truetype.h` | Parse, decode, and rasterize characters from truetype fonts. | |
+| `libs/stb_vorbis.h` | Decode ogg vorbis files from file/memory to float/16-bit signed output. | |
+| `libs/sysfont.h` | Simple debug text renderer for C/C++. | |
+| `libs/thread.h` | Cross platform threading functions for C/C++. | |
+| `libs/ya_getopt.h` | Single header version of ya_getopt| parse command-line options. | |
 
 Now the actual engine files:
 
-* `audioconv.h`: Utility for loading OGG/WAV/FLAC/MP3 audio files into QOI format.
-* `game.h`: The entire game state logic.
-* `gfxconv.h`: Utilities for tansformation of various graphical data.
-* `imgedit.h`: The Yarnspin image editor.
-* `input.h`: Keyboard and mouse input state tracking based on `app.h` library.
-* `memmgr.h`: Automatic memory management helper.
-* `render.h`: The Yarnspin OpenGL renderer.
-* `yarn.h`: The shared data definitions and functions for the Yarn scripting language.
-* `yarn_compiler.h`: The compiler for the Yarn scripting language.
-* `yarn_lexer.h`: The lexer for the Yarn scripting language.
-* `yarn_parser.h`: The parser for the Yarn scripting language.
-* `yarnspin.c`: Serves as both a unity build file for the entire engine and also as a coordinator to assemble and run every part of the engine together.
+| File name | Description | Lines |
+| --------- | ----------- | ----- |
+| `audioconv.h` | Utility for loading OGG/WAV/FLAC/MP3 audio files into QOI format. | |
+| `game.h` | The entire game state logic. | |
+| `gfxconv.h` | Utilities for tansformation of various graphical data. | |
+| `imgedit.h` | The Yarnspin image editor. | |
+| `input.h` | Keyboard and mouse input state tracking based on `libs/app.h`. | |
+| `memmgr.h` | Automatic memory management helper. | |
+| `render.h` | The Yarnspin OpenGL renderer. | |
+| `yarn.h` | The shared data definitions and functions for the Yarn scripting language. | |
+| `yarn_compiler.h` | The compiler for the Yarn scripting language. | |
+| `yarn_lexer.h` | The lexer for the Yarn scripting language. | |
+| `yarn_parser.h` | The parser for the Yarn scripting language. | |
+| `yarnspin.c` | Serves as both a unity build file for the entire engine and also as a coordinator to assemble and run every part of the engine together. | |
 
 
 ### About the Author
