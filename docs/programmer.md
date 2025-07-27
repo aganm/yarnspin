@@ -7,6 +7,7 @@
 ## Contents
 
  - [1. Introduction](#1-introduction) 
+ - [2. Building the code](#2-building-the-code) 
  - [4. License](#4-license)  
 ---
 
@@ -94,6 +95,46 @@ Now the actual engine files:
 | `yarn_lexer.h` | The lexer for the Yarn scripting language. | 0.3k |
 | `yarn_parser.h` | The parser for the Yarn scripting language. | 0.3k |
 | `yarnspin.c` | Serves as both a unity build file for the entire engine and also as a coordinator to assemble and run every part of the engine together. | 2.3k |
+
+
+## 2. Building the code
+
+No build system is used, simply call the compiler from the commandline.
+
+
+### Windows
+
+From a Visual Studio Developer Command Prompt, do:
+```
+  cl source\yarnspin.c
+```  
+
+For building the final release version, you probably want all optimizations enabled. There's a helper script (a windows bat file) in the `build` folder of the repo, which will build with full optimizations, and also include an application icon. It will also call the compiled exe to generate the `yarnspin.dat` data file, and then append the file to the end of the executable, giving you a single exe you can distribute which contains both code and data. No need to include the yarnspin.dat file. See the `build\build_win.bat` file for details.
+
+
+### Mac
+
+```
+  clang source/yarnspin.c `sdl2-config --libs --cflags` -lGLEW -framework OpenGL -lpthread
+```
+
+SDL2 and GLEW are required - if you don't have them installed you can do so with Homebrew by running
+```
+  brew install sdl2 glew  
+```
+
+
+### Linux
+
+```
+  gcc source/yarnspin.c `sdl2-config --libs --cflags` -lGLEW -lGL -lm -lpthread
+```
+
+SDL2 and GLEW are required - if you don't have them installed you can do so on Ubuntu (or wherever `apt-get` is available) by running
+```
+  sudo apt-get install libsdl2-dev
+  sudo apt-get install libglew-dev
+```
 
 
 
