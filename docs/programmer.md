@@ -9,10 +9,8 @@
  - [1. Introduction](#1-introduction) 
  - [2. Building the code](#2-building-the-code) 
  - [3. What's in the engine](#3-whats-in-the-engine)
- - [4. The main function](#4-the-main-function)
- - [5. The app_proc function](#5-the-app_proc-function)
- - [6. The game_update function](#6-the-game_update-function)
- - [7. License](#7-license)
+ - [4. The engine loop](#4-the-engine-loop)
+ - [5. License](#5-license)
 ---
 
 
@@ -134,14 +132,23 @@ Now the actual engine files:
 | `input.h` | Keyboard and mouse input state tracking based on `libs/app.h`. | 0.1k |
 | `memmgr.h` | Automatic memory management helper. | 0.1k |
 | `render.h` | The Yarnspin OpenGL renderer. | 1.5k |
-| `yarn.h` | A yarn is a package of data for yarnspin to run, that's where all game files live in. | 1.8k |
+| `yarn.h` | A yarn is a package of data for Yarnspin to run, that's where all game files live in. | 1.8k |
 | `yarn_compiler.h` | The compiler for the Yarn scripting language. | 2.2k |
 | `yarn_lexer.h` | The lexer for the Yarn scripting language. | 0.3k |
 | `yarn_parser.h` | The parser for the Yarn scripting language. | 0.3k |
 | `yarnspin.c` | Serves as both a unity build file for the entire engine and also as a coordinator to assemble and run every part of the engine together. | 2.3k |
 
 
-## 4. The main function
+## 4. The engine loop
+
+The engine uses a game loop architecture where things get setup upon entering
+the engine, then enters a game loop for as long as the duration of the game
+lasts, and cleans up everything before closing. The essence of the engine lives 
+in 3 separate functions: `main`, `app_proc`, and `game_update`. This chapter will
+explorer the logic flow within these 3 central functions at the core of the Yarnspin engine.
+
+
+### The main function
 
 The main function is the entry point of the engine.
 You may find the main function in the file `yarnspin.c` between approximately line 700 to line 1200.
@@ -155,12 +162,12 @@ The main function can be broken down in these distinct steps:
 
 1. Enable windows memory leak detection, if applicable.
 2. Pre-initialize OpenGL, if applicable.
-3. Parse the command line options of yarnspin (`i,r,d,c,n,w,f,p`) with getopt.h library.
+3. Parse the command line options of Yarnspin (`i,r,d,c,n,w,f,p`) with getopt.h library.
 4. Validate the use of the option `-p` or `--package`.
-5. Run yarnspin in image editor mode if `-i` or `--images` were specified.
+5. Run Yarnspin in image editor mode if `-i` or `--images` were specified.
 If using images mode, the main function loops over `app_run` from the app.h library
 with the `imgedit_proc` callback. Then main **returns** after `app_run` finishes.
-6. Now yarnspin compiles and compresses your game files into a yarn package with the buffer.h library,
+6. Now Yarnspin compiles and compresses your game files into a yarn package with the buffer.h library,
 and writes it on disk. The version string is written into the save file data.
 7. Load and decompress an external yarn data file if present with the buffer.h library,
 or check to load from the end of executable if no external data file is present, also with the help of the buffer.h library.
@@ -178,7 +185,7 @@ from the app.h library with the `app_proc` callback.
 The main function takes care of executing the general engine features outside of the game itself.
 
 
-## 5. The app_proc function
+### The app_proc function
 
 The app_proc function handles the execution loop part of the engine.
 You may find the app_proc function in the file `yarnspin.c` between approximately line 200 to line 600.
@@ -222,7 +229,8 @@ The app_proc function can be broken down in these distinct steps:
 
 The app_proc function takes care of doing the engine setup and executing the main game loop.
 
-## 6. The game_update function
+
+### The game_update function
 
 The game_update function handles the gamestate simulation.
 You may find the game_update function in the file `game.h` between approximately line 600 to line 750.
@@ -253,7 +261,8 @@ The game_update function can be broken down in these distinct steps:
 The game_update function takes care of the transition between the different game states
 as well as running the simulation of the states.
 
-## 7. License
+
+## 5. License
 
 The majority of the code are under the following license. Exceptions below.
 
