@@ -155,8 +155,8 @@ Then the engine files:
 This graph represents the include dependencies.
 Libs files may include C standard library files.
 Engine modules do not include anything (but may include themselves).
-yarnspin.c includes the C standard library files, it includes the libs files,
-and it includes engine module files.
+yarnspin.c includes C standard library files, it includes the libs files,
+and it includes the engine module files.
 
 
 
