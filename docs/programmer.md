@@ -203,9 +203,9 @@ The app_proc function can be broken down in these distinct steps:
 12. Initialize the game state with the engine's game.h.
 13. Load game settings.
 14. Begin of the main loop:
-  1. A
-  2. B
-  3. C
+  -. A
+  -. B
+  -. C
 15. Cleanup all of the initialized modules.
 16. **Return** to main.
 
