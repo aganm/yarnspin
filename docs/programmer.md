@@ -148,6 +148,15 @@ https://github.com/aganm/yarnspin/blob/049f6a0123376a460437bdde6560f277a6e90b84/
 End of main function:
 https://github.com/aganm/yarnspin/blob/049f6a0123376a460437bdde6560f277a6e90b84/source/yarnspin.c#L1160
 
+The main function can be broken down in these distinct steps:
+
+1. Enable window memory leak detection, if applicable.
+2. Pre-initialize OpenGL, if applicable.
+3. Parse the command line options of yarnspin (`i,r,d,c,n,w,f,p`) with getopt library.
+4. Validate the use of the option `--package`.
+5. Run yarnspin in image editor mode if `-i` or `--images` were specified.
+The main function returns from here if using images mode.
+
 ## 5. License
 
 The majority of the code are under the following license. Exceptions below.
