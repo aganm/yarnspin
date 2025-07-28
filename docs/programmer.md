@@ -141,7 +141,8 @@ Now the actual engine files:
 
 ## 4. The main function
 
-The main function is the entry point of the engine. You may find the main function in the file `yarnspin.c` between approximately line 700 to line 1200.
+The main function is the entry point of the engine.
+You may find the main function in the file `yarnspin.c` between approximately line 700 to line 1200.
 
 Begin of main function:
 https://github.com/aganm/yarnspin/blob/049f6a0123376a460437bdde6560f277a6e90b84/source/yarnspin.c#L734
@@ -153,9 +154,27 @@ The main function can be broken down in these distinct steps:
 1. Enable window memory leak detection, if applicable.
 2. Pre-initialize OpenGL, if applicable.
 3. Parse the command line options of yarnspin (`i,r,d,c,n,w,f,p`) with getopt library.
-4. Validate the use of the option `--package`.
+4. Validate the use of the option `-p` or `--package`.
 5. Run yarnspin in image editor mode if `-i` or `--images` were specified.
-The main function returns from here if using images mode.
+If using images mode, the main function loops over `app_run` from the app library
+with the `imgedit_proc` callback. Then main **returns** after `app_run` finishes.
+6. Now yarnspin compiles and compresses your game files into a yarn package with the buffer library,
+and writes it on disk. At the same time, the version string is written into the save file data.
+7. Load and decompress an external yarn data file if present with the buffer library,
+or check to load from the end of executable if no external data file is present, also with the help of the buffer library.
+8. If `-c` or `--compile` were specific, don't run the game, just **return** here, after compiling the yarn.
+9. Load the yarn state from the decompressed yarn data buffer: this is a function of the `yarn.h` engine file.
+Then destroy the data buffer, it won't be needed no more.
+10. If `-p` or `--package` were specified, don't run the game,
+instead package the exe after compiling the yarn and **return**.
+11. If `-n` or `--nosound` were specified, set global variable `g_disable_sound` to true.
+12. If `-w` or `--window` were specified, set yarn variable `screenmode` to window mode.
+13. If `-f` or `--fullscreen` were specified, set yarn variable `screenmode` to fullscreen mode.
+14. Finally, main **returns** by handing over the control of the program to `app_run`
+from the app library with the `app_proc` callback.
+
+The main function takes care of executing the general engine features outside of the game itself.
+
 
 ## 5. License
 
