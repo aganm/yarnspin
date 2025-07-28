@@ -146,34 +146,11 @@ Now the actual engine files:
 
 ```mermaid
  graph TD;
-    A[C Programming Language]-->B[C Standard Library];
+    A[C Programming Language] --> B[C Standard Library];
+    B[C Standard Library] --> C[Libs];
+    C[Libs] --> D[Engine Modules];
+    D[Engine Modules] --> E[yarnspin.c];
 ```
-
-┌─────────────────────────────────────────┐<br>
-│        C Programming Language           │<br>
-└─────────────────────────────────────────┘<br>
-┌─────────────────────────────────────────┐<br>
-│                                         │<br>
-│                                         │<br>
-│          C Standard Library             │<br>
-│                                         │<br>
-│                                         │<br>
-└─────────────────────────────────────────┘<br>
-┌─────────────────────────────────────────┐<br>
-│                                         │<br>
-│                                         │<br>
-│                 Libs                    │<br>
-│                                         │<br>
-│                                         │<br>
-└─────────────────────────────────────────┘<br>
-┌─────────────────────────────────────────┐<br>
-│                                         │<br>
-│             Engine modules              │<br>
-│                                         │<br>
-└─────────────────────────────────────────┘<br>
-┌─────────────────────────────────────────┐<br>
-│               yarnspin.c                │<br>
-└─────────────────────────────────────────┘<br>
 
 
 ## 4. The engine loop
