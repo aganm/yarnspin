@@ -151,7 +151,7 @@ https://github.com/aganm/yarnspin/blob/049f6a0123376a460437bdde6560f277a6e90b84/
 
 The main function can be broken down in these distinct steps:
 
-1. Enable window memory leak detection, if applicable.
+1. Enable windows memory leak detection, if applicable.
 2. Pre-initialize OpenGL, if applicable.
 3. Parse the command line options of yarnspin (`i,r,d,c,n,w,f,p`) with getopt library.
 4. Validate the use of the option `-p` or `--package`.
