@@ -746,16 +746,16 @@ int main( int argc, char** argv ) {
         opengl_preinit();
     #endif
 
-
-    bool opt_images = false;
-    bool opt_run = false;
-    bool opt_debug = false;
-    bool opt_compile = false;
-    bool opt_nosound = false;
-    bool opt_window = false;
-    bool opt_fullscreen = false;
-    bool opt_package = false;
     char const* package_filename = NULL;
+
+    bool opt_images     = false;
+    bool opt_run        = false;
+    bool opt_debug      = false;
+    bool opt_compile    = false;
+    bool opt_nosound    = false;
+    bool opt_window     = false;
+    bool opt_fullscreen = false;
+    bool opt_package    = false;
 
     #ifndef __wasm__
         static struct option long_options[] = {
@@ -773,30 +773,14 @@ int main( int argc, char** argv ) {
         int opt = 0;
         while( ( opt = ya_getopt_long( argc, argv, "irdcnwfp", long_options, NULL ) ) != -1 ) {
             switch( opt ) {
-                case 'i': {
-                    opt_images = true;
-                } break;
-                case 'r': {
-                    opt_run = true;
-                } break;
-                case 'd': {
-                    opt_debug = true;
-                } break;
-                case 'c': {
-                    opt_compile = true;
-                } break;
-                case 'n': {
-                    opt_nosound = true;
-                } break;
-                case 'w': {
-                    opt_window = true;
-                } break;
-                case 'f': {
-                    opt_fullscreen = true;
-                } break;
-                case 'p': {
-                    opt_package = true;
-                } break;
+                case 'i': { opt_images     = true; } break;
+                case 'r': { opt_run        = true; } break;
+                case 'd': { opt_debug      = true; } break;
+                case 'c': { opt_compile    = true; } break;
+                case 'n': { opt_nosound    = true; } break;
+                case 'w': { opt_window     = true; } break;
+                case 'f': { opt_fullscreen = true; } break;
+                case 'p': { opt_package    = true; } break;
             }
         }
 
