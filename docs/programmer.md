@@ -151,6 +151,12 @@ Now the actual engine files:
     C[Libs] --> E[yarnspin.c];
     D[Engine Modules] --> E[yarnspin.c];
 ```
+This graph represents the include dependencies.
+Libs files may include C standard library files.
+Engine modules do not include anything (but may include themselves).
+yarnspin.c includes the C standard library files, it includes the libs files,
+and it includes engine module files.
+
 
 
 ## 4. The engine loop
