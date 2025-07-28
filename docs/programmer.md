@@ -161,6 +161,13 @@ Then the engine files:
 
 ## 4. The engine loop
 
+
+## A visulation of the loop
+```mermaid
+ journey;
+   title The engine loop;
+   section main; 
+```
 Yarnspin engine uses a game loop architecture where things get setup upon entering
 the engine, then enters a game loop for as long as the duration of the game
 lasts, and cleans up everything before closing. The essence of the engine lives 
