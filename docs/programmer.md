@@ -159,7 +159,7 @@ The main function can be broken down in these distinct steps:
 If using images mode, the main function loops over `app_run` from the app library
 with the `imgedit_proc` callback. Then main **returns** after `app_run` finishes.
 6. Now yarnspin compiles and compresses your game files into a yarn package with the buffer library,
-and writes it on disk. At the same time, the version string is written into the save file data.
+and writes it on disk. The version string is written into the save file data.
 7. Load and decompress an external yarn data file if present with the buffer library,
 or check to load from the end of executable if no external data file is present, also with the help of the buffer library.
 8. If `-c` or `--compile` were specific, don't run the game, just **return** here, after compiling the yarn.
