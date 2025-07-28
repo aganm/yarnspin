@@ -141,9 +141,9 @@ Now the actual engine files:
 
 ## 4. The main function
 
-The main function is the entry point of the engine. You may find the main function in the file `yarnspin.c` at around line 700.
+The main function is the entry point of the engine. You may find the main function in the file `yarnspin.c` between approximately line 700 to line 1200.
 https://github.com/aganm/yarnspin/blob/049f6a0123376a460437bdde6560f277a6e90b84/source/yarnspin.c#L734.
-
+https://github.com/aganm/yarnspin/blob/049f6a0123376a460437bdde6560f277a6e90b84/source/yarnspin.c#L1159
 
 ## 5. License
 
