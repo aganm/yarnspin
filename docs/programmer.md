@@ -81,6 +81,9 @@ SDL2 and GLEW are required - if you don't have them installed you can do so on U
 
 ## 3. What's in the engine
 
+
+### The files
+
 When you open up the engine source folder, you'll find a set of folders and files.
 
 Here's a quick overview of what each file contains:
@@ -137,6 +140,35 @@ Now the actual engine files:
 | `yarn_lexer.h` | The lexer for the Yarn scripting language. | 0.3k |
 | `yarn_parser.h` | The parser for the Yarn scripting language. | 0.3k |
 | `yarnspin.c` | Serves as both a unity build file for the entire engine and also as a coordinator to assemble and run every part of the engine together. | 2.3k |
+
+
+### A visualisation of the engine
+
+┌─────────────────────────────────────────┐
+│        C Programming Language           │
+└─────────────────────────────────────────┘
+┌─────────────────────────────────────────┐
+│                                         │
+│                                         │
+│          C Standard Library             │
+│                                         │
+│                                         │
+└─────────────────────────────────────────┘
+┌─────────────────────────────────────────┐
+│                                         │
+│                                         │
+│                 Libs                    │
+│                                         │
+│                                         │
+└─────────────────────────────────────────┘
+┌─────────────────────────────────────────┐
+│                                         │
+│             Engine modules              │
+│                                         │
+└─────────────────────────────────────────┘
+┌─────────────────────────────────────────┐
+│               yarnspin.c                │
+└─────────────────────────────────────────┘
 
 
 ## 4. The engine loop
