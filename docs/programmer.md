@@ -202,10 +202,20 @@ The app_proc function can be broken down in these distinct steps:
 11. Initialize the rendering module with the engine's render.h.
 12. Initialize the game state with the engine's game.h.
 13. Load game settings.
-14. Begin of the main loop:
-    1. A
-    2. B
-    3. C
+14. Enter of the main game loop:
+    1. Check exit code of app.h library.
+    2. Increase frametime counter.
+    3. Process mouse and keyboard inputs within CRT emulator coordinates and within application window coordinates.
+    4. Render the frame to GPU with modern OpenGL calls.
+    5. Do one more game state simulation step.
+    6. Check for game exit requests.
+    7. If the game is in debug mode, draw "debug" in the corner of the window.
+    8. If the game is about to exit, clear the screen.
+    9. Toggle fullscreen mode if F11 key is pressed.
+    10. Cycle through display filters if F9 key is pressed.
+    11. Calculate screen fade transition.
+    12. Switch around the CRT emulation kind to match the selected one.
+    13. Present the frame to the screen stylized with the selected type of CRT emulation.
 15. Cleanup all of the initialized modules.
 16. **Return** to main.
 
