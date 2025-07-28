@@ -10,7 +10,8 @@
  - [2. Building the code](#2-building-the-code) 
  - [3. What's in the engine](#3-whats-in-the-engine)
  - [4. The main function](#4-the-main-function)
- - [5. License](#5-license)
+ - [5. The app_proc function](#5-the-app-proc-function)
+ - [6. License](#6-license)
 ---
 
 
@@ -153,15 +154,15 @@ The main function can be broken down in these distinct steps:
 
 1. Enable windows memory leak detection, if applicable.
 2. Pre-initialize OpenGL, if applicable.
-3. Parse the command line options of yarnspin (`i,r,d,c,n,w,f,p`) with getopt library.
+3. Parse the command line options of yarnspin (`i,r,d,c,n,w,f,p`) with getopt.h library.
 4. Validate the use of the option `-p` or `--package`.
 5. Run yarnspin in image editor mode if `-i` or `--images` were specified.
-If using images mode, the main function loops over `app_run` from the app library
+If using images mode, the main function loops over `app_run` from the app.h library
 with the `imgedit_proc` callback. Then main **returns** after `app_run` finishes.
-6. Now yarnspin compiles and compresses your game files into a yarn package with the buffer library,
+6. Now yarnspin compiles and compresses your game files into a yarn package with the buffer.h library,
 and writes it on disk. The version string is written into the save file data.
-7. Load and decompress an external yarn data file if present with the buffer library,
-or check to load from the end of executable if no external data file is present, also with the help of the buffer library.
+7. Load and decompress an external yarn data file if present with the buffer.h library,
+or check to load from the end of executable if no external data file is present, also with the help of the buffer.h library.
 8. If `-c` or `--compile` were specified, don't run the game, just **return** here, after compiling the yarn.
 9. Load the yarn state from the decompressed yarn data buffer: this is a function of the `yarn.h` engine file.
 Then destroy the data buffer, it won't be needed no more.
@@ -171,12 +172,47 @@ instead package the exe after compiling the yarn and **return**.
 12. If `-w` or `--window` were specified, set yarn variable `screenmode` to window mode.
 13. If `-f` or `--fullscreen` were specified, set yarn variable `screenmode` to fullscreen mode.
 14. Finally, main **returns** by handing over the control of the program to `app_run`
-from the app library with the `app_proc` callback.
+from the app.h library with the `app_proc` callback.
 
 The main function takes care of executing the general engine features outside of the game itself.
 
 
-## 5. License
+## 5. The app_proc function
+
+The app_proc function handles the main loop of the engine. You main find the app_proc function in the file `yarnspin.c`
+between approximately line 200 to line 600.
+
+Begin of app_proc function:
+https://github.com/aganm/yarnspin/blob/049f6a0123376a460437bdde6560f277a6e90b84/source/yarnspin.c#L207
+End of app_proc function:
+https://github.com/aganm/yarnspin/blob/049f6a0123376a460437bdde6560f277a6e90b84/source/yarnspin.c#L561
+
+The app_proc function can be broken down in these distinct steps:
+
+1. Load the OpenGL GLAD loader, if applicable.
+2. Position the game window to be centered on the main display.
+3. Configure window interpolation.
+4. Configure the title of the window.
+5. Load the frame images from the yarn's memory.
+6. Lock the framerate to 60 with the frametimer.h library.
+7. Initialize the pixel screen buffer.
+8. Initialize the audio module using the audiosys.h library.
+9. Initialize the input module using the engine's input.h.
+10. Initialize the random number generator module with the rnd.h library.
+11. Initialize the rendering module with the engine's render.h.
+12. Initialize the game state with the engine's game.h.
+13. Load game settings.
+14. Begin of the main loop:
+  1. A
+  2. B
+  3. C
+15. Cleanup all of the initialized modules.
+16. **Return** to main.
+
+The app_proc function takes care of doing the engine setup and executing the main game loop.
+
+
+## 6. License
 
 The majority of the code are under the following license. Exceptions below.
 
