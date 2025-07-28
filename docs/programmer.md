@@ -8,6 +8,7 @@
 
  - [1. Introduction](#1-introduction) 
  - [2. Building the code](#2-building-the-code) 
+ - [3. What's in the engine](#3-what-s-in-the-engine)
  - [4. License](#4-license)  
 ---
 
@@ -21,7 +22,7 @@ Welcome to the world of *Yarnspin*, a friendly and approachable game engine desi
 
 Yarnspin engine will compile on Windows, MacOS, Linux and web browsers.
 
-You will need a C compiler. tcc, gcc and clang are supported out of the box.
+You will need a C compiler. tcc, gcc, clang and msvc are supported out of the box.
 
 In addition to a compiler, you will also need a code editor - any code editor will work, as long as it can save plain text files. Sublime (www.sublimetext.com) is a popular choice that runs on all three operating systems.
 
@@ -37,7 +38,47 @@ In addition to explaining key concepts, the manual will walk you through the pro
 As you progress through the manual, you'll find numerous examples, tips, and best practices that will help you become proficient in programming the Yarnspin engine. 
 
 
-### What's in the engine
+## 2. Building the code
+
+No build system is used, simply call the compiler from the commandline.
+
+
+### Windows
+
+From a Visual Studio Developer Command Prompt, do:
+```
+  cl source\yarnspin.c
+```
+
+For building the final release version, you probably want all optimizations enabled. There's a helper script (a windows bat file) in the `build` folder of the repo, which will build with full optimizations, and also include an application icon. It will also call the compiled exe to generate the `yarnspin.dat` data file, and then append the file to the end of the executable, giving you a single exe you can distribute which contains both code and data. No need to include the yarnspin.dat file. See the `build\build_win.bat` file for details.
+
+
+### Mac
+
+```
+  clang source/yarnspin.c `sdl2-config --libs --cflags` -lGLEW -framework OpenGL -lpthread
+```
+
+SDL2 and GLEW are required - if you don't have them installed you can do so with Homebrew by running
+```
+  brew install sdl2 glew
+```
+
+
+### Linux
+
+```
+  gcc source/yarnspin.c `sdl2-config --libs --cflags` -lGLEW -lGL -lm -lpthread
+```
+
+SDL2 and GLEW are required - if you don't have them installed you can do so on Ubuntu (or wherever `apt-get` is available) by running
+```
+  sudo apt-get install libsdl2-dev
+  sudo apt-get install libglew-dev
+```
+
+
+### 3. What's in the engine
 
 When you open up the engine source folder, you'll find a set of folders and files.
 
@@ -90,55 +131,11 @@ Now the actual engine files:
 | `input.h` | Keyboard and mouse input state tracking based on `libs/app.h`. | 0.1k |
 | `memmgr.h` | Automatic memory management helper. | 0.1k |
 | `render.h` | The Yarnspin OpenGL renderer. | 1.5k |
-| `yarn.h` | The shared data definitions and functions for the Yarn scripting language. | 1.8k |
+| `yarn.h` | A yarn is a package of data for yarnspin to run, that's where all game files live in. | 1.8k |
 | `yarn_compiler.h` | The compiler for the Yarn scripting language. | 2.2k |
 | `yarn_lexer.h` | The lexer for the Yarn scripting language. | 0.3k |
 | `yarn_parser.h` | The parser for the Yarn scripting language. | 0.3k |
 | `yarnspin.c` | Serves as both a unity build file for the entire engine and also as a coordinator to assemble and run every part of the engine together. | 2.3k |
-
-
-## 2. Building the code
-
-No build system is used, simply call the compiler from the commandline.
-
-
-### Windows
-
-From a Visual Studio Developer Command Prompt, do:
-```
-  cl source\yarnspin.c
-```  
-
-For building the final release version, you probably want all optimizations enabled. There's a helper script (a windows bat file) in the `build` folder of the repo, which will build with full optimizations, and also include an application icon. It will also call the compiled exe to generate the `yarnspin.dat` data file, and then append the file to the end of the executable, giving you a single exe you can distribute which contains both code and data. No need to include the yarnspin.dat file. See the `build\build_win.bat` file for details.
-
-
-### Mac
-
-```
-  clang source/yarnspin.c `sdl2-config --libs --cflags` -lGLEW -framework OpenGL -lpthread
-```
-
-SDL2 and GLEW are required - if you don't have them installed you can do so with Homebrew by running
-```
-  brew install sdl2 glew  
-```
-
-
-### Linux
-
-```
-  gcc source/yarnspin.c `sdl2-config --libs --cflags` -lGLEW -lGL -lm -lpthread
-```
-
-SDL2 and GLEW are required - if you don't have them installed you can do so on Ubuntu (or wherever `apt-get` is available) by running
-```
-  sudo apt-get install libsdl2-dev
-  sudo apt-get install libglew-dev
-```
-
-
-
-
 
 
 ## 4. License
