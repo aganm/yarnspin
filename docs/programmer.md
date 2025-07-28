@@ -85,8 +85,9 @@ SDL2 and GLEW are required - if you don't have them installed you can do so on U
 ### The files
 
 When you open up the engine source folder, you'll find a set of folders and files.
+Here follows a quick overview of what each file contains.
 
-Here's a quick overview of what each file contains:
+First the libs files:
 
 | File name | Description | Lines (rounded) |
 | --------- | ----------- | ----- |
@@ -124,7 +125,7 @@ Here's a quick overview of what each file contains:
 | `libs/thread.h` | Cross platform threading functions for C/C++. | 1.5k |
 | `libs/ya_getopt.h` | Single header version of ya_getopt: parse command-line options. | 0.4k |
 
-Now the actual engine files:
+Then the engine files:
 
 | File name | Description | Lines (rounded) |
 | --------- | ----------- | ----- |
