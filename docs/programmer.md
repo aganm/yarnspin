@@ -9,7 +9,8 @@
  - [1. Introduction](#1-introduction) 
  - [2. Building the code](#2-building-the-code) 
  - [3. What's in the engine](#3-what-s-in-the-engine)
- - [4. License](#4-license)  
+ - [4. The main function](#4-the-main-function)
+ - [5. License](#5-license)
 ---
 
 
@@ -78,7 +79,7 @@ SDL2 and GLEW are required - if you don't have them installed you can do so on U
 ```
 
 
-### 3. What's in the engine
+## 3. What's in the engine
 
 When you open up the engine source folder, you'll find a set of folders and files.
 
@@ -138,7 +139,12 @@ Now the actual engine files:
 | `yarnspin.c` | Serves as both a unity build file for the entire engine and also as a coordinator to assemble and run every part of the engine together. | 2.3k |
 
 
-## 4. License
+## 4. The main function
+
+You may find the main function in the file `yarnspin.c` around line 700: https://github.com/aganm/yarnspin/blob/049f6a0123376a460437bdde6560f277a6e90b84/source/yarnspin.c#L734.
+
+
+## 5. License
 
 The majority of the code are under the following license. Exceptions below.
 
