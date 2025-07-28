@@ -144,6 +144,11 @@ Now the actual engine files:
 
 ### A visualisation of the engine
 
+```mermaid
+ graph TD;
+    C Programming Language-->C Standard Library;
+```
+
 ┌─────────────────────────────────────────┐<br>
 │        C Programming Language           │<br>
 └─────────────────────────────────────────┘<br>
