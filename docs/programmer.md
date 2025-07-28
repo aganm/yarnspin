@@ -150,7 +150,6 @@ Now the actual engine files:
     C[Libs] --> D[Engine Modules];
     B[C Standard Library] --> E[yarnspin.c];
     C[Libs] --> E[yarnspin.c];
-    D[Engine Modules] --> D[Engine Modules];
     D[Engine Modules] --> E[yarnspin.c];
 ```
 
