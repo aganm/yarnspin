@@ -162,7 +162,7 @@ with the `imgedit_proc` callback. Then main **returns** after `app_run` finishes
 and writes it on disk. The version string is written into the save file data.
 7. Load and decompress an external yarn data file if present with the buffer library,
 or check to load from the end of executable if no external data file is present, also with the help of the buffer library.
-8. If `-c` or `--compile` were specific, don't run the game, just **return** here, after compiling the yarn.
+8. If `-c` or `--compile` were specified, don't run the game, just **return** here, after compiling the yarn.
 9. Load the yarn state from the decompressed yarn data buffer: this is a function of the `yarn.h` engine file.
 Then destroy the data buffer, it won't be needed no more.
 10. If `-p` or `--package` were specified, don't run the game,
