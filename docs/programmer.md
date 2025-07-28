@@ -11,7 +11,8 @@
  - [3. What's in the engine](#3-whats-in-the-engine)
  - [4. The main function](#4-the-main-function)
  - [5. The app_proc function](#5-the-app_proc-function)
- - [6. License](#6-license)
+ - [6. The game_update function](#6-the-game_update-function)
+ - [7. License](#7-license)
 ---
 
 
@@ -207,7 +208,7 @@ The app_proc function can be broken down in these distinct steps:
     2. Increase frametime counter.
     3. Process mouse and keyboard inputs within CRT emulator coordinates and within application window coordinates.
     4. Render the frame to GPU with modern OpenGL calls.
-    5. Do one more game state simulation step.
+    5. Do one more game state simulation step with `game_update` function from game.h.
     6. Check for game exit requests.
     7. If the game is in debug mode, draw "debug" in the corner of the window.
     8. If the game is about to exit, clear the screen.
@@ -221,8 +222,38 @@ The app_proc function can be broken down in these distinct steps:
 
 The app_proc function takes care of doing the engine setup and executing the main game loop.
 
+## 6. The game_update function
 
-## 6. License
+The game_update function handles the gamestate simulation.
+You may find the game_update function in the file `game.h` between approximately line 600 to line 750.
+
+Begin of game_update function:
+https://github.com/aganm/yarnspin/blob/049f6a0123376a460437bdde6560f277a6e90b84/source/game.h#L590
+End of game_update function:
+https://github.com/aganm/yarnspin/blob/049f6a0123376a460437bdde6560f277a6e90b84/source/game.h#L767
+
+The game_update function can be broken down in these distinct steps:
+
+1. Choose the appropriate background image depending on the current gamestate.
+2. If exit of the game is confirmed, setup the different states to prepare for exit.
+3. Calculate blink timer for blinking visual elements.
+4. If the exit dialog is opened, draw the game and execute exit dialog logic, and **return**.
+5. If the menu is opened, draw the game and execute menu logic, and **return**. Also check for input command to open the menu.
+6. Store latest delta_time value into game state.
+7. Handle transition between the different game states if a game state change is requested.
+8. Increment transition counter and if transition is not done, draw the game and **return**.
+9. Execute the simulation of the current active game state.
+10. If the game state was changed, take a screenshot of the screen.
+11. If menu is requested, executed menu enter logic, and **return**..
+12. If restart is requested, execute restart logic, and **return**.
+13. If quickload is requested, execute quickload logic, and **return**.
+14. Store latest new state into game state.
+15. If exit requested, take a screenshot and switch the game state to exit state.
+
+The game_update function takes care of the transition between the different game states
+as well as running the simulation of the states.
+
+## 7. License
 
 The majority of the code are under the following license. Exceptions below.
 
