@@ -141,7 +141,7 @@ Now the actual engine files:
 
 ## 4. The engine loop
 
-The engine uses a game loop architecture where things get setup upon entering
+Yarnspin engine uses a game loop architecture where things get setup upon entering
 the engine, then enters a game loop for as long as the duration of the game
 lasts, and cleans up everything before closing. The essence of the engine lives 
 in 3 separate functions: `main`, `app_proc`, and `game_update`. This chapter will
