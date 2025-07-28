@@ -101,7 +101,7 @@ and it includes the engine module files.
 ### The files
 
 When you open up the engine source folder, you'll find a set of folders and files.
-Here follows a quick overview of what each file contains.
+Here follows an overview of what each file contains.
 
 First the libs files:
 
