@@ -146,7 +146,7 @@ Now the actual engine files:
 
 ```mermaid
  graph TD;
-    A-->B;
+    A[C Programming Language]-->B[C Standard Library];
 ```
 
 ┌─────────────────────────────────────────┐<br>
