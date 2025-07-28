@@ -126,7 +126,7 @@ Now the actual engine files:
 | --------- | ----------- | ----- |
 | `audioconv.h` | Utility for loading OGG/WAV/FLAC/MP3 audio files into QOI format. | 0.1k |
 | `game.h` | The entire game state logic. | 2.5k |
-| `gfxconv.h` | Utilities for tansformation of various graphical data. | 1.6k |
+| `gfxconv.h` | Utilities for tansformation of various graphics data. | 1.6k |
 | `imgedit.h` | The Yarnspin image editor. | 1.6k |
 | `input.h` | Keyboard and mouse input state tracking based on `libs/app.h`. | 0.1k |
 | `memmgr.h` | Automatic memory management helper. | 0.1k |
