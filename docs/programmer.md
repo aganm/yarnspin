@@ -179,7 +179,7 @@ The main function takes care of executing the general engine features outside of
 
 ## 5. The app_proc function
 
-The app_proc function handles the main loop of the engine. You main find the app_proc function in the file `yarnspin.c`
+The app_proc function handles the game part of the engine. You may find the app_proc function in the file `yarnspin.c`
 between approximately line 200 to line 600.
 
 Begin of app_proc function:
