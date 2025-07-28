@@ -146,7 +146,6 @@ Now the actual engine files:
 
 ```mermaid
  graph TD;
-    A[C Programming Language] --> B[C Standard Library];
     B[C Standard Library] --> C[Libs];
     C[Libs] --> D[Engine Modules];
     B[C Standard Library] --> E[yarnspin.c];
