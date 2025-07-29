@@ -151,7 +151,7 @@ Then the engine files:
 | `imgedit.h` | The Yarnspin image editor. | 1.6k |
 | `input.h` | Keyboard and mouse input state tracking based on `libs/app.h`. | 0.1k |
 | `memmgr.h` | Automatic memory management helper. | 0.1k |
-| `render.h` | The Yarnspin renderer; it contains two different internal implementations: a pure software one and an OpenGL one. If you are running in palette mode, it is using a pure software renderer, if you are running in rgb mode, it's using an opengl rendering path. | 1.5k |
+| `render.h` | The Yarnspin renderer; it contains two different internal implementations: a pure software one and an OpenGL one. If you are running in palette mode, it is using a pure software renderer, if you are running in rgb mode, it's using an OpenGL rendering path. | 1.5k |
 | `yarn.h` | A yarn is a package of data for Yarnspin to run, that's where all game files live in. | 1.8k |
 | `yarn_compiler.h` | The compiler for the Yarn scripting language. | 2.2k |
 | `yarn_lexer.h` | The lexer for the Yarn scripting language. | 0.3k |
