@@ -151,7 +151,7 @@ Then the engine files:
 | `imgedit.h` | The Yarnspin image editor. | 1.6k |
 | `input.h` | Keyboard and mouse input state tracking based on `libs/app.h`. | 0.1k |
 | `memmgr.h` | Automatic memory management helper. | 0.1k |
-| `render.h` | The Yarnspin OpenGL renderer. | 1.5k |
+| `render.h` | The Yarnspin renderer; it contains two different internal implementations: a pure software one and an OpenGL one. If you are running in palette mode, it is using a pure software render, if you are running in rgb mode, it's using an opengl rendering path. | 1.5k |
 | `yarn.h` | A yarn is a package of data for Yarnspin to run, that's where all game files live in. | 1.8k |
 | `yarn_compiler.h` | The compiler for the Yarn scripting language. | 2.2k |
 | `yarn_lexer.h` | The lexer for the Yarn scripting language. | 0.3k |
@@ -245,7 +245,7 @@ The app_proc function can be broken down in these distinct steps:
     1. Check exit code of app.h library.
     2. Increase frametime counter.
     3. Process mouse and keyboard inputs within CRT emulator coordinates and within application window coordinates.
-    4. Render the frame to GPU with modern OpenGL calls.
+    4. Render the frame with either the software renderer or the OpenGL renderer.
     5. Do one more game state simulation step with `game_update` function from game.h.
     6. Check for game exit requests.
     7. If the game is in debug mode, draw "debug" in the corner of the window.
