@@ -119,7 +119,7 @@ First the libs files:
 | `libs/dr_wav.h` | WAV audio loader and writer. | 8.4k |
 | `libs/file.h` | C/C++ functions to load/save an entire file to/from memory. | 0.2k |
 | `libs/frametimer.h` | Framerate timer functionality. | 0.3k |
-| `libs/glad.h` | Automatically generated OpenGL loader. | 5.4k |
+| `libs/glad.h` | Automatically generated loader for OpenGL 3.0 / OpenGL ES 3.0 / WebGL 2.0. GLAD header is only used in windows, web version is using wajic, which only supports WebGL 1.0 / OpenglES 2.0. | 5.4k |
 | `libs/img.h` | Image processing functions for C/C++. | 0.4k |
 | `libs/ini.h` | Simple ini-file reader for C/C++. | 1.1k |
 | `libs/lzma.h` | Single header version of Igor Pavlov's LzmaLib. | 5.6k |
