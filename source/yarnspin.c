@@ -93,6 +93,9 @@
     #include "libs/sysfont.h"
 #endif
 
+#ifdef __TINYC__
+#define fmodf(x, y) ((float)fmod((double)x, (double)y))
+#endif
 
 // Version number stored in the file .cache\VERSION, read at start of program
 int g_cache_version = 0;
