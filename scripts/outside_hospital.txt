@@ -1,0 +1,470 @@
+=== outside_hospital ===
+
+amb: stop, 0.2s
+not flag_friend_is_dead, flag_friend_removed ? mus: jazz_lounge.ogg, 0.75s, random, 30%
+flag_friend_is_dead ? not flag_friend_removed ? mus: mysterious_place.ogg, 0.75s, random, 30%
+
+act: detach inside_hospital_woman 
+act: detach inside_hospital_man 
+
+not flag_talked_to_coroner ? act: attach man_outside_hospital 
+not flag_talked_to_coroner ? act: attach emt_woman_outside_hospital 
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan.png
+not flag_talked_to_coroner ? img: outside_hospital/woman.png
+not flag_talked_to_coroner ? img: outside_hospital/man.png
+flag_friend_is_dead ? not flag_friend_removed ? img: outside_hospital/corpse.png
+flag_friend_is_dead ? flag_friend_removed ? img: outside_hospital/blood.png
+
+flag_friend_is_dead ? not flag_friend_removed ? 
+txt: You're standing outside St. John's hospital. The body of your friend Dan Harrington is lying on the street.
+
+not flag_friend_is_dead, flag_friend_removed ? 
+txt: You're standing outside St. John's hospital, one of the largest in the area, and one you are very familiar with from your time on the force.
+
+not flag_friend_is_dead ? 
+txt: Near the entrance, you spot the EMT who responded when you found Amanda Harrington.
+
+
+flag_friend_is_dead ? not flag_friend_removed ? not flag_searched_friend ? 
+opt: Search the body
+act: search_friend
+
+not flag_friend_is_dead ? 
+chr: man_outside_hospital 
+act: talk_man_outside_hospital
+
+not flag_friend_is_dead ? 
+chr: emt_woman_outside_hospital 
+act: talk_emt_woman_outside_hospital
+
+
+flag_friend_is_dead ? not flag_friend_removed ? flag_searched_friend ? 
+opt: Search the body
+act: search_friend_again
+
+opt: Enter hospital
+act: inside_hospital
+
+opt: Call a taxi
+act: taxi
+
+
+=== talk_emt_woman_outside_hospital ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/woman.png
+img: outside_hospital/man.png
+img: outside_hospital/ryan_talking.png
+
+emt_woman_outside_hospital_tired: Hello again. I'm sorry there was nothing we could do for your friend.
+player_smile: I didn't know her personally, I was more of a friend to the family. 
+player_glance: Do you know if the autopsy has started yet?
+emt_woman_outside_hospital: I think it might have actually, been a quiet night so far, and the M.E. seemed ready to get on with it.
+player: Okay, thank you.
+act: return
+
+
+=== talk_man_outside_hospital ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/woman.png
+img: outside_hospital/man.png
+img: outside_hospital/ryan_talking.png
+
+man_outside_hospital: Ah, don't talk to me, please... Been pulling a double shift, and just want to enjoy my break, ok?
+player: Sure thing man.
+act: return
+
+
+
+=== outside_hospital_friend ===
+
+
+mus: mysterious_place.ogg, 30%
+
+act: detach inside_hospital_woman 
+act: detach inside_hospital_man 
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan.png
+img: outside_hospital/limo.png
+
+txt: As you step out of the hospital, a black town car pulls up.
+act: hosp_friend_arrives
+
+
+=== hosp_friend_arrives ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan.png
+img: outside_hospital/friend_arrive.png
+img: outside_hospital/limo.png
+txt: Dan Harrington steps out of the car, and from the look on his face, you can tell that he's already heard about his daughter.
+act: hosp_friend_greet
+
+
+=== hosp_friend_greet ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan.png
+img: outside_hospital/friend_arrive.png
+friend_tired: Is it true? Is she dead? 
+player_tired: I'm sorry, Dan. I found her too late, she was already gone.
+friend_sleeping: My baby girl... No...
+player_annoyed: Look, I know this is not the best time, but we need to talk. They found a chip inside her head. A cybernetic implant. And it's made by your company.
+friend_angry: Yeah, enough secrets. I'll tell you everything. I will not let them get away with it.
+player_unsure: Let who get away with what? Harrington, you're not making any sense.
+friend_angry: Just listen damn it - they put the chip in Amanda's head. So they could control her. I'm afraid they will put one in my head too.
+friend_glance: Maybe they already have... They could be watching through my very own eyes just as we speak.
+player_scared: Lieutenant, you're scaring me with this talk. It sounds crazy. Who is behind this?
+friend_annoyed: It's these two scientists at GloboTech, Dr Stephenson and Dr Mills. But I have proof. I have - 
+act: hosp_talk_friend
+
+
+=== hosp_talk_friend ===
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/friend_talking.png
+txt: Harrington freezes mid-sentence, a blank expression on his face. Then his eyes gets an eerie green glow, and he takes on an otherworldly demeanor.
+act: hosp_controlled0
+
+
+=== hosp_controlled0===
+mus: stop
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/friend_controlled.png
+friend_possessed: MUST... PROTECT... SECRETS...
+act: hosp_controlled1
+
+=== hosp_controlled1 ===
+
+snd: jingle_strange.ogg
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/friend_controlled.png
+txt:
+auto: hosp_controlled,1.5s
+
+
+=== hosp_controlled ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/friend_controlled.png
+
+txt:
+auto: hosp_walk1,1.5s
+
+=== hosp_walk1 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk1.png
+txt:
+auto: hosp_walk2,0.2s
+
+=== hosp_walk2 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk2.png
+txt:
+auto: hosp_walk3,0.2s
+
+=== hosp_walk3 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk3.png
+txt:
+auto: hosp_walk4,0.2s
+
+=== hosp_walk4 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk4.png
+txt:
+auto: hosp_walk5,0.2s
+
+=== hosp_walk5 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk5.png
+txt:
+auto: hosp_walk6,0.2s
+
+=== hosp_walk6 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk6.png
+txt:
+auto: hosp_walk7,0.2s
+
+=== hosp_walk7 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk7.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_walk8,0.2s
+
+=== hosp_walk8 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk8.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_walk9,0.2s
+
+=== hosp_walk9 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk9.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_walk10,0.2s
+
+=== hosp_walk10 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk10.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_walk11,0.2s
+
+=== hosp_walk11 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk11.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_walk12,0.2s
+
+=== hosp_walk12 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk12.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_walk13,0.2s
+
+=== hosp_walk13 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk13.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_walk14,0.2s
+
+=== hosp_walk14 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk14.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_walk15,0.2s
+
+=== hosp_walk15 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk15.png
+img: outside_hospital/yellow.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_walk16,0.2s
+
+=== hosp_walk16 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_friend.png
+img: outside_hospital/walk16.png
+img: outside_hospital/yellow.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_friend_street1,0.2s
+
+=== hosp_friend_street1 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_shocked.png
+img: outside_hospital/friend_in_street.png
+img: outside_hospital/yellow.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_friend_street,1s
+
+
+=== hosp_friend_street ===
+
+snd: carcrash.wav
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_shocked.png
+img: outside_hospital/friend_in_street.png
+img: outside_hospital/green.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_car1,1.7s
+
+
+=== hosp_car1 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_shocked.png
+img: outside_hospital/friend_in_street.png
+img: outside_hospital/car1.png
+img: outside_hospital/green.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_car2,0.3s
+
+=== hosp_car2 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_shocked.png
+img: outside_hospital/friend_in_street.png
+img: outside_hospital/car2.png
+img: outside_hospital/green.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_car3,0.3s
+
+=== hosp_car3 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_shocked.png
+img: outside_hospital/corpse.png
+img: outside_hospital/car3.png
+img: outside_hospital/green.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_car4,0.3s
+
+=== hosp_car4 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_shocked.png
+img: outside_hospital/corpse.png
+img: outside_hospital/car4.png
+img: outside_hospital/green.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_car5,0.3s
+
+=== hosp_car5 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_shocked.png
+img: outside_hospital/corpse.png
+img: outside_hospital/car5.png
+img: outside_hospital/green.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_car6,0.3s
+
+=== hosp_car6 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_shocked.png
+img: outside_hospital/corpse.png
+img: outside_hospital/car6.png
+img: outside_hospital/green.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_car7,0.3s
+
+=== hosp_car7 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_shocked.png
+img: outside_hospital/corpse.png
+img: outside_hospital/car7.png
+img: outside_hospital/green.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_car8,0.3s
+
+=== hosp_car8 ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_shocked.png
+img: outside_hospital/corpse.png
+img: outside_hospital/car8.png
+img: outside_hospital/green.png
+img: outside_hospital/dontwalk.png
+txt:
+auto: hosp_killed,0.3s
+
+
+
+=== hosp_killed ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/ryan_shocked.png
+img: outside_hospital/corpse.png
+img: outside_hospital/green.png
+img: outside_hospital/dontwalk.png
+player_shocked: Dan! Nooo! What did you do!?
+act: after_hosp_killed
+
+
+=== after_hosp_killed ===
+
+mus: mysterious_place.ogg, random, 30%
+
+act: set flag_friend_is_dead
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/corpse.png
+img: outside_hospital/ryan_corpse.png
+
+txt: You stand shocked surveying the aftermath of what just happened. You can't believe the Lieutenant would do that. You can't believe he's gone.
+
+opt: Search the body
+not flag_searched_friend ? act: search_friend
+flag_searched_friend ? act: search_friend_again
+
+opt: Enter hospital
+act: inside_hospital
+
+opt: Call a taxi
+act: taxi
+
+
+=== search_friend ===
+
+img: outside_hospital/outside_hospital.png
+img: outside_hospital/corpse.png
+img: outside_hospital/ryan_corpse.png
+
+txt: Searching the body of your friend, you find a gold watch, a cigar, and a keycard for his office.
+
+act: get item_watch
+act: get item_cigar
+act: get item_pass
+snd: pickup_pop.wav
+snd: pickup_pop2.wav
+snd: pickup_pop3.wav
+act: set flag_searched_friend
+
+act: return
+
+
+=== search_friend_again ===
+
+txt: You don't find anything else.
+act: return

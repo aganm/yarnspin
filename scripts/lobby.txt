@@ -1,0 +1,174 @@
+=== lobby ===
+
+amb: stop
+mus: waiting.ogg, random, 0.75s, 30%
+act: clear flag_is_outside_company
+act: clear flag_is_in_basement
+act: set flag_is_in_lobby
+img: lobby/lobby.png
+img: lobby/gate_closed.png
+img: lobby/ryan.png
+not flag_killed_lobby_man ? img: lobby/man_screen.png
+flag_killed_lobby_man ? img: lobby/corpse.png
+
+not flag_killed_lobby_man ? act: attach lobby_man
+act: detach lobby_man_angry
+
+not flag_killed_lobby_man ? txt: You are in the entrance area of GloboTech headquarters. It is dominated by a security desk manned by some rent-a-cop, and there's also a small seating area and a set of high-end security gates, operated by another keycard scanner.
+flag_killed_lobby_man ? txt: You are in the entrance area of GloboTech headquarters. The body of the security guard lies crumpled in front of the security gates.
+
+not flag_killed_lobby_man ?
+chr: lobby_man
+act: talk_man_lobby
+
+opt: Go back outside
+act: outside_company
+
+
+
+=== talk_man_lobby ===
+
+img: lobby/lobby.png
+img: lobby/gate_closed.png
+img: lobby/ryan_talking.png
+img: lobby/man_talking.png
+
+lobby_man: Yes?
+player: Hey, I'm here to see Dan Harrington.
+lobby_man_annoyed: There's noone here at this hour, mate. You come back tomorrow.
+player: Alright then.
+act: no_tonight
+
+
+=== no_tonight ===
+
+img: lobby/lobby.png
+img: lobby/gate_closed.png
+img: lobby/ryan.png
+img: lobby/man_screen.png
+player_grin: Yeah, as if. I'm getting in tonight, some way or other.
+act: lobby
+
+
+
+=== lobby_using_pass ===
+
+img: lobby/lobby.png
+img: lobby/gate_open.png
+img: lobby/ryan_gate.png
+img: lobby/man_talking.png
+
+snd: keycard.wav
+lobby_man_annoyed: Hey! Where do you think you're going? I don't recognize you. Do you even work here?
+
+say: Mind your own business. I'm going through.
+act: lobby_mind_your_business
+
+say: My bad, I'll leave.
+act: lobby
+
+
+=== lobby_mind_your_business ===
+
+img: lobby/lobby.png
+img: lobby/gate_open.png
+img: lobby/ryan_gate.png
+img: lobby/man_gun.png
+
+snd: guncock.wav, 150%
+lobby_man_angry: Freeze! Don't take another step!
+act: detach lobby_man
+act: attach lobby_man_angry
+act: lobby_freeze
+
+
+=== lobby_freeze ===
+
+img: lobby/lobby.png
+img: lobby/gate_closed.png
+img: lobby/ryan_gunpoint.png
+img: lobby/man_gun.png
+
+lobby_man_angry: What's it gonna be, punk?
+
+say: Alright, man. I'm sorry. I'll go, ok?
+act: lobby_apology
+
+say: You put that gun down, or I put you down.
+act: lobby_disarm
+
+
+=== lobby_apology ===
+
+img: lobby/lobby.png
+img: lobby/gate_closed.png
+img: lobby/ryan_gunpoint.png
+img: lobby/man_gun.png
+
+player: Alright, man. I'm sorry. I'll go, ok?
+lobby_man_angry: That's right, you back down now, son.
+act: lobby
+
+
+=== lobby_disarm ===
+
+img: lobby/lobby.png
+img: lobby/gate_closed.png
+img: lobby/ryan_gunpoint.png
+img: lobby/man_possessed.png
+
+act: detach lobby_man_angry
+act: attach lobby_man_possessed
+
+lobby_man_possessed: MUST... KILL... INTRUDER...
+player_angry: Oh hell, here we go again... Looks like he's under the same influence as the guy who attacked me at the bar, the same that Harrington was under when he walked into traffic.
+act: lobby_disarmed
+
+
+=== lobby_disarmed ===
+
+img: lobby/lobby.png
+img: lobby/gate_closed.png
+img: lobby/ryan_gunpoint.png
+img: lobby/man_possessed.png
+
+snd: fight.wav,120%
+player_grin: The fight is brief. My training didn't have much focus on non-lethal techniques. When I disarm someone, they stay disarmed. Permanently.
+act: lobby_getgun
+
+
+=== lobby_getgun ===
+
+act: detach lobby_man_possessed
+act: set flag_killed_lobby_man
+img: lobby/lobby.png
+img: lobby/gate_closed.png
+img: lobby/ryan_corpse.png
+img: lobby/corpse.png
+
+txt: You pocket the gun, not wanting to leave it lying around, and also thinking it might come in handy.
+snd: pickup_pop.wav
+act: get item_gun
+
+act: lobby
+
+
+===  lobby_using_pass_success ===
+
+img: lobby/lobby.png
+img: lobby/gate_open.png
+flag_killed_lobby_man ? img: lobby/corpse.png
+img: lobby/ryan_gate.png
+
+snd: keycard.wav
+txt: The keycard opens the gates, and you can now enter.
+
+opt: Go up to Harringtons office
+act: office
+
+flag_unlocked_basement ? 
+opt: Go down to the basement
+act: basement
+
+opt: Go back outside
+act: outside_company

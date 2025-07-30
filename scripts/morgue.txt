@@ -1,0 +1,139 @@
+=== morgue ===
+
+mus: reggae_island2.ogg, 30%
+
+img: morgue/morgue.png
+img: morgue/ryan.png
+img: morgue/woman_turned.png
+img: morgue/corpse.png
+
+txt: You're in the morgue, a familiar place where you attended many autopsies during your time on the police force. The medical examiner, Dr Laura Thompson, is at the table, another autopsy well under way.
+
+act: attach morgue_woman
+act: detach inside_hospital_woman 
+act: detach inside_hospital_man 
+
+chr: morgue_woman
+act: talk_coroner
+
+opt: Leave the morgue
+act: inside_hospital
+
+
+=== talk_coroner ===
+
+act: set flag_talked_to_coroner
+
+img: morgue/morgue.png
+img: morgue/ryan_talking.png
+img: morgue/woman.png
+img: morgue/corpse.png
+
+morgue_woman_happy: Ryan!
+player_smiling: Hey Laura! 
+morgue_woman_smiling: Wow, I haven't seen you in... I mean since... It's been months.
+player_tired: Yeah, I know.
+morgue_woman_glance: Are you back on the force now?
+player_annoyed: No, not really. I'm doing this one kind of on the side. Is that the Harrington girl.
+morgue_woman: Yes, I am just finishing up actually.
+morgue_woman_glance: This is a weird one. I mean, cause of death is cardiac arrest, induced by a drug overdose, no doubt about that.
+morgue_woman_annoyed: What's odd is the post-mortem trauma inflicted on the head. Looks like someone cracked her open and had a rummage inside.
+morgue_woman_annoyed: My guess is, they were looking for this, but looks like they missed it.
+act: talk_coroner2
+
+=== talk_coroner2 ===
+
+act: get item_chip
+snd: pickup_pop.wav
+
+player_unsure: What is this? What was it doing in her head?
+morgue_woman_glance: It looks like a proprietary cyber implant. Some kind of brain chip. It seemed to me like it was hooked directly into her brain stem.
+morgue_woman_angry: As for what it does, that's anyone's guess. You never can tell with these modern cyber implants, they have all sorts of protections against reverse-engineering.
+morgue_woman: I can tell you one more thing though - it was manufactured by GloboTech Corporation. You can't see it with the naked eye, but I checked it under a microscope.
+player_surprised: That's crazy, why would Harrington put a chip in his daughters head?
+morgue_woman_tired: One thing I learned on this job, is that people will do all sorts of crazy things to each other.
+player_angry: Yeah, you're not wrong about that. But I'll pin him against the wall over this. I'm gonna get some answers.
+morgue_woman_glance: Oh, one more thing... We got another body in earlier tonight, a mugging in a bar restroom. And guess what, he had a similar implant in his head.
+act: talk_coroner3
+
+
+=== talk_coroner3 ===
+
+act: get item_chip2
+snd: pickup_pop.wav
+
+morgue_woman: It looks like an earlier model, but as far as I can guess, it looks like it would have a similar function. And definitely also made by GloboTech.
+player_surprised: That's crazy. I don't know what to make of this..
+morgue_woman: Well, that's all I have for you right now Ryan.
+player: Thanks, Laura. You have been very helpful, as usual.
+morgue_woman_happy: It's always a pleasure to meet you Ryan. Regardless of the circumstances. Come see me again sometime soon, okay?
+player_smiling: Will do, Laura.
+act: morgue_talked_once
+
+
+=== morgue_talked_once ===
+
+img: morgue/morgue.png
+img: morgue/ryan.png
+img: morgue/woman_turned.png
+img: morgue/corpse.png
+
+txt: You're in the morgue, a familiar place where you attended many autopsies during your time on the police force. The medical examiner, Dr Laura Thompson, is at the table, another autopsy well under way.
+
+chr: morgue_woman
+act: talk_coroner_busy
+
+opt: Leave the morgue
+act: inside_hospital
+
+
+=== talk_coroner_busy ===
+
+morgue_woman_glance: Hold up, Ryan, let me just finish up here, I'll be with you in a bit.
+player_smiling: No worries, I'll be back.
+act: return
+
+
+=== morgue_revisit ===
+
+mus: reggae_island2.ogg, 30%
+
+img: morgue/morgue.png
+img: morgue/ryan.png
+img: morgue/woman_desk.png
+
+txt: You're in the morgue, a familiar place where you attended many autopsies during your time on the police force. The medical examiner, Dr Laura Thompson, is at her desk, working on her notes.
+
+act: attach morgue_woman
+act: detach inside_hospital_woman 
+act: detach inside_hospital_man 
+
+chr: morgue_woman
+flag_talked_coroner_again ? act: talk_coroner_busy
+not flag_talked_coroner_again ? act: talk_coroner_again
+
+opt: Leave the morgue
+act: inside_hospital
+
+
+=== talk_coroner_again ===
+
+act: set flag_talked_coroner_again
+
+img: morgue/morgue.png
+img: morgue/ryan_talking_desk.png
+img: morgue/woman_desk_talking.png
+
+morgue_woman_smiling: Hey Ryan! Two visits in one day, that's a pleasant surprise. What can I do for you?
+player_smiling: Nothing really, I just wanted to see you. How are you doing?
+morgue_woman_happy: Oh that's sweet. We really need to catch up sometime soon. Hey, I'll tell you what -
+act: talk_coroner_again2
+
+=== talk_coroner_again2 ===
+act: get item_number
+snd: pickup_pop.wav
+morgue_woman_smiling: - here you go.
+player_unsure: What's this?
+morgue_woman_smiling: It's my phone number, silly. Give me a call, alright?
+player_smiling: Will do, Laura. Will do.
+act: morgue_revisit

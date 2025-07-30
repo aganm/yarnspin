@@ -1,0 +1,68 @@
+=== outside_company ===
+
+amb: stop
+mus: wandering_streets.ogg, 0.75s, random, 30%
+
+act: detach lobby_man
+act: set flag_is_outside_company
+act: clear flag_is_in_lobby
+
+img: outside_company/outside_company.png
+img: outside_company/ryan_arrived.png
+
+txt: You are standing outside GloboTech headquarters. Harrington's corporation. There doesn't seem to be much activity happening here this time of night.
+
+opt: Go inside
+act: try_lobby
+
+opt: Call a taxi
+act: taxi
+
+
+
+=== try_lobby ===
+
+img: outside_company/outside_company.png
+img: outside_company/ryan_doors.png
+
+txt: The place looks like it's locked up for the night. There's a keycard scanner next to the doors.
+
+use: item_pass
+act: using_pass
+
+opt: Force the doors open
+act: force_doors
+
+opt: Try to bypass the scanner
+act: try_scanner
+
+opt: Leave it
+act: outside_company
+
+
+=== force_doors ===
+
+img: outside_company/outside_company.png
+img: outside_company/ryan_doors.png
+
+txt: Try as you might, but the doors just won't open.
+act: return
+
+
+=== try_scanner ===
+
+img: outside_company/outside_company.png
+img: outside_company/ryan_keycard.png
+txt: This is top of the line, high-grade security tech. There's no way you're hacking this.
+act: return
+
+
+=== using_pass ===
+
+img: outside_company/outside_company.png
+img: outside_company/ryan_keycard.png
+
+snd: keycard.wav
+txt: You swipe the keycard over the scanner, and the doors open for you to go inside.
+
+act: lobby

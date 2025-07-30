@@ -1,0 +1,271 @@
+
+=== flat_wake ===
+
+mus: warm_colors_alt.ogg
+img: flat_bedroom/flat_bedroom.png
+img: flat_bedroom/woman.png
+img: flat_bedroom/ryan_in_bed.png
+
+act: attach blonde_asleep
+
+player_naked: I was not wrong.
+player_naked: There's a blonde snoring next to me. I don't even remember her name. The apartment is a mess, but what else is new.
+act: flat_awake
+
+
+=== flat_awake ===
+
+img: flat_bedroom/flat_bedroom.png
+img: flat_bedroom/woman.png
+img: flat_bedroom/ryan_in_bed.png
+
+not flag_grabbed_cigarette ? txt: You are in your bed. A woman is sleeping next to you. On the nightstand by the bed are some cigarettes and a lighter, next to an empty bottle of neo-rum.
+flag_grabbed_cigarette ? txt: You are in your bed. A woman is sleeping next to you. On the nightstand by the bed is an empty bottle of neo-rum.
+
+opt: Go back to sleep.
+act: back_to_sleep
+
+not flag_grabbed_cigarette ?
+opt: Grab the lighter and a cigarette
+act: grab_cigarettes
+
+opt: Get out of bed
+act: get_up
+
+chr: blonde_asleep
+act: flat_blonde_asleep
+
+
+=== flat_blonde_asleep ===
+
+blonde_asleep: Nnngh...
+flag_dressed ? player: Yeah, okay, you sleep it off...
+not flag_dressed ? player_naked: Yeah, okay, you sleep it off...
+act: return
+
+
+=== back_to_sleep ===
+
+txt: Try as you might, sleep just won't come.
+act: return
+
+
+=== grab_cigarettes ===
+
+txt: You take a cigarette and the lighter from the night stand.
+act: get item_cigarette
+act: get item_lighter
+act: set flag_grabbed_cigarette
+snd: pickup_pop.wav
+snd: pickup_pop2.wav
+act: return
+
+
+=== get_up ===
+
+img: flat_bedroom/flat_bedroom.png
+img: flat_bedroom/woman.png
+img: flat_bedroom/ryan_up_naked.png
+
+txt: You are in your bedroom. The place is a mess.
+txt: Your cyberdeck glows softly in the corner.
+
+not flag_grabbed_cigarette ? txt: On the nightstand by the bed are some cigarettes and a lighter, next to an empty bottle of neo-rum.
+flag_grabbed_cigarette ? txt: On the nightstand by the bed is an empty bottle of neo-rum.
+
+not flag_dressed ?
+opt: Open the wardrobe
+act: flat_wardrobe
+
+opt: Look out the window
+act: flat_bedroom_window
+
+not flag_grabbed_cigarette ?
+opt: Grab the lighter and a cigarette
+act: grab_cigarettes
+
+opt: Go to the bathroom
+act: flat_bathroom
+
+opt: Go to the living room
+act: flat_lounge
+
+chr: blonde_asleep
+act: flat_blonde_asleep
+
+
+=== flat_bedroom ===
+
+not flag_visited_lounge ? act: attach blonde_asleep
+act: detach blonde_awake
+act: clear flag_in_flat_bathroom
+
+img: flat_bedroom/flat_bedroom.png
+not flag_visited_lounge ? img: flat_bedroom/woman.png
+flag_visited_lounge ? not flag_woman_left ? img: flat_bedroom/door_ajar.png
+not flag_dressed ? img: flat_bedroom/ryan_naked.png
+flag_dressed ? img: flat_bedroom/ryan.png
+
+txt: You are in your bedroom. The place is a mess. 
+not flag_dressed, not flag_woman_left, flag_done_call ? txt: Your cyberdeck glows softly in the corner.
+flag_dressed ? flag_woman_left ? not flag_done_call ? txt: Your cyberdeck gives of a muted beep at regular intervals, notifying you of an incoming video call.
+flag_dressed ? flag_woman_left ? not flag_done_call ? amb: ringtone.wav, 50%
+not flag_grabbed_cigarette ? txt: On the nightstand by the bed are some cigarettes and a lighter, next to an empty bottle of neo-rum.
+flag_grabbed_cigarette ? txt: On the nightstand by the bed is an empty bottle of neo-rum.
+flag_visited_lounge ? not flag_woman_left ? txt: You can hear the shower running in the bathroom.
+
+not flag_dressed ?
+opt: Open the wardrobe
+act: flat_wardrobe
+
+flag_dressed ? flag_woman_left ? not flag_done_call ? 
+opt: Use the cyberdeck
+act: flat_cyberdeck
+
+opt: Look out the window
+act: flat_bedroom_window
+
+not flag_grabbed_cigarette ?
+opt: Grab the lighter and a cigarette
+act: grab_cigarettes
+
+opt: Go to the bathroom
+act: flat_bathroom
+
+opt: Go to the living room
+act: flat_lounge
+
+not flag_visited_lounge ?
+chr: blonde_asleep
+act: flat_blonde_asleep
+
+
+=== flat_wardrobe ===
+
+img: flat_bedroom/flat_bedroom.png
+img: flat_bedroom/wardrobe_open.png
+not flag_visited_lounge ? img: flat_bedroom/woman.png
+flag_visited_lounge ? not flag_woman_left ? img: flat_bedroom/door_ajar.png
+not flag_dressed ? img: flat_bedroom/ryan_wardrobe_naked.png
+flag_dressed ? img: flat_bedroom/ryan_wardrobe_back.png
+
+txt: Your wardrobe is half-filled with clothes, all jumbled up with no order to it.
+
+not flag_dressed ?
+opt: Get dressed
+act: flat_get_dressed
+
+opt: Close the wardrobe
+act: flat_bedroom
+
+
+=== flat_get_dressed ===
+
+img: flat_bedroom/flat_bedroom.png
+img: flat_bedroom/wardrobe_open.png
+not flag_visited_lounge ? img: flat_bedroom/woman.png
+flag_visited_lounge ? not flag_woman_left ? img: flat_bedroom/door_ajar.png
+img: flat_bedroom/ryan_wardrobe_naked.png
+
+txt: You put on your underwear while you contemplate what to wear.
+act: set flag_dressed
+
+snd: pickup_pop.wav
+snd: pickup_pop2.wav
+snd: pickup_pop3.wav
+act: get item_underwear
+act: get item_tshirt
+act: get item_socks
+
+act: flat_get_dressed2
+
+=== flat_get_dressed2 ===
+
+img: flat_bedroom/flat_bedroom.png
+img: flat_bedroom/wardrobe_open.png
+not flag_visited_lounge ? img: flat_bedroom/woman.png
+flag_visited_lounge ? not flag_woman_left ? img: flat_bedroom/door_ajar.png
+img: flat_bedroom/ryan_wardrobe.png
+
+txt: You settle on black pants, a dark leather jacket, and a black beanie. You also put on your favorite pair of boots.
+act: set flag_dressed
+
+snd: pickup_pop.wav
+snd: pickup_pop2.wav
+snd: pickup_pop3.wav
+snd: pickup_pop4.wav
+act: get item_pants
+act: get item_coat
+act: get item_boots
+act: get item_beanie
+
+act: flat_wardrobe
+
+
+
+=== flat_bedroom_window ===
+
+img: flat_bedroom/flat_bedroom.png
+not flag_visited_lounge ? img: flat_bedroom/woman.png
+flag_visited_lounge ? not flag_woman_left ? img: flat_bedroom/door_ajar.png
+not flag_dressed ? img: flat_bedroom/ryan_window_naked.png
+flag_dressed ? img: flat_bedroom/ryan_window.png
+
+flag_dressed ? player_tired: I look out over the bleak cityscape. Neon lights cast an eerie glow, over the skyscrapers and towering corporation buildings. The city feels almost like a living thing, with a pulse of its own.
+not flag_dressed ? player_naked_tired: I look out over the bleak cityscape. Neon lights cast an eerie glow, over the skyscrapers and towering corporation buildings. The city feels almost like a living thing, with a pulse of its own.
+act: flat_bedroom
+
+
+
+=== flat_cyberdeck ===
+
+amb: stop
+snd: connected.mp3,150%
+img: flat_bedroom/flat_bedroom.png
+img: flat_bedroom/ryan_cyberdeck.png
+txt: You log on to your cyberdeck, answering the video call.
+act: set flag_done_call
+act: flat_talk_friend
+
+
+=== flat_talk_friend ===
+
+act: set flag_unlock_burger
+video_friend: Uhh, hello?
+player: Yeah, Ryan Summers here.
+video_friend_sad: Summers, how the hell are you doing?
+player: Lieutenant, long time. 
+video_friend: We're not in the army anymore, you can call me Dan.
+player: Sure thing, Lieutenant.
+video_friend_tired: Summers. I know we've not kept in touch. But I need your help. My daughter is missing.
+player_glance: I'm not a cop anymore.
+video_friend_sad: I know, I heard. Helluva thing.
+player_annoyed: It is what it is. So I can't help you.
+video_friend_annoyed: God damn it, Ryan! It's my girl. She is god-knows-where, all strung out on something or other... If I can only get her back home, I could help her. I know I can.
+player_unsure: I don't know, Harrington. I don't do these kind of things anymore.
+video_friend_angry: Damn it, Summers! You owe me! So help me God, you OWE me.
+act: flat_talk_friend_owe_me
+
+
+=== flat_talk_friend_owe_me ===
+
+player_surprised: Events from the past flood over me, as I think back to our time in the army. The Lieutenant is right, I do owe him, big time. I wouldn't be here if not for him. Damn it!
+act: flat_agree_to_friend
+
+
+=== flat_agree_to_friend ===
+
+player: Yeah, alright. I need some details first -
+video_friend_glance: No! Not over video call. We meet in person.
+player_annoyed: I don't see why -
+video_friend_annoyed: Just do as I say. You know the burger joint on 7th and Main?
+player: I'll find it.
+video_friend_annoyed: Let's meet there. Over and out.
+act: flat_end_call
+
+
+=== flat_end_call ===
+
+img: black.png
+txt: The call is disconnected.
+act: flat_bedroom

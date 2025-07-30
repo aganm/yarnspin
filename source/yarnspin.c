@@ -53,6 +53,18 @@
     #include <GL/glew.h>
 #endif
 
+#define CMP(a, b) ( cstr_compare_nocase( (a), (b) ) == 0 )
+
+#ifdef _WIN32
+    #define _CRT_NONSTDC_NO_DEPRECATE
+    #define _CRT_SECURE_NO_WARNINGS
+    #include <string.h>
+    #define CMPN( s1, s2, len ) ( strnicmp( (s1), (s2), (len) ) == 0 )
+#else
+    #include <strings.h>
+    #define CMPN( s1, s2, len ) ( strncasecmp( (s1), (s2), (len) ) == 0 )
+#endif
+
 #define PIXELFONT_COLOR PIXELFONT_U8
 #define PIXELFONT_FUNC_NAME pixelfont_blit
 #include "libs/pixelfont.h"
@@ -90,10 +102,11 @@ bool g_disable_sound = false;
 
 // forward declares for helper functions placed at the end of this file
 
-#ifndef YARNSPIN_RUNTIME_ONLY
-    char const* cextname( char const* path );
-    char const* cbasename( char const* path );
+char const* cbasename( char const* path );
+char const* cextname( char const* path );
+char const* cdirname( char const* path );
 
+#ifndef YARNSPIN_RUNTIME_ONLY
     void delete_file( char const* filename );
     void create_path( char const* path, int pos );
     int file_more_recent( char const* source_path, char const* output_path );
@@ -228,8 +241,8 @@ int app_proc( app_t* app, void* user_data ) {
             }
         }
         // calculate aspect locked width/height
-        int scrwidth = displays.displays[ disp ].width - 80;
-        int scrheight = displays.displays[ disp ].height - 80;
+        int scrwidth = displays.displays[ disp ].width - 120;
+        int scrheight = displays.displays[ disp ].height - 120;
         int aspect_width = (int)( ( scrheight * 4 ) / 3 );
         int aspect_height = (int)( ( scrwidth * 3 ) / 4 );
         int target_width, target_height;
@@ -242,7 +255,7 @@ int app_proc( app_t* app, void* user_data ) {
         }
         // set window size and position
         int x = displays.displays[ disp ].x + ( displays.displays[ disp ].width - target_width ) / 2;
-        int y = displays.displays[ disp ].y + ( displays.displays[ disp ].height - target_height ) / 2;
+        int y = displays.displays[ disp ].y + ( displays.displays[ disp ].height - target_height ) / 2 - 40;
         int w = target_width;
         int h = target_height;
         app_window_pos( app, x, y );
@@ -359,6 +372,12 @@ int app_proc( app_t* app, void* user_data ) {
                 grab_screenshot( game.render );
                 game.exit_dialog = true;
                 app_cancel_exit( app );
+            }
+        }
+
+        if( game.yarn->is_debug ) {
+            if( exit_requested || ( input.curr_[ APP_KEY_ESCAPE ] && input.curr_[ APP_KEY_SHIFT ] ) ) {
+                break;
             }
         }
 
@@ -1416,6 +1435,7 @@ int file_more_recent( char const* source_path,  char const* output_path  ) {
     return file_last_changed( source_path ) > file_last_changed( output_path );
 }
 
+#endif
 
 #ifndef _WIN32
     #include <strings.h>
@@ -1455,6 +1475,35 @@ char const* cextname( char const* path ) {
     return result;
 }
 
+
+
+char const* cdirname( char const* path ) {
+	static char result[ 1024 ];
+	strcpy( result, "" );
+
+	if( path ) {
+		char* lastForwardSlash;
+		char* lastBackSlash;
+		
+		strncpy( result, path, sizeof( result ) );
+		lastForwardSlash = strrchr( result, '/' );
+		lastBackSlash = strrchr( result, '\\' );
+		
+		if( !lastBackSlash && !lastForwardSlash ) {
+			result[ 0 ] = 0;
+		} else if( !lastBackSlash ) {
+			*(lastForwardSlash + 1) = 0;
+		} else if( !lastForwardSlash ) {
+			*(lastBackSlash +1 ) = 0;
+		} else if( lastForwardSlash > lastBackSlash ) {
+			*(lastForwardSlash + 1 ) = 0;
+		} else {
+			*(lastBackSlash + 1) = 0;
+		}
+	}
+
+    return result;
+}
 
 char const* cbasename( char const* path ) {
     char const* extension = cextname( path );
@@ -1501,8 +1550,6 @@ char const* cbasename( char const* path ) {
 
     return result;
 }
-
-#endif
 
 void* compress_lzma( void* data, size_t size, size_t* out_size ) {
 

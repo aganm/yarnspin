@@ -1,0 +1,52 @@
+=== flat_bathroom ===
+
+act: detach blonde_asleep
+act: set flag_in_flat_bathroom
+
+flag_visited_lounge ? not flag_woman_left ? 
+act: attach blonde_awake
+
+img: flat_bathroom/flat_bathroom.png
+flag_visited_lounge ? not flag_woman_left ? img: flat_bathroom/woman.png
+not flag_dressed ? img: flat_bathroom/ryan_naked.png
+flag_dressed ? img: flat_bathroom/ryan.png
+
+txt: You are in your bathroom. It's in desperate need of some cleaning.
+flag_visited_lounge ? not flag_woman_left ? txt: A woman is in the shower.
+flag_dressed ? flag_woman_left ? not flag_done_call ? txt: You can hear a faint beeping from the cyberdeck in your bedroom.
+flag_dressed ? flag_woman_left ? not flag_done_call ? amb: ringtone.wav, 20%
+
+
+flag_visited_lounge ? not flag_woman_left ? 
+chr: blonde_awake
+act: talk_blonde_shower
+
+
+opt: Look in the mirror
+act: flat_bathroom_mirror
+
+opt: Go to the bedroom
+act: flat_bedroom
+
+
+
+=== talk_blonde_shower ===
+
+img: flat_bathroom/flat_bathroom.png
+flag_visited_lounge ? not flag_woman_left ? img: flat_bathroom/woman_turn.png
+not flag_dressed ? img: flat_bathroom/ryan_talking_naked.png
+flag_dressed ? img: flat_bathroom/ryan_talking.png
+
+act: set flag_talked_blonde
+
+blonde_awake: Hey, I'm just grabbing a quick shower, I'll be gone in a few minutes.
+flag_dressed ? player: No worries, just lock the door behind you when you leave.
+not flag_dressed ? player_naked: No worries, just lock the door behind you when you leave.
+act: return
+
+
+=== flat_bathroom_mirror ===
+
+flag_dressed ? player_tired: Looking at myself in the mirror, I can't help wondering where the years went. My time in the army, all those years on the force. And nothing to show for it. What was it all for?
+not flag_dressed ? player_naked_tired: Looking at myself in the mirror, I can't help wondering where the years went. My time in the army, all those years on the force. And nothing to show for it. What was it all for?
+act: return

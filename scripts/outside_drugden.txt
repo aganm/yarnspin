@@ -1,0 +1,54 @@
+=== outside_drugden ===
+
+amb: stop, 0.2s
+snd: stop, 0.2s
+mus: invisible.ogg, 0.75s, random, 30%
+
+img: outside_drugden/outside_drugden.png
+not flag_found_amanda ?  img: outside_drugden/man.png
+flag_found_amanda ? img: outside_drugden/oildrum.png
+img: outside_drugden/ryan.png
+
+not flag_found_amanda ? 
+act: attach man_outside_drugden 
+
+txt: This is one of the most run-down parts of town, with windows boarded up or broken. Many buildings are abandoned, but used by transients for temporary shelter.
+not flag_found_amanda ? txt: A homeless man is standing on the street, keeping warm by the fire in an old oil drum.
+
+opt: Go inside
+not flag_found_amanda ? act: inside_drugden
+flag_found_amanda ? not flag_amanda_removed ? act: inside_drugden_no_entry
+flag_found_amanda ? flag_amanda_removed ? act: drugden_revisit
+
+opt: Call a taxi
+act: taxi
+
+
+not flag_found_amanda ? 
+chr: man_outside_drugden
+act: talk_outside_drugden_man
+
+
+
+=== inside_drugden_no_entry ===
+
+txt: You can't go back inside right now, the EMTs are still there.
+act: return
+
+
+
+=== talk_outside_drugden_man ===
+
+img: outside_drugden/outside_drugden.png
+img: outside_drugden/man.png
+img: outside_drugden/ryan_talking.png
+
+man_outside_drugden: Hi there, got some change?
+player_smiling: Sure man, here you go.
+man_outside_drugden: Thank you.
+player: Say, could you take a look at this photo here. Have you seen this girl?
+man_outside_drugden: Why, yes Sir, that I have.
+man_outside_drugden: Wasn't more than a few hours ago, I seen her go into this very building, oh yes she did.
+man_outside_drugden: It's no good what's going on in there, I seen them come and go, always with the drugs there.
+player: Alright, thanks man. Take care now.
+act: return

@@ -1,0 +1,92 @@
+=== flat_kitchen ===
+
+amb: stop
+img: flat_kitchen/flat_kitchen.png
+flag_dressed ? img: flat_kitchen/ryan.png
+not flag_dressed ? img: flat_kitchen/ryan_naked.png
+
+flag_talked_blonde ? act: set flag_woman_left
+flag_woman_left ? flag_coffee_almost_done ? act: set flag_coffee_done
+
+txt: You are in your kitchen, which is a dirty, grimy mess. The refrigerator is humming away loudly. 
+not flag_making_coffee ? txt: Your gaze is lovingly drawn to the coffee maker on the counter.
+flag_making_coffee ? not flag_coffee_done ? txt: The coffee maker is buzzing and dripping, slowly making its way through the brewing program.
+not got item_coffee ? flag_making_coffee ? flag_coffee_done ? not flag_had_coffee ? txt: The light on the coffee maker is pulzing a soft green. The brew is ready.
+not got item_coffee ? flag_making_coffee ? flag_coffee_done ? flag_had_coffee ? txt: There is some coffee in the coffee maker.
+
+
+flag_coffee_done ? not got item_coffee ?
+opt: Grab some coffee
+act: flat_grab_coffee
+
+not flag_making_coffee ? not flag_coffee_done ? 
+opt: Make some coffee
+act: flat_make_coffee
+
+flag_making_coffee ? not flag_coffee_done ? 
+opt: Make some coffee
+act: flat_making_coffee
+
+opt: Raid the fridge
+not flag_raided_fridge ? act: flat_fridge
+flag_raided_fridge ? act: flat_fridge_raided
+
+
+opt: Go to the living room
+act: flat_lounge
+
+
+
+=== flat_making_coffee ===
+
+txt: The coffee machine is already doing it's thing. It won't go any quicker if you mess with it.
+act: return
+
+
+=== flat_grab_coffee ===
+
+txt: You poor a cup of the dark liquid, savoring the smell.
+act: get item_coffee
+act: set flag_had_coffee
+snd: pickup_pop.wav
+act: return
+
+
+=== flat_make_coffee ===
+
+img: flat_kitchen/flat_kitchen.png
+flag_dressed ? img: flat_kitchen/ryan_coffee.png
+not flag_dressed ? img: flat_kitchen/ryan_coffee_naked.png
+
+txt: You prepare the coffee maker and turn it on, wishing it didn't take so damn long to finish brewing.
+
+act: set flag_making_coffee
+act: return
+
+
+=== flat_fridge ===
+
+img: flat_kitchen/flat_kitchen.png
+flag_dressed ? img: flat_kitchen/ryan_fridge.png
+not flag_dressed ? img: flat_kitchen/ryan_fridge_naked.png
+
+txt: The fridge is almost empty, but you relieve it of a carton of milk, a sandwich and a slice of leftover pizza.
+
+act: set flag_raided_fridge
+act: get item_milk
+act: get item_pizza
+act: get item_sandwich
+snd: pickup_pop.wav
+snd: pickup_pop2.wav
+snd: pickup_pop3.wav
+act: return
+
+
+=== flat_fridge_raided ===
+
+img: flat_kitchen/flat_kitchen.png
+flag_dressed ? img: flat_kitchen/ryan_fridge.png
+not flag_dressed ? img: flat_kitchen/ryan_fridge_naked.png
+
+txt: The fridge is empty.
+act: return

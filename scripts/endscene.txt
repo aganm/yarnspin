@@ -1,0 +1,153 @@
+=== endscene === 
+
+amb: stop
+mus: reggae_island1.ogg, 30%
+
+act: clear flag_is_in_lab
+
+act: attach woman_swat
+act: attach man_swat
+act: attach woman_officer
+
+img: outside_company/outside_company.png
+img: outside_company/ryan.png
+img: outside_company/woman.png
+img: outside_company/man.png
+img: outside_company/officer.png
+img: outside_company/cars.png
+
+
+txt: When you get outside, the police are already there, and you see a few familiar faces from your time on the force.
+
+chr: woman_swat
+act: talk_woman_swat
+
+chr: man_swat
+act: talk_man_swat
+
+chr: woman_officer
+act: talk_woman_officer
+
+
+=== endscene_outside ===
+
+img: outside_company/outside_company.png
+img: outside_company/ryan.png
+img: outside_company/woman.png
+img: outside_company/man.png
+img: outside_company/officer.png
+img: outside_company/cars.png
+
+txt: You are outside GloboTech, the police are here, and you see a few familiar faces from your time on the force.
+
+chr: woman_swat
+act: talk_woman_swat
+
+chr: man_swat
+act: talk_man_swat
+
+chr: woman_officer
+act: talk_woman_officer
+
+
+
+=== game_finished_woman ===
+
+mus: stop, 2s
+img: outside_company/outside_company.png
+img: outside_company/ryan_woman.png
+img: outside_company/woman_talking.png
+img: outside_company/man.png
+img: outside_company/officer.png
+img: outside_company/cars.png
+
+txt:
+auto: endcredits, 2.0s
+
+
+=== game_finished_man ===
+
+mus: stop, 2s
+img: outside_company/outside_company.png
+img: outside_company/ryan_man.png
+img: outside_company/woman.png
+img: outside_company/man_talking.png
+img: outside_company/officer.png
+img: outside_company/cars.png
+
+txt:
+auto: endcredits, 2.0s
+
+
+=== game_finished_officer ===
+
+mus: stop, 2s
+img: outside_company/outside_company.png
+img: outside_company/ryan_officer.png
+img: outside_company/woman.png
+img: outside_company/man.png
+img: outside_company/officer.png
+img: outside_company/cars.png
+
+txt:
+auto: endcredits, 2.0s
+
+
+
+=== talk_woman_swat ===
+
+img: outside_company/outside_company.png
+img: outside_company/ryan_woman.png
+img: outside_company/woman_talking.png
+img: outside_company/man.png
+img: outside_company/officer.png
+img: outside_company/cars.png
+
+woman_swat_smiling: Summers! Of course this thing was your doing.
+player_surprised: What are you guys doing here? Who called it in?
+woman_swat: Oh, the guy who ran this place, Harrington, had an information bio-vault, sent it all out the moment he died.
+woman_swat_smiling: We know everything. It even gave us a live feed from inside the building, we saw it all go down. You did good.
+player_smiling: Aah, thanks. It felt good making a difference again.
+woman_swat: I think this might earn you a spot back on the force.
+player_annoyed: Yeah, like Daniels would ever allow that, after what I did.
+woman_swat_glance: Haven't you heard? Daniels is out, Frank is calling the shots now.
+player_surprised: Oh, really? That's good news indeed!
+woman_swat_smiling: Yeah. See you around, Summers.
+player_smiling: See you around, Hunter.
+
+act: game_finished_woman
+
+
+=== talk_man_swat ===
+
+img: outside_company/outside_company.png
+img: outside_company/ryan_man.png
+img: outside_company/woman.png
+img: outside_company/man_talking.png
+img: outside_company/officer.png
+img: outside_company/cars.png
+
+man_swat_annoyed: What a mess, eh?
+man_swat_smiling: You did alright though, Summers.
+player: Thanks, Belker. How did you know what was going down?
+man_swat: Talk to Hunter, she'll fill you in.
+player: Ok, will do.
+
+act: endscene_outside
+
+
+
+=== talk_woman_officer ===
+
+img: outside_company/outside_company.png
+img: outside_company/ryan_officer.png
+img: outside_company/woman.png
+img: outside_company/man.png
+img: outside_company/officer.png
+img: outside_company/cars.png
+
+woman_officer_smiling: Way to go Summers, seems like you saved the day.
+player_smiling: All in a days work, Bates. How did you know what was going down?
+woman_officer_glance: I'm not sure of the details, I just responded to the call. But Hunter will know all about it.
+player: Alright, Bates. I'll catch you later. Be careful out there.
+act: endscene_outside

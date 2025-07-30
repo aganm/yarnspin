@@ -1,0 +1,40 @@
+=== flat_lounge ===
+
+mus: warm_colors_alt.ogg, 0.75s, random
+
+act: detach blonde_asleep
+
+img: flat_lounge/flat_lounge.png
+flag_dressed ? img: flat_lounge/ryan.png
+not flag_dressed ? img: flat_lounge/ryan_naked.png
+
+txt: Your living room, humble but comfortable. The TV is turned on to some random newsfeed.
+flag_dressed ? flag_woman_left ? not flag_done_call ? txt: You can hear a faint beeping from the cyberdeck in your bedroom.
+flag_dressed ? flag_woman_left ? not flag_done_call ? amb: ringtone.wav, 20%
+
+act: set flag_visited_lounge
+flag_making_coffee ? act: set flag_coffee_almost_done
+
+opt: Go to the bedroom
+act: flat_bedroom
+
+opt: Go to the kitchen
+act: flat_kitchen
+
+opt: Go outside
+flag_done_call ? act: outside_flat
+not flag_dressed ? act: outside_flat_not_dressed
+flag_dressed ? not flag_done_call ? act: outside_flat_nowhere_to_go
+
+
+=== outside_flat_not_dressed ===
+
+player_naked: I can't go out like this. I gotta put some clothes on first.
+act: return
+
+
+
+=== outside_flat_nowhere_to_go ===
+
+player: I don't have anywhere I need to go.
+act: return

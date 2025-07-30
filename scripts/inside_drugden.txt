@@ -1,0 +1,137 @@
+=== inside_drugden ===
+
+act: detach man_outside_drugden
+mus: stop
+amb: dark_secrets.ogg, 20s, 30%
+not flag_nosnd_drugden ? snd: jingle_ominous.ogg
+img: inside_drugden/inside_drugden.png
+img: inside_drugden/corpse.png
+img: inside_drugden/ryan.png
+
+txt: As step through the door, your heart sinks when you notice the lifeless form. It's Amanda alright. It looks like you're too late. You can see the needle still in her arm. The place is a typical junkie squat, filthy and miserable, and you hate that she died alone in such a place.
+
+opt: Examine the body
+not flag_searched_amanda ? act: search_amanda
+flag_searched_amanda ? act: search_amanda_again
+
+opt: Search the place
+not flag_searched_drugden ? act: search_drugden
+flag_searched_drugden ? act: search_drugden_again
+
+opt: Call an ambulance
+act: call_it
+
+opt: Go back outside
+act: outside_drugden
+
+=== call_it ===
+
+txt: Knowing that it is most likely way too late for that, you call an ambulance anyway, and it's not long before the EMTs arrive.
+act: emts
+
+
+=== emts ===
+
+img: inside_drugden/inside_drugden.png
+img: inside_drugden/corpse.png
+img: inside_drugden/ryan.png
+img: inside_drugden/woman.png
+img: inside_drugden/man.png
+
+emt_woman: Let's see what we've got here.
+player_emt_man: Unresponsive. Severe head trauma.
+emt_woman_sleeping: No pulse. Pupils fixed and dilated. Rigor mortis present. No signs of life.
+player_emt_man_glance: Alright, I'll call it in.
+act: emt_must_leave
+
+=== emt_must_leave ===
+
+img: inside_drugden/inside_drugden.png
+img: inside_drugden/corpse.png
+img: inside_drugden/ryan.png
+img: inside_drugden/woman_talking.png
+img: inside_drugden/man.png
+emt_woman_annoyed: Sir, you have to leave the scene now, the coroner is on their way.
+player: Sure, will do. Could you tell me, what hospital will the body be taken to?
+emt_woman_glance: St. John's. 
+player: Thank you.
+act: set flag_unlock_hospital
+act: leaving_emts
+
+
+=== leaving_emts ===
+
+txt: You quickly make your exit, leaving the EMTs to do their job.
+act: set flag_found_amanda
+act: outside_drugden
+
+
+
+=== drugden_revisit ===
+
+act: detach man_outside_drugden
+mus: dark_secrets.ogg, random, 30%
+img: inside_drugden/inside_drugden.png
+img: inside_drugden/ryan.png
+
+txt: You are in the abandoned room where you found the body of Amanda. The place is a typical junkie squat, filthy and miserable.
+
+opt: Search the place
+act: search_drugden
+
+opt: Go back outside
+act: outside_drugden
+
+
+
+=== search_amanda ===
+
+snd: stop, 1s
+act: set flag_nosnd_drugden
+
+img: inside_drugden/inside_drugden.png
+img: inside_drugden/corpse.png
+img: inside_drugden/ryan_body.png
+img: inside_drugden/examine_body.png
+
+txt: Examining the body, you see signs of a drug overdose, but even more apparent, is a gaping wound in her head. There's blood, but not that much of it, so it makes you think it might be inflicted post-mortem. Going through her pockets, you find lip gloss and some pills. There's a bit of a brightly colored substance left in the syringe, and you pick that up as well. 
+
+act: get item_lipgloss
+act: get item_pills2
+act: get item_syringe
+snd: pickup_pop2.wav
+snd: pickup_pop3.wav
+snd: pickup_pop4.wav
+act: set flag_searched_amanda
+
+act: return
+
+
+=== search_amanda_again ===
+
+img: inside_drugden/inside_drugden.png
+img: inside_drugden/corpse.png
+img: inside_drugden/ryan_body.png
+txt: You find nothing more of interest.
+act: return
+
+
+
+=== search_drugden ===
+
+snd: stop, 1s
+act: set flag_nosnd_drugden
+txt: Searching through the place, you find nothing of interest. In a drawer you come across an old bible, which looks like it's been here for a very long time, and the thick layer of dust on it suggests it's not seen any use.
+
+act: get item_bible
+snd: pickup_pop.wav
+act: set flag_searched_drugden
+
+act: return
+
+
+=== search_drugden_again ===
+
+txt: You still find nothing of interest.
+act: return
+

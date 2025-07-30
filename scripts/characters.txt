@@ -1,0 +1,727 @@
+=== bar_bathroom_attacker ===
+face: bar_bathroom_attacker.png
+name:  Assailant
+
+=== bar_bathroom_attacker_angry ===
+face: bar_bathroom_attacker_angry.png
+name:  Assailant
+
+=== bar_bathroom_attacker_dead ===
+face: bar_bathroom_attacker_dead.png
+name: Assailant
+
+=== bar_bathroom_attacker_posessed ===
+face: bar_bathroom_attacker_posessed.png
+name: Assailant
+
+=== bar_bathroom_attacker_sleeping ===
+face: bar_bathroom_attacker_sleeping.png
+name: Assailant
+
+=== bar_man_at_table ===
+face: bar_man_at_table.png
+name: Man
+
+=== bar_man_at_table_angry ===
+face: bar_man_at_table_angry.png
+name: Man
+
+=== bar_man_at_table_annoyed ===
+face: bar_man_at_table_annoyed.png
+name: Man
+
+=== bar_man_at_table_glance ===
+face: bar_man_at_table_glance.png
+name: Man
+
+=== bar_man_at_table_scared ===
+face: bar_man_at_table_scared.png
+name: Man
+
+=== bar_man_at_table_sleeping ===
+face: bar_man_at_table_sleeping.png
+name: Man
+
+=== bar_man_at_table_smiling ===
+face: bar_man_at_table_smiling.png
+name: Man
+
+=== bar_woman_at_table ===
+face: bar_woman_at_table.png
+name: Woman
+
+=== bar_woman_at_table_angry ===
+face: bar_woman_at_table_angry.png
+name: Woman
+
+=== bar_woman_at_table_annoyed ===
+face: bar_woman_at_table_annoyed.png
+name: Woman
+
+=== bar_woman_at_table_glance ===
+face: bar_woman_at_table_glance.png
+name: Woman
+
+=== bar_woman_at_table_scared ===
+face: bar_woman_at_table_scared.png
+name: Woman
+
+=== bar_woman_at_table_sleeping ===
+face: bar_woman_at_table_sleeping.png
+name: Woman
+
+=== bar_woman_at_table_smiling ===
+face: bar_woman_at_table_smiling.png
+name: Woman
+
+=== bartender ===
+face: bartender.png
+name: Bartender
+
+=== bartender_angry ===
+face: bartender_angry.png
+name: Bartender
+
+=== bartender_annoyed ===
+face: bartender_annoyed.png
+name: Bartender
+
+=== bartender_glance ===
+face: bartender_glance.png
+name: Bartender
+
+=== bartender_sleeping ===
+face: bartender_sleeping.png
+name: Bartender
+
+=== bartender_smiling ===
+face: bartender_smiling.png
+name: Bartender
+
+=== bartender_surprised ===
+face: bartender_surprised.png
+name: Bartender
+
+=== blonde_asleep ===
+face: blonde_asleep.png
+name: Some broad
+
+=== blonde_awake ===
+face: blonde_awake.png
+name: Some broad
+
+=== burger_man ===
+face: burger_man.png
+name: Man
+
+=== burger_man_glance ===
+face: burger_man_glance.png
+name: Man
+
+=== burger_staff ===
+face: burger_staff.png
+name: Cashier
+
+=== burger_staff_annoyed ===
+face: burger_staff_annoyed.png
+name: Cashier
+
+=== burger_staff_glance ===
+face: burger_staff_glance.png
+name: Cashier
+
+=== burger_staff_tired ===
+face: burger_staff_tired.png
+name: Cashier
+
+=== burger_woman ===
+face: burger_woman.png
+name: Woman
+
+=== burger_woman_angry ===
+face: burger_woman_angry.png
+name: Woman
+
+=== player_emt_man ===
+face: emt_man.png
+name: EMTs
+
+=== player_emt_man_angry ===
+face: emt_man_angry.png
+name: EMTs
+
+=== player_emt_man_annoyed ===
+face: emt_man_annoyed.png
+name: EMTs
+
+=== player_emt_man_glance ===
+face: emt_man_glance.png
+name: EMTs
+
+=== player_emt_man_sleeping ===
+face: emt_man_sleeping.png
+name: EMTs
+
+=== player_emt_man_smiling ===
+face: emt_man_smiling.png
+name: EMTs
+
+=== emt_man_tired ===
+face: emt_man_tired.png
+name: EMTs
+
+=== emt_woman ===
+face: emt_woman.png
+name: EMTs
+
+=== emt_woman_angry ===
+face: emt_woman_angry.png
+name: EMTs
+
+=== emt_woman_annoyed ===
+face: emt_woman_annoyed.png
+name: EMTs
+
+=== emt_woman_glance ===
+face: emt_woman_glance.png
+name: EMTs
+
+=== emt_woman_sleeping ===
+face: emt_woman_sleeping.png
+name: EMTs
+
+=== emt_woman_smiling ===
+face: emt_woman_smiling.png
+name: EMTs
+
+=== emt_woman_tired ===
+face: emt_woman_tired.png
+name: EMTs
+
+=== emt_woman_outside_hospital ===
+face: emt_woman.png
+name: EMT
+
+=== emt_woman_outside_hospital_angry ===
+face: emt_woman_angry.png
+name: EMT
+
+=== emt_woman_outside_hospital_annoyed ===
+face: emt_woman_annoyed.png
+name: EMT
+
+=== emt_woman_outside_hospital_glance ===
+face: emt_woman_glance.png
+name: EMT
+
+=== emt_woman_outside_hospital_sleeping ===
+face: emt_woman_sleeping.png
+name: EMT
+
+=== emt_woman_outside_hospital_smiling ===
+face: emt_woman_smiling.png
+name: EMT
+
+=== emt_woman_outside_hospital_tired ===
+face: emt_woman_tired.png
+name: EMT
+
+=== friend ===
+face: friend.png
+name: Dan Harrington
+
+=== friend_possessed ===
+face: friend_possessed.png
+name: Dan Harrington
+
+=== friend_angry ===
+face: friend_angry.png
+name: Dan Harrington
+
+=== friend_annoyed ===
+face: friend_annoyed.png
+name: Dan Harrington
+
+=== friend_glance ===
+face: friend_glance.png
+name: Dan Harrington
+
+=== friend_sad ===
+face: friend_sad.png
+name: Dan Harrington
+
+=== friend_sleeping ===
+face: friend_sleeping.png
+name: Dan Harrington
+
+=== friend_tired ===
+face: friend_tired.png
+name: Dan Harrington
+
+=== inside_hospital_man ===
+face: inside_hospital_man.png
+name: Thomas
+
+=== inside_hospital_woman ===
+face: inside_hospital_woman.png
+name: Carla
+
+=== inside_hospital_woman_angry ===
+face: inside_hospital_woman_angry.png
+name: Carla
+
+=== inside_hospital_woman_annoyed ===
+face: inside_hospital_woman_annoyed.png
+name: Carla
+
+=== inside_hospital_woman_glance ===
+face: inside_hospital_woman_glance.png
+name: Carla
+
+=== inside_hospital_woman_sleeping ===
+face: inside_hospital_woman_sleeping.png
+name: Carla
+
+=== inside_hospital_woman_smiling ===
+face: inside_hospital_woman_smiling.png
+name: Carla
+
+=== inside_hospital_woman_tired ===
+face: inside_hospital_woman_tired.png
+name: Carla
+
+=== inside_hospital_woman_laughing ===
+face: inside_hospital_woman_laughing.png
+name: Carla
+
+=== lab_man ===
+face: lab_man.png
+name: Doctor
+
+=== lab_man_angry ===
+face: lab_man_angry.png
+name: Doctor
+
+=== lab_man_annoyed ===
+face: lab_man_annoyed.png
+name: Doctor
+
+=== lab_man_glance ===
+face: lab_man_glance.png
+name: Doctor
+
+=== lab_man_scared ===
+face: lab_man_scared.png
+name: Doctor
+
+=== lab_man_tired ===
+face: lab_man_tired.png
+name: Doctor
+
+=== lab_man_yell ===
+face: lab_man_yell.png
+name: Doctor
+
+=== player_lab_man ===
+face: lab_man.png
+name: Doctor
+
+=== player_lab_man_angry ===
+face: lab_man_angry.png
+name: Doctor
+
+=== player_lab_man_annoyed ===
+face: lab_man_annoyed.png
+name: Doctor
+
+=== player_lab_man_glance ===
+face: lab_man_glance.png
+name: Doctor
+
+=== player_lab_man_scared ===
+face: lab_man_scared.png
+name: Doctor
+
+=== player_lab_man_tired ===
+face: lab_man_tired.png
+name: Doctor
+
+=== player_lab_man_yell ===
+face: lab_man_yell.png
+name: Doctor
+
+=== lab_woman ===
+face: lab_woman.png
+name: Doctor
+
+=== lab_woman_angry ===
+face: lab_woman_angry.png
+name: Doctor
+
+=== lab_woman_annoyed ===
+face: lab_woman_annoyed.png
+name: Doctor
+
+=== lab_woman_glance ===
+face: lab_woman_glance.png
+name: Doctor
+
+=== lab_woman_yell ===
+face: lab_woman_yell.png
+name: Doctor
+
+
+=== lobby_man ===
+face: lobby_man.png
+name: Rent-a-cop
+
+=== lobby_man_possessed ===
+face: lobby_man_possessed.png
+name: Rent-a-cop
+
+=== lobby_man_angry ===
+face: lobby_man_angry.png
+name: Rent-a-cop
+
+=== lobby_man_annoyed ===
+face: lobby_man_annoyed.png
+name: Rent-a-cop
+
+=== lobby_man_glance ===
+face: lobby_man_glance.png
+name: Rent-a-cop
+
+=== lobby_man_scared ===
+face: lobby_man_scared.png
+name: Rent-a-cop
+
+=== lobby_man_tired ===
+face: lobby_man_tired.png
+name: Rent-a-cop
+
+=== man_swat ===
+face: man_swat_.png
+name: Belker
+
+=== man_swat_annoyed ===
+face: man_swat_annoyed.png
+name: Belker
+
+=== man_swat_glance ===
+face: man_swat_glance.png
+name: Belker
+
+=== man_swat_smiling ===
+face: man_swat_smiling.png
+name: Belker
+
+=== man_swat_surprised ===
+face: man_swat_surprised.png
+name: Belker
+
+=== man_swat_tired ===
+face: man_swat_tired.png
+name: Belker
+
+=== monster ===
+face: monster_.png
+name: Experiment
+
+=== monster_angry ===
+face: monster_angry.png
+name: Experiment
+
+=== monster_annoyed ===
+face: monster_annoyed.png
+name: Experiment
+
+=== monster_sleeping ===
+face: monster_sleeping.png
+name: Experiment
+
+=== morgue_woman ===
+face: morgue_woman.png
+name: Dr Thompson
+
+=== morgue_woman_angry ===
+face: morgue_woman_angry.png
+name: Dr Thompson
+
+=== morgue_woman_annoyed ===
+face: morgue_woman_annoyed.png
+name: Dr Thompson
+
+=== morgue_woman_glance ===
+face: morgue_woman_glance.png
+name: Dr Thompson
+
+=== morgue_woman_smiling ===
+face: morgue_woman_smiling.png
+name: Dr Thompson
+
+=== morgue_woman_tired ===
+face: morgue_woman_tired.png
+name: Dr Thompson
+
+=== morgue_woman_happy ===
+face: morgue_woman_happy.png
+name: Dr Thompson
+
+=== woman_outside_bar ===
+face: outside_bar_woman.png
+name: Street worker
+
+=== woman_outside_bar_angry ===
+face: outside_bar_woman_angry.png
+name: Street worker
+
+=== woman_outside_bar_annoyed ===
+face: outside_bar_woman_annoyed.png
+name: Street worker
+
+=== woman_outside_bar_glance ===
+face: outside_bar_woman_glance.png
+name: Street worker
+
+=== woman_outside_bar_scared ===
+face: outside_bar_woman_scared.png
+name: Street worker
+
+=== woman_outside_bar_smile ===
+face: outside_bar_woman_smile.png
+name: Street worker
+
+=== man_outside_drugden ===
+face: outside_drugden_man.png
+name: Man
+
+=== man_outside_hospital ===
+face: outside_hospital_man.png
+name: Man
+
+=== player ===
+face: player.png
+name: Ryan
+
+=== player_angry ===
+face: player_angry.png
+name: Ryan
+
+=== player_annoyed ===
+face: player_annoyed.png
+name: Ryan
+
+=== player_glance ===
+face: player_glance.png
+name: Ryan
+
+=== player_grin ===
+face: player_grin.png
+name: Ryan
+
+=== player_grin_bloody ===
+face: player_grin_bloody.png
+name: Ryan
+
+=== player_naked ===
+face: player_naked.png
+name: Ryan
+
+=== player_naked_tired ===
+face: player_naked_tired.png
+name: Ryan
+
+=== player_scared ===
+face: player_scared.png
+name: Ryan
+
+=== player_shocked ===
+face: player_shocked.png
+name: Ryan
+
+=== player_shocked_bloody ===
+face: player_shocked_bloody.png
+name: Ryan
+
+=== player_sleeping ===
+face: player_sleeping.png
+name: Ryan
+
+=== player_smiling ===
+face: player_smiling.png
+name: Ryan
+
+=== player_surprised ===
+face: player_surprised.png
+name: Ryan
+
+=== player_tired ===
+face: player_tired.png
+name: Ryan
+
+=== player_unsure ===
+face: player_unsure.png
+name: Ryan
+
+=== taxi_driver ===
+face: taxi_driver.png
+name: Cab Driver
+
+=== taxi_driver_angry ===
+face: taxi_driver_angry.png
+name: Cab Driver
+
+=== taxi_driver_annoyed ===
+face: taxi_driver_annoyed.png
+name: Cab Driver
+
+=== taxi_driver_sideeye ===
+face: taxi_driver_sideeye.png
+name: Cab Driver
+
+=== taxi_driver_tired ===
+face: taxi_driver_tired.png
+name: Cab Driver
+
+=== video_friend ===
+face: video_friend.png
+name: Dan Harrington
+
+=== video_friend_angry ===
+face: video_friend_angry.png
+name: Dan Harrington
+
+=== video_friend_annoyed ===
+face: video_friend_annoyed.png
+name: Dan Harrington
+
+=== video_friend_glance ===
+face: video_friend_glance.png
+name: Dan Harrington
+
+=== video_friend_sad ===
+face: video_friend_sad.png
+name: Dan Harrington
+
+=== video_friend_sleeping ===
+face: video_friend_sleeping.png
+name: Dan Harrington
+
+=== video_friend_tired ===
+face: video_friend_tired.png
+name: Dan Harrington
+
+
+=== player_video_friend ===
+face: video_friend.png
+name: Dan Harrington
+
+=== player_video_friend_angry ===
+face: video_friend_angry.png
+name: Dan Harrington
+
+=== player_video_friend_annoyed ===
+face: video_friend_annoyed.png
+name: Dan Harrington
+
+=== player_video_friend_glance ===
+face: video_friend_glance.png
+name: Dan Harrington
+
+=== player_video_friend_sad ===
+face: video_friend_sad.png
+name: Dan Harrington
+
+=== player_video_friend_sleeping ===
+face: video_friend_sleeping.png
+name: Dan Harrington
+
+=== player_video_friend_tired ===
+face: video_friend_tired.png
+name: Dan Harrington
+
+
+=== woman_swat ===
+face: woman_swat.png
+name: Hunter
+
+=== woman_swat_angry ===
+face: woman_swat_angry.png
+name: Hunter
+
+=== woman_swat_annoyed ===
+face: woman_swat_annoyed.png
+name: Hunter
+
+=== woman_swat_glance ===
+face: woman_swat_glance.png
+name: Hunter
+
+=== woman_swat_sleeping ===
+face: woman_swat_sleeping.png
+name: Hunter
+
+=== woman_swat_smiling ===
+face: woman_swat_smiling.png
+name: Hunter
+
+=== woman_swat_tired ===
+face: woman_swat_tired.png
+name: Hunter
+
+=== woman_at_bar ===
+face: woman_at_bar.png
+name: Woman
+
+=== woman_at_bar_angry ===
+face: woman_at_bar_angry.png
+name: Woman
+
+=== woman_at_bar_annoyed ===
+face: woman_at_bar_annoyed.png
+name: Woman
+
+=== woman_at_bar_glance ===
+face: woman_at_bar_glance.png
+name: Woman
+
+=== woman_at_bar_sleeping ===
+face: woman_at_bar_sleeping.png
+name: Woman
+
+=== woman_at_bar_smiling ===
+face: woman_at_bar_smiling.png
+name: Woman
+
+=== woman_at_bar_tired ===
+face: woman_at_bar_tired.png
+name: Woman
+
+=== woman_officer ===
+face: woman_officer.png
+name: Bates
+
+=== woman_officer_angry ===
+face: woman_officer_angry.png
+name: Bates
+
+=== woman_officer_annoyed ===
+face: woman_officer_annoyed.png
+name: Bates
+
+=== woman_officer_glance ===
+face: woman_officer_glance.png
+name: Bates
+
+=== woman_officer_sleeping ===
+face: woman_officer_sleeping.png
+name: Bates
+
+=== woman_officer_smiling ===
+face: woman_officer_smiling.png
+name: Bates
+
+=== woman_officer_tired ===
+face: woman_officer_tired.png
+name: Bates
+

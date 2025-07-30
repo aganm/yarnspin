@@ -1,0 +1,173 @@
+=== inside_bar ===
+
+mus: exotic_shop.ogg, 0.75s, random, 30%
+amb: stop, 0.2s
+
+act: clear flag_with_bartender
+
+img: inside_bar/inside_bar.png
+img: inside_bar/bartender.png
+img: inside_bar/ryan.png
+img: inside_bar/woman_at_bar.png
+img: inside_bar/man_at_table.png
+img: inside_bar/woman_at_table.png
+
+txt: You'd have thought you'd seen the inside of most bars in the city by now, but this is a new one for you. It's not the worst place you've ever had a drink, but it's not the nicest either.
+
+act: detach woman_outside_bar
+act: attach bartender
+act: attach woman_at_bar
+act: attach bar_man_at_table
+act: attach bar_woman_at_table
+
+chr: bartender
+act: talk_bartender
+
+chr: woman_at_bar
+act: talk_woman_at_bar
+
+chr: bar_man_at_table
+act: talk_bar_man_at_table
+
+chr: bar_woman_at_table
+act: talk_bar_woman_at_table
+
+
+opt: Go to the restroom
+not flag_was_attacked ?  act: bar_bathroom
+flag_was_attacked ? flag_attacker_removed ? act: bar_bathroom_after_removal
+flag_was_attacked ? not flag_attacker_removed ? act: bar_bathroom_after_attack
+
+opt: Leave the bar
+act: outside_bar
+
+
+=== talk_bartender ===
+
+act: set flag_with_bartender
+img: inside_bar/inside_bar.png
+img: inside_bar/bartender.png
+img: inside_bar/ryan_bartender.png
+img: inside_bar/woman_at_bar.png
+img: inside_bar/man_at_table.png
+img: inside_bar/woman_at_table.png
+
+bartender: What can I get you?
+
+not got item_drink ?
+say: A shot of neo-rum, please.
+act: bar_drink
+
+not got item_beer ?
+say: Just a beer, thanks.
+act: bar_beer
+
+say: Have you seen the woman in this photo?
+act: talk_bartender_photo
+
+say: I'm good.
+act: return
+
+
+=== bar_drink ===
+
+bartender: Here ya go.
+snd: pickup_pop.wav
+act: get item_drink
+act:return
+
+
+=== bar_beer ===
+
+bartender: Here ya go.
+snd: pickup_pop.wav
+act: get item_beer
+act:return
+
+
+=== talk_bartender_photo ===
+
+player: Have you seen the woman in this photo? She's missing and I'm trying to find her.
+bartender_glance: I think so... yeah... yeah she used to come in here quite a lot. But it's been a while.
+player_unsure: Do you know where I could find her?
+bartender: Sorry pal, I wish I could help.
+act: return
+
+
+=== talk_woman_at_bar ===
+
+img: inside_bar/inside_bar.png
+img: inside_bar/bartender.png
+img: inside_bar/ryan_woman_at_bar.png
+img: inside_bar/woman_at_bar_talking.png
+img: inside_bar/man_at_table.png
+img: inside_bar/woman_at_table.png
+
+woman_at_bar: Hello there.
+
+say: Can I buy you a drink?
+act: talk_woman_at_bar_drink
+
+say: Have you seen the woman in this photo?
+act: talk_woman_at_bar_photo
+
+say: I'll see you around.
+act: return
+
+
+=== talk_woman_at_bar_drink ===
+
+player: Can I buy you a drink?
+woman_at_bar_smiling: I already got one. And you're not really my type anyway..
+player_smiling: Yeah, no worries.
+act: return
+
+
+=== talk_woman_at_bar_photo ===
+
+player: Hey, have you seen the woman in this photo? She's missing and I'm trying to find her.
+woman_at_bar_glance: Hmm... no, I don't think so. She looks vaguely familar, but I can't place her.
+player: Okay, thanks anyway.
+act: return
+
+
+=== talk_bar_man_at_table ===
+
+img: inside_bar/inside_bar.png
+img: inside_bar/bartender.png
+img: inside_bar/ryan_man_at_table.png
+img: inside_bar/woman_at_bar.png
+img: inside_bar/man_at_table.png
+img: inside_bar/woman_at_table.png
+
+bar_man_at_table_angry: I come here to drink, not to talk. Go bother someone else!
+player: Sure thing, pal.
+act: return
+
+
+=== talk_bar_woman_at_table ===
+
+img: inside_bar/inside_bar.png
+img: inside_bar/bartender.png
+img: inside_bar/ryan_woman_at_table.png
+img: inside_bar/woman_at_bar.png
+img: inside_bar/man_at_table.png
+img: inside_bar/woman_at_table.png
+
+bar_woman_at_table_annoyed: I'm waiting for someone.
+
+say: Have you seen the woman in this photo?
+act: talk_bar_woman_at_table_photo
+
+say: Sorry for disturbing you.
+act: return
+
+
+=== talk_bar_woman_at_table_photo ===
+
+player: I just wanted to ask, have you seen the woman in this photo? She's missing and I'm trying to find her.
+bar_woman_at_table_glance: Yeah, that's... Mandy, I think her name is. Used to come around here all the time, but I haven't seen her in weeks.
+player: You have any idea where I might find her?
+bar_woman_at_table: Sorry, no, I don't know her really, just seen her around.
+player: Okay, thanks anyway.
+act: inside_bar

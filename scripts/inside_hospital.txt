@@ -1,0 +1,96 @@
+=== inside_hospital ===
+
+mus: reggae_island2.ogg, random, 0.75s, 30%
+img: inside_hospital/inside_hospital.png
+img: inside_hospital/ryan.png
+img: inside_hospital/woman.png
+img: inside_hospital/man.png
+
+act: detach emt_woman_outside_hospital
+act: detach man_outside_hospital 
+act: detach morgue_woman
+act: attach inside_hospital_woman 
+act: attach inside_hospital_man 
+
+
+flag_searched_friend ? act: set flag_friend_removed
+
+txt: The reception area of the hospital is as quiet as it gets, this time of night. You see a nurse you know, Carla, at the reception desk.
+
+chr: inside_hospital_woman
+flag_talk_hospital_woman ? act: talk_inside_hospital_woman_again
+not flag_talk_hospital_woman ? act: talk_inside_hospital_woman
+
+chr: inside_hospital_man
+act: talk_inside_hospital_man
+
+flag_unlock_morgue ? not flag_talked_to_coroner ?
+opt: Visit the morgue
+act: morgue
+
+flag_unlock_morgue ? flag_talked_to_coroner ? 
+opt: Visit the morgue
+act: morgue_revisit
+
+opt: Leave the hospital
+not flag_talked_to_coroner, flag_friend_is_dead ?
+act: outside_hospital
+flag_talked_to_coroner ? not flag_friend_is_dead ?
+act: outside_hospital_friend
+
+
+
+=== talk_inside_hospital_woman ===
+
+img: inside_hospital/inside_hospital.png
+img: inside_hospital/ryan_woman.png
+img: inside_hospital/woman_talking.png
+img: inside_hospital/man.png
+
+act: set flag_talk_hospital_woman
+inside_hospital_woman_smiling: Ryan!
+player_smiling: Hi Carla, how you doin'?
+inside_hospital_woman_glance: Did they let you back on the force?
+player_unsure: Ah, no, I'm here on a private matter. Maybe you can help me anyway?
+inside_hospital_woman_smiling: Oh it makes no difference to me, you know I'll always help you out, hun. What do you need?
+player_smiling: You're the best, Carla. Did the Harrington girl come in yet?
+inside_hospital_glance: Let's have a look.
+inside_hospital_woman: Ah, yes, she's at the morgue. You still know the way, right? 
+player: Yeah, walked it a hundred times too many.
+inside_hospital_woman_laughing: Dr. Thompson is the M.E. on call tonight, hun. I've seen the way you two look at each other.
+player_smiling: You're imagining things, Carla. But hey, thanks for the help!
+inside_hospital_woman_smiling: Any time, hun.
+act: set flag_unlock_morgue
+act: return
+
+
+
+=== talk_inside_hospital_woman_again ===
+
+img: inside_hospital/inside_hospital.png
+img: inside_hospital/ryan_woman.png
+img: inside_hospital/woman_talking.png
+img: inside_hospital/man.png
+
+inside_hospital_woman_smiling: Hey Ryan, I am a bit busy at the moment, what can I do for you?
+player_smiling: Ah, nothing Carla, I'll catch you later.
+inside_hospital_woman_glance: Okay, hun.
+act: return
+
+
+=== talk_inside_hospital_man ===
+
+img: inside_hospital/inside_hospital.png
+img: inside_hospital/ryan_man.png
+img: inside_hospital/woman.png
+img: inside_hospital/man.png
+
+inside_hospital_man: Oh, hey Ryan. Long time no see.
+player: Yeah, haven't had much reason to come around.
+inside_hospital_man: Sure, I heard what happened. You doing ok?
+player_annoyed: It is what it is. How about you?
+inside_hospital_man: Same old, same old. Too much to do around here, it wears you down, you know.
+inside_hospital_man: And speaking of, I better get back to it.
+player: Sure thing. See you around.
+act: return
+

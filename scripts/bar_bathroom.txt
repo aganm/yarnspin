@@ -1,0 +1,124 @@
+=== bar_bathroom ===
+
+act: detach bartender
+act: detach woman_at_bar
+act: detach bar_man_at_table
+act: detach bar_woman_at_table
+
+amb: jingle_dreamy.ogg, noloop
+mus: stop
+img: bar_bathroom/bar_bathroom.png
+img: bar_bathroom/ryan_before_attack.png
+
+player_glance: No sooner have I set foot in the restroom, than I hear someone rush up behind me. 
+act: bar_bathroom_attacked
+
+
+=== bar_bathroom_attacked ===
+
+img: bar_bathroom/bar_bathroom.png
+img: bar_bathroom/attacker.png
+img: bar_bathroom/ryan_attacked.png
+snd: smash_head.wav
+player_shocked_bloody: My face is smashed hard into the dingy tiles. It's amateur hour though, if the guy had been a professional, I would never have heard him coming.
+bar_bathroom_attacker_posessed: DIE! DIE! DIE!
+act: bar_bathroom_fight
+
+
+=== bar_bathroom_fight ===
+
+player_grin_bloody: With my special forces training, there can only be one outcome. I don't like killing, but I'm good at it.
+snd: fight.wav,120%
+act: set flag_was_attacked
+act: bar_bathroom_who_it_was
+
+
+=== bar_bathroom_who_it_was ===
+
+mus: dark_secrets.ogg, 30%
+img: bar_bathroom/bar_bathroom.png
+img: bar_bathroom/blood.png
+img: bar_bathroom/corpse.png
+img: bar_bathroom/ryan.png
+player_annoyed: I have no idea who this guy was though, or why he had it in for me so bad. And that bothers me.
+act: bar_bathroom_after_attack_initial
+
+
+=== bar_bathroom_after_attack_initial ===
+
+img: bar_bathroom/bar_bathroom.png
+img: bar_bathroom/blood.png
+img: bar_bathroom/corpse.png
+img: bar_bathroom/ryan.png
+
+txt: You're standing in the run-down restroom of the bar. The body of the guy who tried to kill you is slumped against the wall.
+
+opt: Search the body
+not flag_searched_attacker ? act: bar_bathroom_search
+flag_searched_attacker ? act: bar_bathroom_search_again
+
+opt: Leave the restroom
+act: inside_bar
+
+
+=== bar_bathroom_after_attack ===
+
+act: detach bartender
+act: detach woman_at_bar
+act: detach bar_man_at_table
+act: detach bar_woman_at_table
+
+mus: dark_secrets.ogg, random, 0.75s, 30%
+img: bar_bathroom/bar_bathroom.png
+img: bar_bathroom/blood.png
+img: bar_bathroom/corpse.png
+img: bar_bathroom/ryan.png
+
+txt: You're standing in the run-down restroom of the bar. The body of the guy who tried to kill you is slumped against the wall.
+
+opt: Search the body
+not flag_searched_attacker ? act: bar_bathroom_search
+flag_searched_attacker ? act: bar_bathroom_search_again
+
+opt: Leave the restroom
+act: inside_bar
+
+
+=== bar_bathroom_after_removal ===
+
+act: detach bartender
+act: detach woman_at_bar
+act: detach bar_man_at_table
+act: detach bar_woman_at_table
+
+mus: dark_secrets.ogg, 30%
+img: bar_bathroom/bar_bathroom.png
+img: bar_bathroom/blood.png
+img: bar_bathroom/ryan.png
+
+txt: You're standing in the run-down restroom of the bar. The body of the guy who tried to kill you is slumped against the wall.
+
+opt: Leave the restroom
+act: inside_bar
+
+
+=== bar_bathroom_search ===
+
+txt: Searching the body, you find a wad of cash, some pills, and a note.
+
+act: set flag_searched_attacker
+act: get item_bankroll
+act: get item_pills
+act: get item_note
+snd: pickup_pop.wav
+snd: pickup_pop2.wav
+snd: pickup_pop3.wav
+
+act: return
+
+
+=== bar_bathroom_search_again ===
+
+txt: You find nothing else of interest.
+
+act: return

@@ -1,0 +1,58 @@
+=== outside_bar ===
+
+amb: stop, 0.2s
+mus: wandering_streets.ogg, 0.75s, random, 30%
+
+act: detach bartender
+act: detach woman_at_bar
+act: detach bar_man_at_table
+act: detach bar_woman_at_table
+
+
+img: outside_bar/outside_bar.png
+img: outside_bar/ryan.png
+flag_searched_attacker ? not flag_streetworker_gone ? img: outside_bar/woman.png
+flag_searched_attacker ? not flag_streetworker_gone ? act: attach woman_outside_bar
+
+txt: This is not the worst part of town, but it's not far off either. Buildings still rise high around you, but they are cracked and crumbling, and the neon glow is ever present, but around here it seems to have a dull, grimy glow.
+flag_searched_attacker ? not flag_unlock_drugden ? txt: A woman is standing under the street light. Looks like a pro.
+
+flag_searched_attacker ? not flag_streetworker_gone ? not flag_unlock_drugden ?
+chr: woman_outside_bar
+act: talk_outside_bar_woman
+
+flag_searched_attacker ? not flag_streetworker_gone ? flag_unlock_drugden ?
+chr: woman_outside_bar
+act: talk_outside_bar_woman_again
+
+
+opt: Enter the bar
+act: inside_bar
+
+opt: Call a taxi
+act: taxi
+
+
+=== talk_outside_bar_woman ===
+
+act: set flag_unlock_drugden
+woman_outside_bar_smile: Hi there. You looking for a good time?
+player: No, I'm looking for someone. Take a look at this photo.
+woman_outside_bar_glance: That's Mandy. What do you want with her? You a cop or something?
+player_annoyed: Not anymore. I'm just a friend of her father's, he asked me to find her.
+woman_outside_bar_scared: I... I haven't seen her in a while actually. I'm worried about her.
+player_unsure: Yeah? Why's that?
+woman_outside_bar_angry: She's... being stupid. Hanging out with the bad crowd, taking anything they can get their hands on, chasing that next hit. 
+woman_outside_bar_angry: I'm telling you, some of those new drugs... They can really mess you up. Like, your mind and stuff.
+player_tired: You know what they say, don't do drugs. So you have no idea where I can find her?
+woman_outside_bar: Well, that crowd, they're squatting in this abandoned block of flats on East Side. There's a good chance she's there.
+player: Thanks, I will check it out.
+act: return
+
+
+=== talk_outside_bar_woman_again ===
+
+woman_outside_bar_smile: Yes? Did you want something else?
+player: No, sorry. 
+act: return
+

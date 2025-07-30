@@ -1,0 +1,18 @@
+=== outside_flat ===
+
+amb: stop, 0.2s
+mus: wandering_streets.ogg, 0.75s, random, 30%
+
+act: set flag_at_flat
+
+img: outside_flat/outside_flat.png
+img: outside_flat/ryan.png
+
+txt: You are on the street outside your apartment building. All around you are the towering structures of the city, bathed in the ever present glow from the neon signs.
+
+opt: Go up to your apartment
+act: flat_lounge
+
+opt: Call a taxi
+act: taxi
+

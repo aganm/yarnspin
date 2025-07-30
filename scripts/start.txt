@@ -1,51 +1,158 @@
-// introduction game - this line is a comment, and will not be executed
-
-title: Yarnspin Example Game
-version: 1.0
+title: Mattias Gustavsson's Neon Lies
+version: 1.1
 author: Mattias Gustavsson
 start: splash
-resolution: full
+resolution: retro
 colormode: rgb
+display_filters: lite, pc, tv, none
+background_location: ui/background.png
+background_dialog: ui/background.png
+font_opt: berkelium1541.ttf
+font_txt: berkelium1541.ttf
+font_use: scifont004.fnt
+font_chr: berkelium64.ttf
+font_dialog: berkelium1541.ttf
+font_response: berkelium1541.ttf
+font_say: berkelium1541.ttf
+font_name: berkelium1541.ttf
+color_say: #fff680
+hmargin_txt: 62 
+vmargin_txt: -7
+hmargin_opt: 61
+vmargin_opt: 0
+hmargin_dialog: 62
+vmargin_dialog: -9
+hmargin_response: 62
+vmargin_response: -53
+hmargin_say: 19
+vmargin_say: -11
+hmargin_name: -121
+vmargin_name: 106
+alone_text:
+nothing_text:
+location_print_speed: 120
+dialog_print_speed: 120
 
+=== scr_images ===
+
+scr: ui/monolog_back.png
+scr: ui/portrait_back.png
+scr: ui/location_opt_back.png
+scr: ui/dialog_back.png
+scr: ui/item_back.png
+scr: ui/location_overlay.png
+
+
+=== img_images ===
+
+img: taxi/outside_bar_right.png
+img: taxi/outside_burger_left.png
+img: taxi/outside_company_right.png
+img: taxi/outside_drugden_right.png
+img: taxi/outside_flat_right.png
+img: taxi/outside_hospital_left.png
+txt:
+
+
+=== flags ===
+
+act: set flag_unlock_drugden
+act: set flag_unlock_company
+txt:
 
 === splash ===
 
 snd: yarnspin.ogg
-scr: made_with_yarnspin.jpg
-auto: logo, 5s
-
-=== logo ===
-
-mus: music.ogg
-scr: yarnspin_logo.png
-act: welcome
+scr: title/made_with_yarnspin.png
+auto: black_to_title, 5s
 
 
-=== welcome ===
+=== black_to_title ===
 
-img: desk1.jpg
-txt: Welcome to Yarnspin, the friendly story-telling engine. This short example game will tell you about - and show you - some of the basic features.
-act: your_desk
-
-
-=== end_sure ===
-
-img: corridor.jpg
-txt: Are you sure you want to leave so soon?
-
-opt: Yes, I'm sure. Let me out already!
-act: end
-
-opt: No, just kidding, I wanna stay.
-act: your_desk
+snd: yarnspin.ogg,stop,2s
+mus: stop, 2s
+scr: black.png
+auto: title, 2s
 
 
-=== end ===
+=== title ===
 
-img: made_with_yarnspin.jpg
-txt: Thank you for stopping by. To find out more about how to tell stories with Yarnspin, please check out the documentation - the file is called "yarnspin.pdf", or visit the Yarnspin website:
+snd: yarnspin.ogg,stop,0.1s
+mus: having_a_dream.ogg
+scr: title/title_back.png
+scr: title/title_buildings.png
+scr: title/title_front.png
+scr: title/title_text.png
+act: credits
+
+
+=== credits ===
+
+scr: title/credits_back.png
+scr: title/credits_mid3.png
+scr: title/credits_mid4.png
+scr: title/credits_mid2.png
+scr: title/credits_mid5.png
+scr: title/credits_mid1.png
+scr: title/credits_fore1.png
+scr: title/credits_fore2.png
+scr: title/credits_fore1.png
+scr: title/credits_fore3.png
+scr: black.png
+scr: title/gradient.png
+scr: title/gradientrev.png
+scr: title/credits_text1.png
+scr: title/credits_text2.png
+scr: title/credits_text3.png
+scr: title/credits_text4.png
+scr: title/credits_text5.png
+
+
+auto: black_to_start, 38s
+
+
+=== endcredits ===
+
+mus: on_the_road.ogg, 30%
+scr: ui/background.png
+scr: black.png
+scr: title/gradientrev.png
+scr: title/credits_text1.png
+scr: title/credits_text2.png
+scr: title/credits_text3.png
+scr: title/credits_text4.png
+scr: title/credits_text5.png
+
+auto: black_to_restart, 38s
+
+=== black_to_restart ===
+
+mus: stop, 2s
+scr: black.png
+auto: to_restart, 2s
+
+
+=== to_restart ===
+
 txt:
-txt: www.yarnspin.dev
+act: restart
 
-act: exit
-// the keyword "exit" is a special command, which ends the game
+
+=== black_to_start ===
+
+mus: warm_colors_alt.ogg,2s
+scr: black.png
+auto: start, 2s
+
+
+=== start ===
+
+amb: stop,0.1s
+mus: warm_colors_alt.ogg
+
+img: black.png
+
+player_sleeping: Head's pounding, like someone's banging on drums in there. I feel like crap. You'd think I'd be used to hangovers by now.
+player_sleeping: Even before I open my eyes, I know it's gonna be painful.
+act: flat_wake
+

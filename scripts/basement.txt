@@ -1,0 +1,66 @@
+=== basement ===
+
+amb: stop
+mus: something_bad.ogg, random, 0.75s, 30%
+
+act: detach: lobby_man
+act: clear flag_is_in_lobby
+act: set flag_is_in_basement
+
+not flag_basement_explored ? img: basement/basement.png
+flag_basement_explored ? img: basement/basement_explored.png
+
+not flag_basement_explored ? img: basement/ryan.png
+flag_basement_explored ? not flag_lab_unlocked ? img: basement/ryan_explored.png
+flag_basement_explored ? flag_lab_unlocked ? img: basement/ryan_door.png
+
+
+txt: You are in the creepy basement of the GloboTech corporate headquarters. It looks like this space hasn't been used for years.
+flag_basement_explored ? txt: Or rather, it would, if not for that new, shiny keycard scanner by the door in the far corner.
+
+not flag_basement_explored ?
+opt: Explore the basement
+act: explore_basement_too_dark
+
+flag_lab_unlocked ? 
+opt: Go through the door
+act: lab
+
+flag_basement_explored ? not flag_lab_unlocked ? 
+opt: Go through the door
+act: no_lab
+
+opt: Go back up to the entrance
+act: lobby
+
+
+=== explore_basement_too_dark ===
+
+txt: You try to fumble your way around in the dark, but it's no use, you can't find anything.
+act: basement
+
+
+=== explore_basement_lighter ===
+
+act: set flag_basement_explored
+txt: Using the lighter, you explore the dark corners of the basement, and eventually find another light switch.
+act: basement
+
+
+=== basement_using_pass ===
+
+snd: keycard.wav
+img: basement/basement_explored.png
+img: basement/ryan_door.png
+act: set flag_lab_unlocked
+txt: You swipe the keycard over the scanner, and the door unlocks.
+act: return
+
+
+=== no_lab ===
+
+img: basement/basement_explored.png
+img: basement/ryan_door.png
+
+txt: The door is locked.
+act: return

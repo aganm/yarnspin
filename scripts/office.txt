@@ -1,0 +1,81 @@
+=== office ===
+
+act: clear flag_is_in_lobby
+act: detach: lobby_man
+
+img: office/office.png
+img: office/ryan.png
+
+not flag_unlocked_basement ? txt: Harringtons office looks expensive, lots of shiny dark wood, thick carpet and antiques. On his desk is a computer, and it is beeping softly.
+flag_unlocked_basement ? txt: Harringtons office looks expensive, lots of shiny dark wood, thick carpet and antiques. On his desk is a computer.
+
+not flag_unlocked_basement ? amb: ringtone.wav, 40%
+
+not flag_unlocked_basement ?
+opt: Use the computer
+act: office_computer
+
+flag_unlocked_basement ? 
+opt: Go down to the basement
+act: basement
+
+opt: Go back down to the entrance
+act: lobby
+
+
+=== office_computer ===
+
+act: set flag_unlocked_basement
+
+amb: stop
+snd: connected.mp3,150%
+
+img: office/office.png
+img: office/ryan_desk.png
+txt: There is a video message from Harrington queued up on the computer, and it automatically starts playing.
+
+act: message1
+
+=== message1 ===
+
+player_video_friend: My name is Dan Harrington, founder and CEO of GloboTech Corporation. 
+player_video_friend_sleeping: If you are watching this message, it means I am dead, and my death triggered the release of this message.
+act: message2
+
+
+=== message2 ===
+
+txt: Dan goes on to explain, in depth, everything that lead up to the situation. He speaks of doctors Stephenson and Mills, on how they came up with a mind control cyber implant, making it possible to remote control humans.
+txt:
+txt:
+txt: He doesn't downplay his own part in it, setting up illegal human testing and approving funds for the scientists. The lure of massive profits was too powerful to refuse.
+act: message3
+
+=== message3 ===
+
+player_video_friend_angry: Whoever you are, watching this, you have to stop Stephenson and Mills. They are completely insane, and their plan is to take over the world.
+player_video_friend_annoyed: There is a secret lab in the basement of the building, where they perform their twisted experiments. Find them, and stop them!
+player_video_friend_sleeping: I... I'm sorry. I never meant for things to go this far.
+
+act: message4
+
+
+=== message4 ===
+
+img: office/office.png
+img: office/ryan_desk.png
+
+txt: The message ends.
+act: get_disk
+
+
+=== get_disk ===
+
+img: office/office.png
+img: office/ryan_desk.png
+
+act: get item_disk
+snd: pickup_pop.wav
+
+txt: You make a copy of the message, and a bunch of other material from the computer. It's all the proof anyone could ask for relating to the whole affair.
+act: office

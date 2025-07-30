@@ -1,0 +1,10 @@
+//debug_start: outside_hospital
+
+//debug_set_flags: flag_talked_to_coroner, flag_unlock_hospital
+
+//debug_set_flags: flag_talked_to_coroner, flag_unlock_hospital
+//debug_set_flags: flag_unlock_burger, flag_at_burger, flag_unlock_bar, flag_unlock_drugden, flag_unlock_hospital, flag_unlock_company
+//debug_set_flags: flag_unlock_burger, flag_at_burger
+
+//debug_get_items: item_bankroll, item_beanie, item_bible
+//, item_boots, item_burger, item_chip, item_chip2, item_cigar, item_cigarette, item_coat, item_coffee, item_disk, item_folder, item_fries, item_gun, item_lighter, item_lipgloss, item_milk, item_milkshake, item_note, item_number, item_pants, item_pass, item_photo, item_pills, item_pills2, item_pizza, item_sandwich, item_socks, item_statements, item_syringe, item_tshirt, item_underwear, item_watch, item_drink, item_beer

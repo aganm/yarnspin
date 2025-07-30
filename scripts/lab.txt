@@ -1,0 +1,490 @@
+=== lab ===
+
+mus: jingle_dreamy.ogg,noloop
+
+act: clear flag_is_in_basement
+act: set flag_is_in_lab
+
+act: attach monster_sleeping
+
+img: lab/lab.png
+img: lab/ryan.png
+img: lab/monster_table_dead.png
+img: lab/man_table.png
+img: lab/woman_table.png
+
+txt: Stepping through the door, you stumble into the most gruesome scene. Two doctors are in the middle of some ungodly experiment on some... creature, laid out on the table.
+act: lab2
+
+
+=== lab2 ===
+
+mus: having_a_dream.ogg, 10s
+img: lab/lab.png
+img: lab/ryan.png
+img: lab/monster_table_dead.png
+img: lab/man_table.png
+img: lab/woman_table.png
+
+lab_woman_annoyed: It should come alive any moment know.
+player_lab_man: Standing by.
+act: lab3
+
+
+=== lab3 ===
+
+img: lab/lab.png
+img: lab/ryan.png
+img: lab/monster_table_alive.png
+img: lab/man_table.png
+img: lab/woman_table.png
+
+act: detach monster_sleeping
+act: attach monster
+lab_woman_angry: IT'S ALIVE! IT'S ALIIIVE!
+player_lab_man_angry: This is our most powerful creation! It will help us take over the world!
+act: lab4
+
+
+=== lab4 ===
+
+img: lab/lab.png
+img: lab/ryan.png
+img: lab/monster_table_alive.png
+img: lab/man.png
+img: lab/woman_table.png
+
+act: attach lab_woman_yell
+act: attach lab_man_yell
+
+snd: stop,0.2s
+mus: too_many_coffees.ogg,30%
+
+lab_man_yell: Wait! Who's that? Intruder! INTRUDER!
+player: Hey -
+act: lab5
+
+
+=== lab5 ===
+
+act: quicksave
+
+img: lab/lab.png
+img: lab/ryan.png
+img: lab/monster_table_alive.png
+img: lab/man.png
+img: lab/woman.png
+lab_woman_yell: Activating kill mode! Go get him, my beautiful creation.
+player: Oh hell!
+act: lab6
+
+
+=== lab6 ===
+
+img: lab/lab.png
+img: lab/ryan.png
+img: lab/table.png
+img: lab/monster_walking.png
+img: lab/man.png
+img: lab/woman.png
+
+txt: The creature lurches towards you, a demonic glow in its eyes. You have mere moments to act before he reaches you and tears you apart.
+
+chr: monster
+act: talk_monster1
+
+chr: lab_woman_yell
+act: talk_woman1
+
+chr: lab_man_yell
+act: talk_man1
+
+opt: Run back out through the door
+act: try_run
+
+
+
+=== talk_monster1 ===
+
+monster: KILL... YOU...
+player_grin: I see, not much of a conversationalist, are you?
+act: after_talk1
+
+
+=== talk_woman1 ===
+
+lab_woman_yell: Prepare to DIE!
+player_surprised: Wait! Stop this madness!
+act: after_talk1
+
+
+=== talk_man1 ===
+
+lab_man_yell: Ha ha ha! There is no stopping us!
+player_surprised: You people are mad!
+act: after_talk1
+
+
+=== try_run ===
+
+act: set flag_used_pass_in_lab
+
+img: lab/lab.png
+img: lab/ryan.png
+img: lab/table.png
+img: lab/monster_close.png
+img: lab/man.png
+img: lab/woman.png
+
+txt: You try for the door, but the locks have engaged once more. You are trapped in here, and the creature is closing in.
+
+chr: monster
+act: talk_monster2
+
+chr: lab_woman_yell
+act: talk_woman2
+
+chr: lab_man_yell
+act: talk_man2
+
+
+opt: Attack the creature
+act: try_attack
+
+
+=== after_talk1 ===
+
+act: set flag_used_pass_in_lab
+img: lab/lab.png
+img: lab/ryan.png
+img: lab/table.png
+img: lab/monster_close.png
+img: lab/man.png
+img: lab/woman.png
+
+txt: It seems as there is no reasoning with these people. The creature is closing in.
+
+chr: monster
+act: talk_monster2
+
+chr: lab_woman_yell
+act: talk_woman2
+
+chr: lab_man_yell
+act: talk_man2
+
+opt: Attack the creature
+act: try_attack
+
+
+
+=== talk_monster2 ===
+
+monster: KILL... YOU...
+player_grin: We'll see about that...
+act: after_talk2
+
+
+=== talk_woman2 ===
+
+lab_woman_yell: You are no match for our creation!
+player_grin: Don't count me out just yet.
+act: after_talk2
+
+
+=== talk_man2 ===
+
+lab_man_yell: You will regret trying to stop us!
+player_grin: I regret nothing.
+act: after_talk2
+
+
+=== lab_using_pass1 ===
+
+snd: denied.mp3,150%
+
+act: set flag_used_pass_in_lab
+
+img: lab/lab.png
+img: lab/ryan.png
+img: lab/table.png
+img: lab/monster_close.png
+img: lab/man.png
+img: lab/woman.png
+
+txt: You attempt to use the keycard, but nothing happens, the locks don't respond to it. You are trapped here, with the creature moving in on you fast.
+
+chr: monster
+act: talk_monster2
+
+chr: lab_woman_yell
+act: talk_woman2
+
+chr: lab_man_yell
+act: talk_man2
+
+opt: Attack the creature
+act: try_attack
+
+
+=== try_attack ===
+
+act: set flag_used_pass_in_lab
+img: lab/lab.png
+img: lab/table.png
+img: lab/player_killed.png
+img: lab/man.png
+img: lab/woman.png
+
+txt: You do your best in engaging the creature in hand-to-hand combat. Lethal fighter as you are, you are still no match for the creatures superhuman strength, and you are ripped apart.
+
+snd: ripped_apart.wav
+act: killed_try_again
+
+
+=== lab_using_pass2 ===
+
+snd: denied.mp3,150%
+
+img: lab/lab.png
+img: lab/table.png
+img: lab/player_killed.png
+img: lab/man.png
+img: lab/woman.png
+
+txt: You attempt to use the keycard, but nothing happens. You regret wasting the precious seconds, as the creature reaches you and rips you apart.
+
+
+snd: ripped_apart.wav
+act: killed_try_again
+
+
+=== after_talk2 ===
+
+img: lab/lab.png
+img: lab/table.png
+img: lab/player_killed.png
+img: lab/man.png
+img: lab/woman.png
+
+txt: You don't have time to do anything else, before the creature reaches you and rips you apart.
+
+snd: ripped_apart.wav
+act: killed_try_again
+
+
+=== lab_holster_gun ===
+
+img: lab/lab.png
+img: lab/table.png
+img: lab/player_killed.png
+img: lab/man.png
+img: lab/woman.png
+
+txt: Instead of firing the gun, you put it away, just as the creature reaches you and rips you apart.
+
+snd: ripped_apart.wav
+act: killed_try_again
+
+
+=== lab_draw_gun ===
+
+img: lab/lab.png
+img: lab/table.png
+img: lab/monster_close.png
+img: lab/ryan_aim_monster.png
+img: lab/man.png
+img: lab/woman.png
+
+snd: guncock.wav, 150%
+act: set flag_gun_drawn
+txt: You draw the loaded weapon, and aim it squarely at the approaching creature.
+
+opt: Fire the gun
+act: lab_fire_gun
+
+
+
+=== lab_fire_gun ===
+
+img: lab/lab.png
+img: lab/table.png
+img: lab/monster_close.png
+img: lab/ryan_shoot_monster.png
+img: lab/man.png
+img: lab/woman.png
+
+snd: gunshot.wav
+snd: monsterhit.wav
+txt:
+auto: killed_monster,0.5s
+
+
+=== killed_monster ===
+
+img: lab/lab.png
+img: lab/table.png
+img: lab/monster_shot.png
+img: lab/ryan_aim_monster.png
+img: lab/man.png
+img: lab/woman.png
+
+act: detach monster
+
+txt: The monster goes down hard, it's unnatural existance finally ended.
+
+act: monster_dead
+
+
+=== killed_try_again ===
+
+mus: stop,3s
+img: player_killed.png
+
+txt: You are dead, torn to pieces by the evil creation of the mad scientists. 
+txt:
+txt:
+txt: How about we try that last bit once more?
+
+opt: Try again
+act: quickload
+
+opt: No, just end the game
+act: game_finished_lab_confirm
+
+
+=== game_finished_lab_confirm ===
+
+img: player_killed.png
+
+txt: Are you sure? You can probably make it this time... If you end the game now, you will have to start from the beginning. Unless you have a savegame that is.
+
+opt: Yes, I'm sure, end the game
+act: endcredits
+
+opt: Actually, let me think about it some more.
+act: killed_try_again 
+
+
+=== monster_dead ===
+
+img: lab/lab.png
+img: lab/table.png
+img: lab/monster_shot.png
+img: lab/ryan.png
+img: lab/man.png
+img: lab/woman.png
+
+lab_woman_yell: NOOOO! What have you done!
+player_grin: I did what I do best.
+lab_man_yell: You don't think this will stop us, do you? We have more creations to send your way, and we'll never stop coming for you, as long as we live.
+player_grin: As long as you live, huh? Funny you should say that...
+act: kill_man
+
+
+=== kill_man ===
+
+img: lab/lab.png
+img: lab/table.png
+img: lab/monster_shot.png
+img: lab/ryan_aim_man.png
+img: lab/man.png
+img: lab/woman.png
+
+snd: guncock.wav, 150%
+act: detach lab_man_yell
+act: attach lab_man_scared
+lab_man_scared: Wait, no... what are you doing!
+player: You have it coming, doctor.
+
+act: shoot_man
+
+
+=== shoot_man ===
+
+img: lab/lab.png
+img: lab/table.png
+img: lab/monster_shot.png
+img: lab/ryan_shoot_man.png
+img: lab/man.png
+img: lab/woman.png
+act: detach lab_man_scared
+
+snd: gunshot.wav
+txt:
+auto: man_killed,0.5s
+
+
+=== man_killed ===
+
+img: lab/lab.png
+img: lab/table.png
+img: lab/monster_shot.png
+img: lab/man_dead.png
+img: lab/ryan_aim_man.png
+img: lab/woman.png
+
+act: detach lab_woman_yell
+act: attach lab_woman_glance
+lab_woman_glance: Nooo! Doctor Stephenson! I will avenge you, no matter what the cost!
+player: What's one more mad scientist to take out...
+
+act: kill_woman
+
+
+
+=== kill_woman ===
+
+img: lab/lab.png
+img: lab/table.png
+img: lab/monster_shot.png
+img: lab/ryan_aim_woman.png
+img: lab/man_dead.png
+img: lab/woman.png
+
+snd: guncock.wav, 150%
+act: detach lab_woman_glance
+act: attach lab_woman_yell
+lab_woman_yell: I'm not scared of you! I will launch our minions against you! I will -
+player: Die. You will Die.
+
+act: shoot_woman
+
+
+=== shoot_woman ===
+
+img: lab/lab.png
+img: lab/table.png
+img: lab/monster_shot.png
+img: lab/ryan_shoot_woman.png
+img: lab/man_dead.png
+img: lab/woman.png
+
+act: detach lab_woman_yell
+snd: gunshot.wav
+txt:
+auto: woman_killed,0.5s
+
+
+=== woman_killed ===
+
+img: lab/lab.png
+img: lab/table.png
+img: lab/monster_shot.png
+img: lab/ryan_aim_woman.png
+img: lab/man_dead.png
+img: lab/woman_dead.png
+
+txt:
+
+auto: aftermath,0.5s
+
+
+=== aftermath ===
+
+snd: sirens.wav
+
+txt: You stand still for a moment, not sure what to do next. Adrenalin is coursing through your body. You can hear sirens outside, and you feel a need to get out into the fresh air.
+
+opt: Get out of here
+act: endscene

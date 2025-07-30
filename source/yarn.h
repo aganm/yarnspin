@@ -64,7 +64,8 @@ void read_int_array( buffer_t* in, array_param(int)* array ) {
 
 typedef struct yarn_cond_flag_t {
     bool is_not;
-    int flag_index;
+    bool is_got;
+    int index;
 } yarn_cond_flag_t;
 
 
@@ -84,7 +85,8 @@ void save_cond_or( buffer_t* out, yarn_cond_or_t* cond_or ) {
     buffer_write_i32( out, &cond_or->flags->count, 1 );
     for( int i = 0; i < cond_or->flags->count; ++i ) {
         buffer_write_bool( out, &cond_or->flags->items[ i ].is_not, 1 );
-        buffer_write_i32( out, &cond_or->flags->items[ i ].flag_index, 1 );
+        buffer_write_bool( out, &cond_or->flags->items[ i ].is_got, 1 );
+        buffer_write_i32( out, &cond_or->flags->items[ i ].index, 1 );
     }
 }
 
@@ -119,7 +121,8 @@ void load_cond( buffer_t* in, yarn_cond_t* cond ) {
         for( int j = 0; j < flags_count; ++j ) {
             yarn_cond_flag_t flag;
             flag.is_not = read_bool( in );
-            flag.flag_index = read_int( in );
+            flag.is_got = read_bool( in );
+            flag.index = read_int( in );
             array_add( cond_or.flags, &flag);
         }
         array_add( cond->ands, &cond_or );
@@ -496,6 +499,7 @@ typedef struct yarn_location_t {
     array(yarn_opt_t)* opt;
     array(yarn_use_t)* use;
     array(yarn_chr_t)* chr;
+    int item_index;
 } yarn_location_t;
 
 
@@ -509,6 +513,7 @@ yarn_location_t* empty_location( void ) {
     location.opt = managed_array(yarn_opt_t);
     location.use = managed_array(yarn_use_t);
     location.chr = managed_array(yarn_chr_t);
+    location.item_index = -1;
     return &location;
 }
 
@@ -552,6 +557,8 @@ void save_location( buffer_t* out, yarn_location_t* location ) {
     for( int i = 0; i < location->chr->count; ++i ) {
         save_chr( out, &location->chr->items[ i ] );
     }
+
+    buffer_write_i32( out, &location->item_index, 1 );
 }
 
 
@@ -650,6 +657,7 @@ void load_location( buffer_t* in, yarn_location_t* location ) {
         array_add( location->chr, &chr );
     }
 
+    location->item_index = read_int( in );
 }
 
 
@@ -697,28 +705,38 @@ void save_say( buffer_t* out, yarn_say_t* say ) {
 
 typedef struct yarn_dialog_t {
     string_id id;
+    array(yarn_img_t)* img;
     array(yarn_audio_t)* audio;
     array(yarn_act_t)* act;
     array(yarn_phrase_t)* phrase;
     array(yarn_say_t)* say;
     array(yarn_use_t)* use;
+    array(yarn_chr_t)* chr;
 } yarn_dialog_t;
 
 
 yarn_dialog_t* empty_dialog( void ) {
     static yarn_dialog_t dialog;
     dialog.id = NULL;
+    dialog.img = managed_array(yarn_img_t);
     dialog.audio = managed_array(yarn_audio_t);
     dialog.act = managed_array(yarn_act_t);
     dialog.phrase = managed_array(yarn_phrase_t);
     dialog.say = managed_array(yarn_say_t);
     dialog.use = managed_array(yarn_use_t);
+    dialog.chr = managed_array(yarn_chr_t);
     return &dialog;
 }
 
 
 void save_dialog( buffer_t* out, yarn_dialog_t* dialog ) {
     buffer_write_string( out, &dialog->id, 1 );
+
+    buffer_write_i32( out, &dialog->img->count, 1 );
+    for( int i = 0; i < dialog->img->count; ++i ) {
+        save_cond( out, &dialog->img->items[ i ].cond );
+        buffer_write_i32( out, &dialog->img->items[ i ].image_index, 1 );
+    }
 
     buffer_write_i32( out, &dialog->audio->count, 1 );
     for( int i = 0; i < dialog->audio->count; ++i ) {
@@ -746,11 +764,25 @@ void save_dialog( buffer_t* out, yarn_dialog_t* dialog ) {
     for( int i = 0; i < dialog->use->count; ++i ) {
         save_use( out, &dialog->use->items[ i ] );
     }
+
+    buffer_write_i32( out, &dialog->chr->count, 1 );
+    for( int i = 0; i < dialog->chr->count; ++i ) {
+        save_chr( out, &dialog->chr->items[ i ] );
+    }
 }
 
 
 void load_dialog( buffer_t* in, yarn_dialog_t* dialog ) {
     dialog->id = read_string( in );
+
+    dialog->img = managed_array(yarn_img_t);
+    int imgs_count = read_int( in );
+    for( int i = 0; i < imgs_count; ++i ) {
+        yarn_img_t img;
+        load_cond( in, &img.cond );
+        img.image_index = read_int( in );
+        array_add( dialog->img, &img );
+    }
 
     dialog->audio = managed_array(yarn_audio_t);
     int audio_count = read_int( in );
@@ -815,6 +847,27 @@ void load_dialog( buffer_t* in, yarn_dialog_t* dialog ) {
         }
         array_add( dialog->use, &use );
     }
+
+    dialog->chr = managed_array(yarn_chr_t);
+    int chrs_count = read_int( in );
+    for( int i = 0; i < chrs_count; ++i ) {
+        yarn_chr_t chr;
+        load_cond( in, &chr.cond );
+        chr.chr_indices = managed_array(int);
+        int index_count = read_int( in );
+        for( int j = 0; j < index_count; ++j ) {
+            int value = read_int( in );
+            array_add( chr.chr_indices, &value );
+        }
+        chr.act = managed_array(yarn_act_t);
+        int count = read_int( in );
+        for( int j = 0; j < count; ++j ) {
+            yarn_act_t act;
+            load_act( in, &act );
+            array_add( chr.act, &act);
+        }
+        array_add( dialog->chr, &chr );
+    }
 }
 
 
@@ -849,6 +902,51 @@ void load_character( buffer_t* in, yarn_character_t* character ) {
     character->name = read_string( in );
     character->short_name = read_string( in );
     character->face_index = read_int( in );
+}
+
+
+typedef struct yarn_item_t {
+    string id;
+    string name;
+    int icon_index;
+    array(yarn_act_t)* act;
+} yarn_item_t;
+
+
+yarn_item_t* empty_item( void ) {
+    static yarn_item_t item;
+    item.id = NULL;
+    item.name = NULL;
+    item.icon_index = -1;
+    item.act = managed_array(yarn_act_t);
+    return &item;
+}
+
+
+void save_item( buffer_t* out, yarn_item_t* item ) {
+    buffer_write_string( out, &item->id, 1 );
+    buffer_write_string( out, &item->name, 1 );
+    buffer_write_i32( out, &item->icon_index, 1 );
+    
+    buffer_write_i32( out, &item->act->count, 1 );
+    for( int i = 0; i < item->act->count; ++i ) {
+        save_act( out, &item->act->items[ i ] );
+    }
+}
+
+
+void load_item( buffer_t* in, yarn_item_t* item ) {
+    item->id = read_string( in );
+    item->name = read_string( in );
+    item->icon_index = read_int( in );
+
+    item->act = managed_array(yarn_act_t);
+    int acts_count = read_int( in );
+    for( int i = 0; i < acts_count; ++i ) {
+        yarn_act_t act;
+        load_act( in, &act );
+        array_add( item->act, &act );
+    }
 }
 
 
@@ -945,9 +1043,6 @@ typedef struct yarn_globals_t {
     bool explicit_flags;
     array(string_id)* flags;
 
-    bool explicit_items;
-    array(string_id)* items;
-
     array(string_id)* debug_set_flags;
     array(string_id)* debug_get_items;
     array(string_id)* debug_attach_chars;
@@ -1016,8 +1111,6 @@ yarn_globals_t* empty_globals( void ) {
     globals.vmargin_name = 0;
     globals.explicit_flags = false;
     globals.flags = managed_array(string_id);
-    globals.explicit_items = false;
-    globals.items = managed_array(string_id);
     globals.debug_set_flags = managed_array(string_id);
     globals.debug_get_items = managed_array(string_id);
     globals.debug_attach_chars = managed_array(string_id);
@@ -1097,10 +1190,6 @@ void save_globals( buffer_t* out, yarn_globals_t* globals ) {
     buffer_write_bool( out, &globals->explicit_flags, 1 );
     buffer_write_i32( out, &globals->flags->count, 1 );
     buffer_write_string( out, globals->flags->items, globals->flags->count );
-
-    buffer_write_bool( out, &globals->explicit_items, 1 );
-    buffer_write_i32( out, &globals->items->count, 1 );
-    buffer_write_string( out, globals->items->items, globals->items->count );
 
     buffer_write_i32( out, &globals->debug_set_flags->count, 1 );
     buffer_write_string( out, globals->debug_set_flags->items, globals->debug_set_flags->count );
@@ -1183,10 +1272,6 @@ void load_globals( buffer_t* in, yarn_globals_t* globals ) {
     globals->explicit_flags = read_bool( in );
     globals->flags = managed_array(string_id);
     read_string_array( in, globals->flags );
-
-    globals->explicit_items = read_bool( in );
-    globals->items = managed_array(string_id);
-    read_string_array( in, globals->items );
 
     globals->debug_set_flags = managed_array(string_id);
     read_string_array( in, globals->debug_set_flags );
@@ -1408,16 +1493,17 @@ typedef struct yarn_t {
     int debug_start_dialog;
 
     array(string_id)* flag_ids;
-    array(string_id)* item_ids;
     array(string_id)* image_names;
     array(string_id)* audio_names;
     array(string_id)* scr_names;
     array(string_id)* face_names;
+    array(string_id)* icon_names;
 
     array(yarn_screen_t)* screens;
     array(yarn_location_t)* locations;
     array(yarn_dialog_t)* dialogs;
     array(yarn_character_t)* characters;
+    array(yarn_item_t)* items;
 
     yarn_assets_t assets;
 } yarn_t;
@@ -1435,16 +1521,17 @@ yarn_t* empty_yarn( void ) {
     yarn.debug_start_dialog = -1;
 
     yarn.flag_ids = managed_array(string_id);
-    yarn.item_ids = managed_array(string_id);
     yarn.image_names = managed_array(string_id);
     yarn.audio_names = managed_array(string_id);
     yarn.scr_names = managed_array(string_id);
     yarn.face_names = managed_array(string_id);
+    yarn.icon_names = managed_array(string_id);
 
     yarn.screens = managed_array(yarn_screen_t);
     yarn.locations = managed_array(yarn_location_t);
     yarn.dialogs = managed_array(yarn_dialog_t);
     yarn.characters = managed_array(yarn_character_t);
+    yarn.items = managed_array(yarn_item_t);
 
     yarn.assets = *empty_assets();
     return &yarn;
@@ -1465,9 +1552,6 @@ void yarn_save( buffer_t* out, yarn_t* yarn ) {
     buffer_write_i32( out, &yarn->flag_ids->count, 1 );
     buffer_write_string( out, yarn->flag_ids->items, yarn->flag_ids->count );
 
-    buffer_write_i32( out, &yarn->item_ids->count, 1 );
-    buffer_write_string( out, yarn->item_ids->items, yarn->item_ids->count );
-
     buffer_write_i32( out, &yarn->image_names->count, 1 );
     buffer_write_string( out, yarn->image_names->items, yarn->image_names->count );
 
@@ -1476,6 +1560,9 @@ void yarn_save( buffer_t* out, yarn_t* yarn ) {
 
     buffer_write_i32( out, &yarn->face_names->count, 1 );
     buffer_write_string( out, yarn->face_names->items, yarn->face_names->count );
+
+    buffer_write_i32( out, &yarn->icon_names->count, 1 );
+    buffer_write_string( out, yarn->icon_names->items, yarn->icon_names->count );
 
     buffer_write_i32( out, &yarn->screens->count, 1 );
     for( int i = 0; i < yarn->screens->count; ++i ) {
@@ -1497,6 +1584,12 @@ void yarn_save( buffer_t* out, yarn_t* yarn ) {
         save_character( out, &yarn->characters->items[ i ] );
     }
 
+
+    buffer_write_i32( out, &yarn->items->count, 1 );
+    for( int i = 0; i < yarn->items->count; ++i ) {
+        save_item( out, &yarn->items->items[ i ] );
+    }
+
     save_assets( out, &yarn->assets, yarn->globals.colormode );
 }
 
@@ -1515,14 +1608,14 @@ void yarn_load( buffer_t* in, yarn_t* yarn, bool is_debug ) {
 
     yarn->flag_ids = managed_array(string_id);
     read_string_array( in, yarn->flag_ids );
-    yarn->item_ids = managed_array(string_id);
-    read_string_array( in, yarn->item_ids );
     yarn->image_names = managed_array(string_id);
     read_string_array( in, yarn->image_names );
     yarn->scr_names = managed_array(string_id);
     read_string_array( in, yarn->scr_names  );
     yarn->face_names = managed_array(string_id);
     read_string_array( in, yarn->face_names );
+    yarn->icon_names = managed_array(string_id);
+    read_string_array( in, yarn->icon_names );
 
     yarn->screens = managed_array(yarn_screen_t);
     int screens_count = read_int( in );
@@ -1556,6 +1649,13 @@ void yarn_load( buffer_t* in, yarn_t* yarn, bool is_debug ) {
         array_add( yarn->characters, &character );
     }
 
+    yarn->items = managed_array(yarn_item_t);
+    int items_count = read_int( in );
+    for( int i = 0; i < items_count; ++i ) {
+        yarn_item_t item;
+        load_item( in, &item );
+        array_add( yarn->items, &item );
+    }
     load_assets( in, &yarn->assets, yarn->globals.colormode );
 }
 
@@ -1752,8 +1852,8 @@ buffer_t* yarn_compile( char const* path ) {
     printf( "Processing faces\n" );
     for( int i = 0; i < yarn.face_names->count; ++i ) {
         string_id face_name = yarn.face_names->items[ i ];
-        int width = (int)( 112 * resolution_scale );
-        int height = (int)( 112 * resolution_scale );
+        int width = (int)( 46 * resolution_scale );
+        int height = (int)( 46 * resolution_scale );
         if( palette_mode ) {
             palrle_data_t* bitmap = manage_palrle( convert_bitmap( face_name, width, height, yarn.globals.palette, palette, resolution_scale ) );
             array_add( yarn.assets.bitmaps, &bitmap );
@@ -1767,6 +1867,29 @@ buffer_t* yarn_compile( char const* path ) {
             array_add( yarn.assets.bitmaps, (palrle_data_t*)&qoi );
             if( !qoi ) {
                 printf( "Failed to load image: %s\n", face_name );
+                no_error = false;
+            }
+        }
+    }
+
+    printf( "Processing icons\n" );
+    for( int i = 0; i < yarn.icon_names->count; ++i ) {
+        string_id icon_name = yarn.icon_names->items[ i ];
+        int width = (int)( 16 * resolution_scale );
+        int height = (int)( 16 * resolution_scale );
+        if( palette_mode ) {
+            palrle_data_t* bitmap = manage_palrle( convert_bitmap( icon_name, width, height, yarn.globals.palette, palette, resolution_scale ) );
+            array_add( yarn.assets.bitmaps, &bitmap );
+            if( !bitmap ) {
+                printf( "Failed to load image: %s\n", icon_name );
+                no_error = false;
+            }
+        } else {
+            int bpp = yarn.globals.colormode == YARN_COLORMODE_RGB9 ? 9 : 24;
+            qoi_data_t* qoi = (qoi_data_t*)manage_alloc( convert_rgb( icon_name, width, height, bpp, resolution_scale, jpeg ) );
+            array_add( yarn.assets.bitmaps, (palrle_data_t*)&qoi );
+            if( !qoi ) {
+                printf( "Failed to load image: %s\n", icon_name );
                 no_error = false;
             }
         }

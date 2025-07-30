@@ -1,0 +1,259 @@
+=== taxi ===
+
+act: detach woman_outside_bar
+act: detach man_outside_drugden
+act: detach man_outside_hospital
+act: detach emt_woman_outside_hospital
+act: clear flag_is_outside_company
+
+snd: taxi_stop.wav
+taxi_driver: Where to, bub?
+
+not flag_at_flat ?
+say: Back to my apartment
+act: taxi_flat
+
+flag_at_flat ?
+say: Back to my apartment
+act: no_travel_flat
+
+flag_unlock_burger ? not flag_at_burger ?
+say: The burger joint on 7th and Main
+act: taxi_burger
+
+flag_unlock_burger ? flag_at_burger ?
+say: The burger joint on 7th and Main
+act: no_travel_burger
+
+flag_unlock_bar ? not flag_at_bar ? 
+say: The bar on 115th
+act: taxi_bar
+
+flag_unlock_bar ?  flag_at_bar ? 
+say: The bar on 115th
+act: no_travel_bar
+
+flag_unlock_drugden ? not flag_at_drugden ?
+say: The squat on East Side
+act: taxi_drugden
+
+flag_unlock_drugden ? flag_at_drugden ?
+say: The squat on East Side
+act: no_travel_drugden
+
+flag_unlock_hospital ? not flag_at_hospital ? 
+say: St. John's Hospital
+act: taxi_hospital
+
+flag_unlock_hospital ? flag_at_hospital ?
+say: St. John's Hospital
+act: no_travel_hospital
+
+flag_unlock_company ? not flag_at_company ?
+say: GloboTech headquarters
+act: taxi_company
+
+flag_unlock_company ? flag_at_company ?
+say: GloboTech headquarters
+act: no_travel_company
+
+=== taxi_flat ===
+
+taxi_driver: You got it, bub.
+act: clear flag_at_flat
+act: clear flag_at_burger
+act: clear flag_at_bar 
+act: clear flag_at_drugden
+act: clear flag_at_hospital
+act: clear flag_at_company
+act: travel_flat
+
+=== taxi_burger ===
+
+taxi_driver: You got it, bub.
+act: clear flag_at_flat
+act: clear flag_at_bar 
+act: clear flag_at_drugden
+act: clear flag_at_hospital
+act: clear flag_at_company
+act: travel_burger
+
+=== taxi_bar ===
+
+taxi_driver: You got it, bub.
+act: clear flag_at_flat
+act: clear flag_at_bar 
+act: clear flag_at_drugden
+act: clear flag_at_hospital
+act: clear flag_at_company
+act: travel_bar
+
+=== taxi_drugden ===
+
+taxi_driver: You got it, bub.
+act: clear flag_at_flat
+act: clear flag_at_bar 
+act: clear flag_at_drugden
+act: clear flag_at_hospital
+act: clear flag_at_company
+act: travel_drugden
+
+=== taxi_hospital ===
+
+taxi_driver: You got it, bub.
+act: clear flag_at_flat
+act: clear flag_at_bar 
+act: clear flag_at_drugden
+act: clear flag_at_hospital
+act: clear flag_at_company
+act: travel_hospital
+
+=== taxi_company ===
+
+taxi_driver: You got it, bub.
+act: clear flag_at_flat
+act: clear flag_at_bar 
+act: clear flag_at_drugden
+act: clear flag_at_hospital
+act: clear flag_at_company
+act: travel_company
+
+
+
+
+=== travel_flat ===
+
+flag_searched_attacker ? act: set flag_attacker_removed
+flag_found_amanda ? act: set flag_amanda_removed
+flag_searched_friend ? act: set flag_friend_removed
+flag_unlock_drugden ? act: set flag_streetworker_gone
+
+amb: floppy.ogg, random, 0.2s, 200%
+act: set flag_at_flat
+img: ui/loading.png
+player:
+taxi_driver_annoyed:
+auto: outside_flat,3s-5s
+
+
+=== travel_burger ===
+
+flag_searched_attacker ? act: set flag_attacker_removed
+flag_found_amanda ? act: set flag_amanda_removed
+flag_searched_friend ? act: set flag_friend_removed
+flag_unlock_drugden ? act: set flag_streetworker_gone
+
+flag_have_travelled ? amb: floppy.ogg, random, 0.2s, 200%
+not flag_have_travelled ?  amb: floppy.ogg, 0.2s, 200%
+act: set flag_at_burger
+img: ui/loading.png
+player:
+taxi_driver_tired:
+flag_have_travelled ? auto: outside_burger,3s-5s
+not flag_have_travelled ? auto: outside_burger,6s
+act: set flag_have_travelled
+
+
+=== travel_bar ===
+
+flag_found_amanda ? act: set flag_amanda_removed
+flag_searched_friend ? act: set flag_friend_removed
+
+amb: floppy.ogg, random, 0.2s, 200%
+act: set flag_at_bar 
+img: ui/loading.png
+player:
+taxi_driver_sideeye:
+auto: outside_bar,3s-5s
+
+
+=== travel_drugden ===
+
+flag_searched_attacker ? act: set flag_attacker_removed
+flag_searched_friend ? act: set flag_friend_removed
+flag_unlock_drugden ? act: set flag_streetworker_gone
+
+amb: floppy.ogg, random, 0.2s, 200%
+act: set flag_at_drugden
+img: ui/loading.png
+player:
+taxi_driver_annoyed:
+auto: outside_drugden,3s-5s
+
+
+=== travel_hospital ===
+
+flag_searched_attacker ? act: set flag_attacker_removed
+flag_found_amanda ? act: set flag_amanda_removed
+flag_unlock_drugden ? act: set flag_streetworker_gone
+
+amb: floppy.ogg, random, 0.2s, 200%
+act: set flag_at_hospital
+img: ui/loading.png
+player:
+taxi_driver_tired:
+auto: outside_hospital,3s-5s
+
+
+=== travel_company ===
+
+flag_searched_attacker ? act: set flag_attacker_removed
+flag_found_amanda ? act: set flag_amanda_removed
+flag_searched_friend ? act: set flag_friend_removed
+flag_unlock_drugden ? act: set flag_streetworker_gone
+
+amb: floppy.ogg, random, 0.2s, 200%
+act: set flag_at_company
+img: ui/loading.png
+player:
+taxi_driver_sideeye:
+auto: outside_company,3s-5s
+
+
+
+
+
+
+=== no_travel_flat ===
+
+act: set flag_at_flat
+taxi_driver_angry: So why did you call me then!? Jerk!
+act: outside_flat
+
+
+=== no_travel_burger ===
+
+act: set flag_at_burger
+taxi_driver_angry: So why did you call me then!? Jerk!
+act: outside_burger
+
+
+=== no_travel_bar ===
+
+act: set flag_at_bar 
+taxi_driver_angry: So why did you call me then!? Jerk!
+act: outside_bar
+
+
+=== no_travel_drugden ===
+
+act: set flag_at_drugden
+taxi_driver_angry: So why did you call me then!? Jerk!
+act: outside_drugden
+
+
+=== no_travel_hospital ===
+
+act: set flag_at_hospital
+taxi_driver_angry: So why did you call me then!? Jerk!
+act: outside_hospital
+
+
+=== no_travel_company ===
+
+act: set flag_at_company
+taxi_driver_angry: So why did you call me then!? Jerk!
+act: outside_company
+
+
+

@@ -1,0 +1,250 @@
+=== inside_burger ===
+
+mus: margarita_cocktail.ogg, 0.75s, random, 30%
+img: inside_burger/inside_burger.png
+img: inside_burger/staff.png
+img: inside_burger/ryan.png
+img: inside_burger/man.png
+img: inside_burger/woman.png
+
+act: set flag_inside_burger
+act: attach burger_staff
+act: attach burger_man
+act: attach burger_woman
+act: detach friend
+
+txt: You are in a typical franchise burger joint. They're all the same, and so is the food they serve. This one seems particularly run down.
+
+chr: burger_staff
+act: order_burger
+
+chr: burger_man
+act: talk_burger_man
+
+chr: burger_woman
+act: talk_burger_woman
+
+opt: Sit down
+flag_did_order_food ? act: burger_sit_down
+not flag_did_order_food ? act: burger_no_sit_down
+
+opt: Go outside
+act: outside_burger
+
+
+=== burger_no_sit_down ===
+
+burger_staff_annoyed: Seating is reserved for our customers!
+player: Okay! Fine!
+act: return
+
+
+=== burger_sit_down ===
+
+img: inside_burger/inside_burger.png
+img: inside_burger/staff.png
+img: inside_burger/ryan_seated.png
+img: inside_burger/man.png
+img: inside_burger/woman.png
+
+txt: You sit down at the nearest table. The chair feels sticky. So does the table.
+not flag_did_get_folder ? act: burger_friend_enter
+
+flag_did_get_folder ? 
+opt: Get up
+act: inside_burger
+
+
+
+=== burger_friend_enter ===
+
+act: attach friend
+img: inside_burger/inside_burger.png
+img: inside_burger/staff.png
+img: inside_burger/ryan_seated.png
+img: inside_burger/man.png
+img: inside_burger/woman.png
+img: inside_burger/friend_arrive.png
+
+txt: You've barely had time to make yourself comfortable before Dan Harrington enters the restaurant. He looks tired, haunted. He keeps looking over his shoulder.
+act: burger_friend_sit
+
+
+=== burger_friend_sit ===
+
+img: inside_burger/inside_burger.png
+img: inside_burger/staff.png
+img: inside_burger/ryan_seated.png
+img: inside_burger/man.png
+img: inside_burger/woman.png
+img: inside_burger/friend_Seated.png
+
+txt: As soon as he spots you, he hurries over to the table and sits down across from you, a look of concern in his eyes.
+act: burger_talk_friend
+
+
+=== burger_talk_friend ===
+
+friend: Summers. I'm glad you could make it.
+player: It's not like you gave me much of a choice, Lieutenant.
+friend_tired: I'm sorry... I am just desperate, is all.
+player: Well, I said I'd help. I need the usual. Known whereabouts, names of her friends, any paperwork you have, like credit card statements as such. And a recent photo.
+friend_annoyed: Yes, yes, I know. Here's a folder with all the information I could find.
+act: burger_get_folder
+
+
+=== burger_get_folder ===
+
+act: get item_folder
+snd: pickup_pop.wav
+act: set flag_did_get_folder
+player_annoyed: I had to come here for this? You couldn't have sent it to me online?
+friend_glance: No. No, it's best to not do it over the wire.
+player_glance: Is it now. And if I need to get hold of you?
+friend_glance: It's... probably best if you don't. I'll contact you in a couple of days. There are delicate ongoings within my corporation, and it calls for discretion.
+player_angry: I see. The CEO of GloboTech can't afford to be seen with a disgraced ex-cop. But he's happy enough to strong-arm one into service.
+friend_angry: No, it's not like that. You don't understand. Ah, the hell with it. You have what you need, don't let me down. Buddy.
+act: burger_friend_leaves
+
+
+=== burger_friend_leaves ===
+
+img: inside_burger/inside_burger.png
+img: inside_burger/staff.png
+img: inside_burger/ryan_seated.png
+img: inside_burger/man.png
+img: inside_burger/woman.png
+
+act: detach friend
+txt: With what looks like an almost panicked expression, Harrington storms out without another word.
+act: burger_friend_left
+
+
+=== burger_friend_left ===
+
+txt: You are sitting by yourself, on a sticky chair, at a sticky table.
+
+opt: Get up
+act: inside_burger
+
+
+=== order_burger ===
+
+img: inside_burger/inside_burger.png
+img: inside_burger/staff.png
+img: inside_burger/ryan_ordering.png
+img: inside_burger/man.png
+img: inside_burger/woman.png
+
+burger_staff_tired: Welcome to Lion King, where we serve you only the best vat-grown lion meat. May I take your order please?
+
+not got item_burger ? not got item_fries ? not got item_milkshake ?
+say: Burger and fries, please.
+act: order_burger_what_burger
+
+use: item_burger
+act: enjoying_burger
+
+use: item_fries
+act: enjoying_fries
+
+use: item_milkshake
+act: enjoying_milkshake
+
+say: Nothing for now, thanks.
+act: order_nothing
+
+
+=== order_nothing ===
+
+burger_staff_tired: Have a grrreat day.
+
+act: inside_burger
+
+
+=== order_burger_what_burger ===
+
+burger_staff_glance: What burger do you want, Simba Supreme or Aslan Deluxe?
+
+say: Simba Supreme
+act: order_burger_simba
+
+say: Aslan Deluxe
+act: order_burger_aslan
+
+
+=== order_burger_simba ===
+
+player: Simba Supreme, please. And I'll have a milkshake too.
+burger_staff: Regular or milk-plus?
+
+say: Milk-plus, obviously
+act: order_burger_milkshake
+
+say: Regular
+act: order_burger_milkshake
+
+
+=== order_burger_aslan ===
+
+player: Aslan Deluxe, please. And I'll have a milkshake too.
+burger_staff_glance: Regular or Milk-plus?
+
+say: Milk-plus, obviously
+act: order_burger_milkshake
+
+say: Regular
+act: order_burger_milkshake
+
+
+=== order_burger_milkshake ===
+
+burger_staff: What flavor, Orange or Ultra?
+
+say: Orange
+act: order_burger_complete
+
+say: Ultra
+act: order_burger_complete
+
+
+=== order_burger_complete ===
+
+burger_staff_tired: Here you go Sir. Have a grrreat day.
+
+act: get item_burger
+act: get item_fries
+act: get item_milkshake
+act: set flag_did_order_food
+snd: pickup_pop.wav
+snd: pickup_pop2.wav
+snd: pickup_pop3.wav
+
+act: inside_burger
+
+
+=== talk_burger_man ===
+
+img: inside_burger/inside_burger.png
+img: inside_burger/staff.png
+img: inside_burger/ryan_man.png
+img: inside_burger/man.png
+img: inside_burger/woman.png
+
+burger_man_glance: I don't know you! Leave me alone!
+player: Jeez, sorry dude.
+act: return
+
+
+=== talk_burger_woman ===
+
+img: inside_burger/inside_burger.png
+img: inside_burger/staff.png
+img: inside_burger/ryan_woman.png
+img: inside_burger/man.png
+img: inside_burger/woman.png
+
+burger_woman_angry: Look, I'm just trying to sit here by myself and finish my meal, ok?
+player: Pardon me then.
+act: return
+

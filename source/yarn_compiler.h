@@ -1,5 +1,4 @@
 
-#define CMP(a, b) ( cstr_compare_nocase( (a), (b) ) == 0 )
 
 
 void add_unique_id( array_param(string_id)* arr_param, string_id val ) {
@@ -108,12 +107,11 @@ typedef struct compiler_context_t {
     array(string_id)* location_ids;
     array(string_id)* dialog_ids;
     array(string_id)* character_ids;
+    array(string_id)* item_ids;
     array(flag_t)* flags_modified;
     array(flag_t)* flags_tested;
-    array(item_t)* items_got;
-    array(item_t)* items_dropped;
-    array(item_t)* items_used;
     array(char_t)* chars_referenced;
+    array(item_t)* items_referenced;
 } compiler_context_t;
 
 compiler_context_t* empty_context( void ) {
@@ -122,21 +120,12 @@ compiler_context_t* empty_context( void ) {
     context.location_ids = managed_array(string_id);
     context.dialog_ids = managed_array(string_id);
     context.character_ids = managed_array(string_id);
+    context.item_ids = managed_array(string_id);
     context.flags_modified = managed_array(flag_t);
     context.flags_tested = managed_array(flag_t);
-    context.items_got = managed_array(item_t);
-    context.items_dropped = managed_array(item_t);
-    context.items_used = managed_array(item_t);
     context.chars_referenced = managed_array(char_t);
+    context.items_referenced = managed_array(item_t);
     return &context;
-}
-
-
-int find_item_index( string_id id, yarn_t* yarn ) {
-    for( int i = 0; i < yarn->item_ids->count; ++i ) {
-        if( yarn->item_ids->items[ i ] == id ) return i;
-    }
-    return -1;
 }
 
 
@@ -175,6 +164,13 @@ int find_face_index( string_id name, yarn_t* yarn ) {
 }
 
 
+int find_icon_index( string_id name, yarn_t* yarn ) {
+    for( int i = 0; i < yarn->icon_names->count; ++i )
+        if( yarn->icon_names->items[ i ] == name ) return i;
+    return -1;
+}
+
+
 int find_screen_index( string_id id, compiler_context_t* context ) {
     for( int i = 0; i < context->screen_ids->count; ++i )
         if( context->screen_ids->items[ i ] == id ) return i;
@@ -199,6 +195,13 @@ int find_dialog_index( string_id id, compiler_context_t* context ) {
 int find_character_index( string_id id, compiler_context_t* context ) {
     for( int i = 0; i < context->character_ids->count; ++i )
         if( context->character_ids->items[ i ] == id ) return i;
+    return -1;
+}
+
+
+int find_item_index( string_id id, compiler_context_t* context ) {
+    for( int i = 0; i < context->item_ids->count; ++i )
+        if( context->item_ids->items[ i ] == id ) return i;
     return -1;
 }
 
@@ -371,13 +374,16 @@ bool extract_declaration_fields( parser_section_t* section, yarn_t* yarn, compil
             for( int i = 0; i < decl->data->count; ++i ) {
                 string_id str = cstr_trim( decl->data->items[ i ] );
                 skip_word_if_match( &str, "not" );
+                bool is_item = skip_word_if_match( &str, "got" );
                 if( cstr_len( str ) > 0 ) {
                     flag_t flag;
                     flag.flag = str;
                     flag.filename = decl->filename;
                     flag.line_number = decl->line_number;
-                    add_unique_flag( context->flags_tested, &flag );
-                    add_unique_id( yarn->flag_ids, str );
+                    if( !is_item ) {
+                        add_unique_flag( context->flags_tested, &flag );
+                        add_unique_id( yarn->flag_ids, str );
+                    }
                 } else {
                     printf( "%s(%d): invalid conditional declaration, flag '%s' is not valid\n", decl->filename, decl->line_number, decl->data->items[ i ] );
                     no_error = false;
@@ -452,6 +458,18 @@ bool extract_declaration_fields( parser_section_t* section, yarn_t* yarn, compil
                 }
                 add_unique_id( yarn->face_names, image_name );
             }
+        } else if( CMP( decl->keyword, "icon" ) ) {
+            if( decl->data->count != 1 || ( decl->data->count == 1 && cstr_len( cstr_trim( decl->data->items[ 0 ] ) ) <= 0 ) ) {
+                printf( "%s(%d): invalid image name '%s'\n", decl->filename, decl->line_number, concat_data( decl->data ) );
+                no_error = false;
+            } else {
+                string_id image_name = cstr_cat( "icons/", section->declarations->items[ j ].data->items[ 0 ] );
+                if( !file_exists( image_name ) ) {
+                    printf( "%s(%d): icon image file not found '%s'\n", decl->filename, decl->line_number, image_name );
+                    no_error = false;
+                }
+                add_unique_id( yarn->icon_names, image_name );
+            }
         } else if( CMP( decl->keyword, "act" ) ) {
             if( decl->data->count != 1 || ( decl->data->count == 1 && cstr_len( cstr_trim( decl->data->items[ 0 ] ) ) <= 0 ) ) {
                 printf( "%s(%d): invalid 'act:' declaration '%s'\n", decl->filename, decl->line_number, concat_data( decl->data ) );
@@ -470,15 +488,13 @@ bool extract_declaration_fields( parser_section_t* section, yarn_t* yarn, compil
                     item.id = str;
                     item.filename = decl->filename;
                     item.line_number = decl->line_number;
-                    add_unique_item( context->items_got, &item );
-                    add_unique_id( yarn->item_ids, str );
+                    add_unique_item( context->items_referenced, &item );
                 } else if( skip_word_if_match( &str, "drop" ) ) {
                     item_t item;
                     item.id = str;
                     item.filename = decl->filename;
                     item.line_number = decl->line_number;
-                    add_unique_item( context->items_dropped, &item );
-                    add_unique_id( yarn->item_ids, str );
+                    add_unique_item( context->items_referenced, &item );
                 } else if( skip_word_if_match( &str, "attach" ) ) {
                     char_t chr;
                     chr.id = str;
@@ -493,21 +509,26 @@ bool extract_declaration_fields( parser_section_t* section, yarn_t* yarn, compil
                     add_unique_char( context->chars_referenced, &chr );
                 }
             }
+        } else if( CMP( decl->keyword, "item" ) ) {
+            for( int i = 0; i < decl->data->count; ++i ) {
+                string_id item_id = cstr_trim( decl->data->items[ i ] );
+                if( cstr_len( item_id ) > 0 ) {
+                    item_t itm;
+                    itm.id = item_id;
+                    itm.filename = decl->filename;
+                    itm.line_number = decl->line_number;
+                    add_unique_item( context->items_referenced, &itm );
+                }
+            }
         } else if( CMP( decl->keyword, "use" ) ) {
             for( int i = 0; i < decl->data->count; ++i ) {
                 string_id item_id = cstr_trim( decl->data->items[ i ] );
                 if( cstr_len( item_id ) > 0 ) {
-                    if( yarn->globals.explicit_items && array_find( yarn->globals.items, item_id ) < 0 ) {
-                        printf( "%s(%d): item '%s' used without being declared\n", decl->filename, decl->line_number, item_id );
-                        no_error = false;
-                    } else {
-                        item_t item;
-                        item.id = item_id;
-                        item.filename = decl->filename;
-                        item.line_number = decl->line_number;
-                        add_unique_item( context->items_used, &item );
-                        add_unique_id( yarn->item_ids, item_id );
-                    }
+                    item_t itm;
+                    itm.id = item_id;
+                    itm.filename = decl->filename;
+                    itm.line_number = decl->line_number;
+                    add_unique_item( context->items_referenced, &itm );
                 }
             }
         } else if( CMP( decl->keyword, "chr" ) ) {
@@ -606,11 +627,11 @@ bool compile_action( array_param(string)* data_param, yarn_act_t* compiled_actio
         compiled_action->param_flag_index = flag_index;
     } else if( skip_word_if_match( &command, "get" ) ) {
         compiled_action->type = ACTION_TYPE_ITEM_GET;
-        int item_index = find_item_index( command, yarn );
+        int item_index = find_item_index( command, context );
         compiled_action->param_item_index = item_index;
     } else if( skip_word_if_match( &command, "drop" ) ) {
         compiled_action->type = ACTION_TYPE_ITEM_DROP;
-        int item_index = find_item_index( command, yarn );
+        int item_index = find_item_index( command, context );
         compiled_action->param_item_index = item_index;
     } else if( skip_word_if_match( &command, "attach" ) ) {
         compiled_action->type = ACTION_TYPE_CHAR_ATTACH;
@@ -711,24 +732,38 @@ bool compile_auto( array_param(string)* data_param, yarn_act_t* compiled_action,
 }
 
 
-bool compile_cond( array_param(string)* data_param, yarn_cond_or_t* compiled_cond, string filename, int line_number, yarn_t* yarn ) {
+bool compile_cond( array_param(string)* data_param, yarn_cond_or_t* compiled_cond, string filename, int line_number, yarn_t* yarn, compiler_context_t* context ) {
     array(string)* data = ARRAY_CAST( data_param );
     for( int i = 0; i < data->count; ++i ) {
         yarn_cond_flag_t flag;
         flag.is_not = false;
-        flag.flag_index = -1;
+        flag.is_got = false;
+        flag.index = -1;
 
         string_id str = cstr_trim( data->items[ i ] );
         if( skip_word_if_match( &str, "not" ) ) {
             flag.is_not = true;
         }
+        if( skip_word_if_match( &str, "got" ) ) {
+            flag.is_got = true;
+        }
 
-        int flag_index = find_flag_index( str, yarn );
-        if( flag_index >= 0 ) {
-            flag.flag_index = flag_index;
+        if( !flag.is_got ) {
+            int flag_index = find_flag_index( str, yarn );
+            if( flag_index >= 0 ) {
+                flag.index = flag_index;
+            } else {
+                printf( "%s(%d): invalid conditional declaration, flag '%s' is not recognized\n", filename, line_number, data->items[ i ] );
+                return false;
+            }
         } else {
-            printf( "%s(%d): invalid conditional declaration, flag '%s' is not recognized\n", filename, line_number, data->items[ i ] );
-            return false;
+            int item_index = find_item_index( str, context );
+            if( item_index >= 0 ) {
+                flag.index = item_index;
+            } else {
+                printf( "%s(%d): invalid conditional declaration, item '%s' is not recognized\n", filename, line_number, data->items[ i ] );
+                return false;
+            }
         }
         array_add( compiled_cond->flags, &flag );
     }
@@ -895,7 +930,7 @@ bool compile_screen( parser_section_t* section, yarn_t* yarn, compiler_context_t
                 cond_inst = *empty_cond();
                 cond = &cond_inst;
             }
-            no_error = no_error && compile_cond( decl->data, array_add( cond->ands, empty_cond_or() ), decl->filename, decl->line_number, yarn );
+            no_error = no_error && compile_cond( decl->data, array_add( cond->ands, empty_cond_or() ), decl->filename, decl->line_number, yarn, context );
         } else {
             printf( "%s(%d): unknown keyword '%s'\n", decl->filename, decl->line_number, decl->keyword );
             no_error = false;
@@ -1012,7 +1047,7 @@ bool compile_location( parser_section_t* section, yarn_t* yarn, compiler_context
             bool invalid_index = false;
             for( int j = 0; j < decl->data->count; ++j ) {
                 if( cstr_len( cstr_trim( decl->data->items[ j ] ) ) > 0 ) {
-                    int item_index = find_item_index( cstr_trim( decl->data->items[ j ] ), yarn );
+                    int item_index = find_item_index( cstr_trim( decl->data->items[ j ] ), context );
                     if( item_index >= 0 ) {
                         array_add( use->item_indices, &item_index );
                     } else {
@@ -1060,12 +1095,28 @@ bool compile_location( parser_section_t* section, yarn_t* yarn, compiler_context
                 printf( "%s(%d): invalid declaration '%s: %s'. Must specify at least one character\n", decl->filename, decl->line_number, decl->keyword, concat_data( decl->data ) );
                 no_error = false;
             }
+        } else if( CMP( decl->keyword, "item" ) ) {
+            if( !opt && !use && !chr ) {
+                if( decl->data->count == 1 ) {
+                    location->item_index = find_item_index( cstr_trim( decl->data->items[ 0 ] ), context );
+                } else {
+                    printf( "%s(%d): invalid declaration 'item: %s'\n", decl->filename, decl->line_number, concat_data( decl->data ) );
+                    no_error = false;
+                }
+            } else {
+                printf( "%s(%d): 'item:' declaration not valid inside an 'opt:', 'chr' or 'use:' block\n", decl->filename, decl->line_number );
+                no_error = false;
+            }
+        } else if( CMP( decl->keyword, "auto"  ) ) {
+            yarn_act_t* action = array_add( location->act, empty_act() );
+            if( cond ) { action->cond = *cond; cond = 0; }
+            no_error = no_error && compile_auto( decl->data, action, decl->filename, decl->line_number, yarn, context );
         } else if( CMP( decl->keyword, "?" ) ) {
             if( !cond ) {
                 cond_inst = *empty_cond();
                 cond = &cond_inst;
             }
-            no_error = no_error && compile_cond( decl->data, array_add( cond->ands, empty_cond_or() ), decl->filename, decl->line_number, yarn );
+            no_error = no_error && compile_cond( decl->data, array_add( cond->ands, empty_cond_or() ), decl->filename, decl->line_number, yarn, context );
         } else {
             printf( "%s(%d): unknown keyword '%s'\n", decl->filename, decl->line_number, decl->keyword );
             no_error = false;
@@ -1123,6 +1174,28 @@ bool compile_dialog( parser_section_t* section, yarn_t* yarn, compiler_context_t
                 printf( "%s(%d): phrase declaration not valid inside a 'say:' or 'use:' block\n", decl->filename, decl->line_number );
                 no_error = false;
             }
+        } else if( CMP( decl->keyword, "img" ) ) {
+            if( !say && !use ) {
+                yarn_img_t* img = array_add( dialog->img, empty_img() );
+                if( cond ) {
+                    img->cond = *cond;
+                    cond = 0;
+                }
+                string image_name = cstr_cat( "images/", decl->data->items[ 0 ] );
+                if( !file_exists( image_name ) ) {
+                    printf( "%s(%d): image file not found '%s'\n", decl->filename, decl->line_number, image_name );
+                    no_error = false;
+                }
+                img->image_index = find_image_index( image_name, yarn );
+                if( img->image_index < 0 ) {
+                    printf( "%s(%d): image not found '%s'\n", decl->filename, decl->line_number, image_name );
+                    no_error = false;
+                }
+                img->image_index += yarn->scr_names->count;
+            } else {
+                printf( "%s(%d): 'img:' declaration not valid inside an 'opt:', 'chr' or 'use:' block\n", decl->filename, decl->line_number );
+                no_error = false;
+            }
         } else if( CMP( decl->keyword, "mus" ) || CMP( decl->keyword, "amb" ) || CMP( decl->keyword, "snd" ) ) {
             if( !say && !use && decl->data->count > 0 ) {
                 yarn_audio_t* audio = array_add( dialog->audio, empty_audio() );
@@ -1156,8 +1229,7 @@ bool compile_dialog( parser_section_t* section, yarn_t* yarn, compiler_context_t
                 printf( "%s(%d): invalid declaration '%s: %s'\n", decl->filename, decl->line_number, decl->keyword, concat_data( decl->data ) );
                 no_error = false;
             }
-        }
-         else if( CMP( decl->keyword, "use" ) ) {
+        } else if( CMP( decl->keyword, "use" ) ) {
             if( say ) no_error = no_error && verify_say( say, decl );
             if( use ) no_error = no_error && verify_use( use, decl );
             say = 0;
@@ -1167,7 +1239,7 @@ bool compile_dialog( parser_section_t* section, yarn_t* yarn, compiler_context_t
             bool invalid_index = false;
             for( int j = 0; j < decl->data->count; ++j ) {
                 if( cstr_len( cstr_trim( decl->data->items[ j ] ) ) > 0 ) {
-                    int item_index = find_item_index( cstr_trim( decl->data->items[ j ] ), yarn );
+                    int item_index = find_item_index( cstr_trim( decl->data->items[ j ] ), context );
                     if( item_index >= 0 ) {
                         array_add( use->item_indices, &item_index );
                     } else {
@@ -1185,12 +1257,49 @@ bool compile_dialog( parser_section_t* section, yarn_t* yarn, compiler_context_t
                 printf( "%s(%d): invalid declaration '%s: %s'. Must specify at least one item\n", decl->filename, decl->line_number, decl->keyword, concat_data( decl->data ) );
                 no_error = false;
             }
+        } else if( CMP( decl->keyword, "chr" ) ) {
+            if( !say && !use ) {
+                yarn_chr_t* chr = array_add( dialog->chr, empty_chr() );
+                if( cond ) {
+                    chr->cond = *cond;
+                    cond = 0;
+                }
+                bool invalid_index = false;
+                for( int j = 0; j < decl->data->count; ++j ) {
+                    if( cstr_len( cstr_trim( decl->data->items[ j ] ) ) > 0 ) {
+                        int chr_index = find_character_index( cstr_trim( decl->data->items[ j ] ), context );
+                        if( chr_index >= 0 ) {
+                            array_add( chr->chr_indices, &chr_index );
+                        } else {
+                            printf( "%s(%d): invalid character id '%s'\n", decl->filename, decl->line_number, decl->data->items[ j ]);
+                            no_error = false;
+                            invalid_index = true;
+                        }
+                    } else {
+                        printf( "%s(%d): empty character id in declaration '%s: %s'\n", decl->filename, decl->line_number, decl->keyword, concat_data( decl->data ) );
+                        no_error = false;
+                    }
+                }
+
+                if( chr->chr_indices->count == 0 && !invalid_index ) {
+                    printf( "%s(%d): invalid declaration '%s: %s'. Must specify at least one character\n", decl->filename, decl->line_number, decl->keyword, concat_data( decl->data ) );
+                    no_error = false;
+                }
+            } else {
+                printf( "%s(%d): 'chr:' declaration not valid inside a 'say:', or 'use:' block\n", decl->filename, decl->line_number );
+                no_error = false;
+            }
+
+        } else if( CMP( decl->keyword, "auto"  ) ) {
+            yarn_act_t* action = array_add( dialog->act, empty_act() );
+            if( cond ) { action->cond = *cond; cond = 0; }
+            no_error = no_error && compile_auto( decl->data, action, decl->filename, decl->line_number, yarn, context );
         } else if( CMP( decl->keyword, "?" ) ) {
             if( !cond ) {
                 cond_inst = *empty_cond();
                 cond = &cond_inst;
             }
-            no_error = no_error && compile_cond( decl->data, array_add( cond->ands, empty_cond_or() ), decl->filename, decl->line_number, yarn );
+            no_error = no_error && compile_cond( decl->data, array_add( cond->ands, empty_cond_or() ), decl->filename, decl->line_number, yarn, context );
         } else {
             printf( "%s(%d): unknown keyword '%s'\n", decl->filename, decl->line_number, decl->keyword );
             no_error = false;
@@ -1234,6 +1343,33 @@ bool compile_character( parser_section_t* section, yarn_t* yarn ) {
             character->face_index += yarn->image_names->count;
         } else {
             printf( "%s(%d): unexpected keyword '%s'. character sections may only contain 'name', 'short' and 'face' keywords\n", decl->filename, decl->line_number, decl->keyword );
+            no_error = false;
+        }
+    }
+
+    return no_error;
+}
+
+
+bool compile_item( parser_section_t* section, yarn_t* yarn, compiler_context_t* context ) {
+    bool no_error = true;
+
+    yarn_item_t* item = array_add( yarn->items, empty_item() ) ;
+    item->id = section->id;
+    for( int i = 0; i < section->declarations->count; ++i ) {
+        parser_declaration_t* decl = &section->declarations->items[ i ];
+        if( CMP( decl->keyword, "name" ) ) {
+            item->name = cstr_trim( decl->data->items[ 0 ] );
+        } else if( CMP( decl->keyword, "icon" ) ) {
+            item->icon_index = find_icon_index( cstr_cat( "icons/", decl->data->items[ 0 ] ), yarn );
+            item->icon_index += yarn->scr_names->count;
+            item->icon_index += yarn->image_names->count;
+            item->icon_index += yarn->face_names->count;
+        } else if( CMP( decl->keyword, "act" ) ) {
+            item->act = managed_array(yarn_act_t);
+            no_error = no_error && compile_action( decl->data, array_add( item->act, empty_act() ), decl->filename, decl->line_number, yarn, context );
+        } else {
+            printf( "%s(%d): unexpected keyword '%s'. item sections may only contain 'item', 'icon' and 'act' keywords\n", decl->filename, decl->line_number, decl->keyword );
             no_error = false;
         }
     }
@@ -1322,7 +1458,6 @@ bool compile_globals( array_param(parser_global_t)* globals_param, yarn_t* yarn 
     }
 
     yarn->globals.explicit_flags = false;
-    yarn->globals.explicit_items = false;
     yarn->globals.background_location = -1;
     yarn->globals.background_dialog = -1;
     yarn->globals.location_print_speed = 0;
@@ -1529,17 +1664,6 @@ bool compile_globals( array_param(parser_global_t)* globals_param, yarn_t* yarn 
                     array_add( yarn->globals.flags, &flag );
                 } else {
                     printf( "%s(%d): invalid flags declaration '%s: %s'. Flag index %d is empty\n", global->filename, global->line_number, global->keyword, concat_data( global->data ), j + 1 );
-                    no_error = false;
-                }
-            }
-        } else if( CMP( global->keyword, "items" ) ) {
-            yarn->globals.explicit_items = true;
-            for( int j = 0; j < global->data->count; ++j ) {
-                if( cstr_len( cstr_trim( global->data->items[ j ] ) ) > 0 ) {
-                    string_id item = cstr_trim( global->data->items[ j ] );
-                    array_add( yarn->globals.items, &item );
-                } else {
-                    printf( "%s(%d): invalid items declaration '%s: %s'. Item index %d is empty\n", global->filename, global->line_number, global->keyword, concat_data( global->data ), j + 1 );
                     no_error = false;
                 }
             }
@@ -1820,7 +1944,7 @@ bool yarn_compiler( array_param(parser_global_t)* parser_globals_param, array_pa
 
     for( int i = 0; i < parser_globals->count; ++i ) {
         parser_global_t* a = &parser_globals->items[ i ];
-        if( CMP( a->keyword, "flags" ) || CMP( a->keyword, "items" ) ) continue;
+        if( CMP( a->keyword, "flags" ) ) continue;
 
         for( int j = i + 1; j < parser_globals->count; ++j ) {
             parser_global_t* b = &parser_globals->items[ j ];
@@ -1860,6 +1984,9 @@ bool yarn_compiler( array_param(parser_global_t)* parser_globals_param, array_pa
             no_error = no_error && extract_declaration_fields( section, yarn, &context );
         } else if( section->type == SECTION_TYPE_CHARACTER ) {
             array_add( context.character_ids, &section->id );
+            no_error = no_error && extract_declaration_fields( section, yarn, &context );
+        } else if( section->type == SECTION_TYPE_ITEM) {
+            array_add( context.item_ids, &section->id );
             no_error = no_error && extract_declaration_fields( section, yarn, &context );
         } else {
             printf( "%s(%d): invalid section '%s'\n", section->filename, section->line_number, section->id );
@@ -1901,11 +2028,23 @@ bool yarn_compiler( array_param(parser_global_t)* parser_globals_param, array_pa
             if( chr.id == id) found = true;
         }
         if( !found ) {
-            printf( "%s(%d): character'%s' is referenced, but not declared\n", chr.filename, chr.line_number, chr.id );
+            printf( "%s(%d): character '%s' is referenced, but not declared\n", chr.filename, chr.line_number, chr.id );
             no_error = false;
         }
     }
 
+    for( int i = 0; i < context.items_referenced->count; ++i ) {
+        item_t itm = context.items_referenced->items[ i ];
+        bool found = false;
+        for( int j = 0; j < context.item_ids->count; ++j ) {
+            string_id id = context.item_ids->items[ j ];
+            if( itm.id == id) found = true;
+        }
+        if( !found ) {
+            printf( "%s(%d): item '%s' is referenced, but not declared\n", itm.filename, itm.line_number, itm.id );
+            no_error = false;
+        }
+    }
     for( int i = 0; i < parser_sections->count; ++i ) {
         parser_section_t* section = &parser_sections->items[ i ];
 
@@ -1917,6 +2056,8 @@ bool yarn_compiler( array_param(parser_global_t)* parser_globals_param, array_pa
             no_error = no_error && compile_dialog( section, yarn, &context );
         } else if( section->type == SECTION_TYPE_CHARACTER ) {
             no_error = no_error && compile_character( section, yarn );
+        } else if( section->type == SECTION_TYPE_ITEM ) {
+            no_error = no_error && compile_item( section, yarn, &context );
         } else {
             printf( "%s(%d): invalid section '%s'\n", section->filename, section->line_number, section->id );
             no_error = false;
@@ -2182,5 +2323,6 @@ bool yarn_compiler( array_param(parser_global_t)* parser_globals_param, array_pa
 
     yarn->debug_start_location = find_location_index( yarn->globals.debug_start, &context );
     yarn->debug_start_dialog = find_dialog_index( yarn->globals.debug_start, &context );
+    yarn->debug_start_screen = find_screen_index( yarn->globals.debug_start, &context );
     return no_error;
 }

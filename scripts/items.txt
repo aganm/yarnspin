@@ -1,0 +1,883 @@
+
+=== item_cigarette ===
+
+name: Cigarette
+icon: cigarette_nosmoke.png
+act: act_cigarette
+
+
+=== act_cigarette ===
+
+item: item_cigarette
+txt: A cigarette. You've given up on giving 'em up.
+
+opt: Light it up
+act: smoke_cigarette
+
+opt: Throw it away
+act: discard_cigarette
+
+opt: Put it away
+act: return
+
+flag_in_flat_bathroom ? 
+chr: blonde_awake
+act: flat_offer_cigarette
+
+
+=== smoke_cigarette ===
+
+act: drop item_cigarette
+txt: You smoke the cigarette.
+act: return
+
+
+=== discard_cigarette ===
+
+act: drop item_cigarette
+txt: You throw the cigarette away.
+act: return
+
+
+
+
+=== item_lighter ===
+
+name: Lighter
+icon: lighter.png
+act: act_lighter
+
+
+=== act_lighter ===
+
+item: item_lighter
+txt: A cheap plastic lighter. It's about half full.
+
+not flag_is_in_basement, flag_basement_explored ? 
+opt: Light it
+act: light_lighter
+
+flag_is_in_basement ? not flag_basement_explored ?
+opt: Light it
+act: explore_basement_lighter
+
+opt: Put it away
+act: return
+
+
+=== light_lighter ===
+
+txt: You light the lighter, and spend a few moments staring solemnly at the flame.
+act: return
+
+
+
+=== item_boots ===
+
+name: Boots
+icon: black boots.png
+act: act_boots
+
+
+=== act_boots ===
+
+item: item_boots
+txt: Your favorite pair of boots. You're wearing them.
+
+opt: Done
+act: return
+
+
+
+=== item_beanie ===
+
+name: Beanie
+icon: black beanie.png
+act: act_beanie
+
+
+=== act_beanie ===
+
+item: item_beanie
+txt: A black beanie. You're wearing it.
+
+opt: Done
+act: return
+
+
+=== item_tshirt ===
+
+name: White T-shirt
+icon: tshirt.png
+act: act_tshirt
+
+
+=== act_tshirt ===
+
+item: item_tshirt
+txt: A plain, white tee. You're wearing it.
+
+opt: Done
+act: return
+
+
+=== item_coat ===
+
+name: Jacket
+icon: dark jacket.png
+act: act_coat
+
+
+=== act_coat ===
+
+item: item_coat
+txt: A dark leather jacket. You're wearing it.
+
+opt: Done
+act: return
+
+
+=== item_pants ===
+
+name: Pants
+icon: black pants.png
+act: act_pants
+
+
+=== act_pants ===
+
+item: item_pants
+txt: A pair of black pants. You're wearing them.
+
+opt: Done
+act: return
+
+
+=== item_underwear ===
+
+name: Briefs
+icon: underwear2.png
+act: act_underwear
+
+
+=== act_underwear ===
+
+item: item_underwear
+txt: Tidy whities. You're wearing them.
+
+opt: Done
+act: return
+
+
+=== item_socks ===
+
+name: Socks
+icon: socks.png
+act: act_socks
+
+
+=== act_socks ===
+
+item: item_socks
+txt: White socks. You're wearing them.
+
+opt: Done
+act: return
+
+
+=== item_coffee ===
+
+name: Coffee
+icon: coffee mug.png
+act: act_coffee
+
+
+=== act_coffee ===
+
+item: item_coffee
+txt: A cup of hot, black coffee, just the way you love it.
+
+opt: Drink it
+act: drink_coffee
+
+opt: Put it away
+act: return
+
+
+=== drink_coffee  ===
+
+txt: You drink the coffee, relishing the intese flavor, and feeling the instant charge of the caffeine.
+act: drop item_coffee
+act: return
+
+
+
+=== item_milk ===
+
+name: Carton of Milk
+icon: milk.png
+act: act_milk
+
+
+=== act_milk ===
+
+item: item_milk
+txt: A carton of milk. It is past its expiration date.
+
+opt: Drink it
+act: drink_milk
+
+opt: Throw it away
+act: discard_milk
+
+opt: Put it away
+act: return
+
+
+=== drink_milk  ===
+
+txt: You take a sip of the milk, and can immediately tell it's gone off, as you spit it out.
+act: return
+
+
+=== discard_milk  ===
+
+txt: You throw the carton of milk away.
+act: drop item_milk
+act: return
+
+
+
+=== item_pizza ===
+
+name: Pizza
+icon: Pepperoni Pizza Slice.png
+act: act_pizza
+
+
+=== act_pizza ===
+
+item: item_pizza
+txt: A slice of leftover pizza from your refrigerator.
+
+opt: Eat it
+act: eat_pizza
+
+opt: Put it away
+act: return
+
+
+=== eat_pizza  ===
+
+txt: You eat the pizza, wishing there were more of it.
+act: drop item_pizza
+act: return
+
+
+
+=== item_sandwich ===
+
+name: Sandwich
+icon: White Triangle Sandwich.png
+act: act_sandwich
+
+
+=== act_sandwich ===
+
+item: item_sandwich
+txt: A sandwich from your refrigerator. There's mold growing on it.
+
+opt: Eat it
+act: eat_sandwich
+
+opt: Put it away
+act: return
+
+
+=== eat_sandwich  ===
+
+txt: You eat the sandwich, despite the mold, instantly feeling nauseous.
+act: drop item_sandwich
+act: return
+
+
+=== item_burger ===
+
+name: Cheeseburger
+icon: cheeseburger.png
+act: act_burger
+
+
+=== act_burger ===
+
+item: item_burger
+txt: A cheeseburger from Lion King.
+
+flag_inside_burger ? 
+chr: burger_staff
+act: enjoying_burger
+
+opt: Eat it
+act: eat_burger
+
+opt: Put it away
+act: return
+
+
+=== enjoying_burger ===
+
+burger_staff_annoyed: Is your burger to your satisfaction, Sir?
+player_unsure: Yeah, I guess...
+burger_staff_tired: Okay then. Have a grrreat day.
+act: inside_burger
+
+
+=== eat_burger ===
+
+player: That's not the best burger I've ever had. 
+player_glance: Not the worst, either.
+act: drop item_burger
+act: return
+
+
+=== item_fries ===
+
+name: Fries
+icon: fries.png
+act: act_fries
+
+
+=== act_fries ===
+
+item: item_fries
+txt: Some fries from Lion King.
+
+flag_inside_burger ? 
+chr: burger_staff
+act: enjoying_fries
+
+opt: Eat them
+act: eat_fries
+
+opt: Put them away
+act: return
+
+
+=== enjoying_fries ===
+
+burger_staff_annoyed: Are your fries to your satisfaction, Sir?
+player_unsure: Yeah, I guess...
+burger_staff_tired: Okay then. Have a grrreat day.
+act: inside_burger
+
+
+=== eat_fries ===
+
+player: Those aren't the best fries I've ever had. 
+player_glance: Not the worst, either.
+act: drop item_fries
+act: return
+
+
+
+=== item_milkshake ===
+
+name: Milkshake
+icon: milkshake.png
+act: act_milkshake
+
+
+=== act_milkshake ===
+
+item: item_milkshake
+txt: A milkshake from Lion King.
+
+flag_inside_burger ? 
+chr: burger_staff
+act: enjoying_milkshake
+
+opt: Drink it
+act: drink_milkshake
+
+opt: Put it away
+act: return
+
+
+=== enjoying_milkshake ===
+
+burger_staff_annoyed: Is your milkshake to your satisfaction, Sir?
+player_unsure: Yeah, I guess...
+burger_staff_tired: Okay then. Have a grrreat day.
+act: inside_burger
+
+
+=== drink_milkshake ===
+
+player: That's not the best milkshake I've ever had. 
+player_glance: Not the worst, either.
+act: drop item_milkshake
+act: return
+
+
+
+
+=== item_folder ===
+
+name: Harringtons Folder
+icon: folder.png
+act: act_folder
+
+
+=== act_folder ===
+
+item: item_folder
+not flag_unlock_bar ? txt: The folder is thick, with reams of documents pertaining to Amanda Harrington, age 23, only child to Dan and Claire Harrington.
+flag_unlock_bar ? txt: You browse through the thick folder again, but you find nothing that seems helpful to your investigation.
+
+not flag_unlock_bar ? 
+act: act_folder_first_time
+
+flag_unlock_bar ?
+opt: Put the folder away
+act: return
+
+
+=== act_folder_first_time ===
+
+item: item_folder
+
+txt: As you start to go through it, you feel your hopes dwindle. All of the information is old, out of date by several months. That's not going to help you find her. 
+act: folder_find_photo
+
+
+=== folder_find_photo ===
+
+item: item_folder
+
+txt: You pull out a photo of the missing woman from the file, thinking it might be useful in the investigation.
+act: get item_photo
+snd: pickup_pop.wav
+act: folder_find_bar
+
+
+=== folder_find_bar ===
+
+act: set flag_unlock_bar
+
+txt: Going through the file a second time, more thoroughly, there is one thing that catch your attention. Among her credit card statements, there's a location that stands out. A bar on 115th street, where she appeared to have spent a lot of time and a small fortune, back when she still had valid credit cards. It might be worth asking around there, someone might know her. It's not much of a lead, but it's something.
+act: get item_statements
+snd: pickup_pop.wav
+act: return
+
+
+=== item_statements ===
+
+name: Credit card statement
+icon: document.png
+act: act_statements
+
+
+=== act_statements ===
+
+item: item_statements
+txt: Credit card statement from Harrington's file. It clearly shows Amanda as a frequent visitor to the bar on 115th street.
+
+opt: Put it away
+act: return
+
+
+=== act_study_photo ===
+
+img: photo.png
+txt: Amanda Harrington. The photo is fairly recent, and even though she is smiling for the camera, you can see a sadness in her eyes and lines on her face.  You can't help but wonder what happened, that would set her down such a path of addiction and self-abuse. Your resolve to find her is strengthened - but not because you owe her father anything, but because it's the right thing to do. You feel like there's been a long time since you did the right thing.
+
+act: return
+
+
+=== item_note ===
+
+name: Assailant's note
+icon: bloody note.png
+act: act_note
+
+=== act_note ===
+
+item: item_note
+
+txt: The note you found on the guy who attacked you in the restroom. 
+
+opt: Examine the note
+act: act_note_2
+
+opt: Put it away
+act: return
+
+
+=== act_note_2 ===
+
+act: set flag_unlock_company
+item: item_note
+txt: It has your name written on it, so this was no random attack. 
+txt: Also, it is written on paper with GloboTech's official letterhead.
+act: act_note_3
+
+=== act_note_3 ===
+
+player: It makes no sense that someone from GloboTech would put a hit out on me. The only person I know there is Dan Harrington, and why would he bring me into this if he didn't want me poking around?
+player: Well, maybe I should go around there and check it out. After all, I got the address right here.
+act: return
+
+
+
+=== item_chip ===
+
+name: Cyber implant
+icon: blue datachip.png
+act: act_chip
+
+
+=== act_chip ===
+
+item: item_chip
+txt: The GloboTech cyber implant chip that the M.E. removed from Amanda Harrington's head.
+
+opt: Put it away
+act: return
+
+
+
+=== item_chip2 ===
+
+name: Cyber implant
+icon: orange datachip.png
+act: act_chip2
+
+
+=== act_chip2 ===
+
+item: item_chip2
+txt: The GloboTech cyber implant chip that the M.E. removed from the head of the guy who attacked you in the restroom.
+
+opt: Put it away
+act: return
+
+
+
+=== item_number ===
+
+name: Phone number
+icon: Pink Sticky Note.png
+act: act_number
+
+
+=== act_number ===
+
+item: item_number
+txt: The phone number for Laura Thompson.
+
+opt: Put it away
+act: return
+
+
+
+
+=== item_bankroll ===
+
+name: Wad of cash
+icon: Dollar Bills.png
+act: act_bankroll
+
+
+=== act_bankroll ===
+
+item: item_bankroll
+txt: A thick stack of bills that you pulled off the guy who attacked you in the restroom.
+
+opt: Put it away
+act: return
+
+
+
+=== item_pills ===
+
+name: Pills
+icon: pills2.png
+act: act_pills
+
+
+=== act_pills ===
+
+item: item_pills
+txt: A couple of pills you found on the guy who attacked you in the restroom.
+
+opt: Put them away
+act: return
+
+
+=== item_watch ===
+
+name: Gold watch
+icon: Watch.png
+act: act_watch
+
+
+=== act_watch ===
+
+item: item_watch
+txt: The gold watch you took off of Dan Harrington after he was killed.
+
+opt: Put it away
+act: return
+
+
+=== item_cigar ===
+
+name: Cigar
+icon: cigar_nosmoke.png
+act: act_cigar
+
+
+=== act_cigar ===
+
+item: item_cigar
+txt: The cigar you took off of Dan Harrington after he was killed.
+
+opt: Put it away
+act: return
+
+
+
+=== item_pass ===
+
+name: Keycard
+icon: data screen.png
+act: act_pass
+
+
+=== act_pass ===
+
+item: item_pass
+txt: The keycard you took off of Dan Harrington after he was killed.
+
+
+flag_is_outside_company ?
+opt: Use the keycard to open the doors
+act: using_pass
+
+flag_is_in_lobby ? not flag_killed_lobby_man ?
+opt: Use the keycard to open the gates
+act: lobby_using_pass
+
+flag_is_in_lobby ? flag_killed_lobby_man ?
+opt: Use the keycard to open the gates
+act: lobby_using_pass_success
+
+flag_is_in_basement ? flag_basement_explored ?
+opt: Use the keycard to open the door
+act: basement_using_pass
+
+flag_is_in_lab ? not flag_used_pass_in_lab ?
+opt: Use the keycard to unlock the door
+act: lab_using_pass1
+
+flag_is_in_lab ? flag_used_pass_in_lab ?
+opt: Use the keycard to unlock the door
+act: lab_using_pass2
+
+opt: Put it away
+act: return
+
+
+
+=== item_syringe ===
+
+name: Syringe
+icon: Red Syringe.png
+act: act_syringe
+
+
+=== act_syringe ===
+
+item: item_syringe
+txt: The syringe you pulled from the arm of Amanda Harrington when you found her body.
+
+
+opt: Put it away
+act: return
+
+
+=== item_pills2 ===
+
+name: Pills
+icon: pills1.png
+act: act_pills2
+
+
+=== act_pills2 ===
+
+item: item_pills2
+txt: Some pills you found on Amanda Harrington when you found her body.
+
+opt: Put them away
+act: return
+
+
+=== item_lipgloss ===
+
+name: Lip gloss
+icon: red lipstick.png
+act: act_lipgloss
+
+
+=== act_lipgloss ===
+
+item: item_lipgloss
+txt: Some lip gloss you found on Amanda Harrington when you found her body.
+
+opt: Put it away
+act: return
+
+
+
+=== item_bible ===
+
+name: An old bible
+icon: bible.png
+act: act_bible
+
+
+=== act_bible ===
+
+item: item_bible
+txt: The bible you found in the squat where you came across Amanda's body.
+
+opt: Put it away
+act: return
+
+
+
+=== item_gun ===
+
+name: Gun
+icon: Black Pistol.png
+act: act_gun
+
+
+=== act_gun ===
+
+item: item_gun
+txt: The gun you took from the security guard at GloboTech headquarters, after you killed him.
+
+flag_is_in_lab ? not flag_gun_drawn ?
+opt: Aim the gun at the creature
+act: lab_draw_gun
+
+flag_is_in_lab ? flag_gun_drawn ?
+opt: Fire the gun
+act: lab_fire_gun
+
+flag_is_in_lab ? flag_gun_drawn ?
+opt: Put it away
+act: lab_holster_gun
+
+not flag_is_in_lab, not flag_gun_drawn ?
+opt: Put it away
+act: return
+
+
+
+=== item_disk ===
+
+name: Data storage device
+icon: Black Floppy Disk.png
+act: act_disk
+
+
+=== act_disk ===
+
+item: item_disk
+txt: Data storage device containing all the evidence you collected from the computer in Harrington's office
+
+opt: Put it away
+act: return
+
+
+
+=== item_drink ===
+
+name: Neo-rum
+icon: shot.png
+act: act_drink
+
+
+=== act_drink ===
+
+item: item_drink
+txt: A shot of neo-rum
+
+opt: Drink it
+act: drink_drink
+
+opt: Put it away
+act: return
+
+
+=== drink_drink  ===
+
+txt: You drink the shot.
+act: drop item_drink
+act: return
+
+
+
+=== item_beer ===
+
+name: Beer
+icon: green bottle.png
+act: act_beer
+
+
+=== act_beer ===
+
+item: item_beer
+txt: A bottle of beer
+
+opt: Drink it
+act: drink_beer
+
+opt: Put it away
+act: return
+
+
+=== drink_beer  ===
+
+txt: You drink the beer
+act: drop item_beer
+act: return
+
+
+
+
+=== item_photo ===
+
+name: Photo of Amanda
+icon: photo.png
+act: act_photo
+
+
+
+=== act_photo ===
+
+item: item_photo
+txt: The photo of Amanda Harrington that you pulled out of the file.
+
+opt: Study the photograph closer
+act: act_study_photo
+
+flag_with_bartender ?
+opt: Show photo to the bartender
+act: act_photo_bartender
+
+opt: Put the picture away
+act: return
+

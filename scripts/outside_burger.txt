@@ -1,0 +1,22 @@
+=== outside_burger ===
+
+amb: stop, 0.2s
+mus: jazz_lounge.ogg, 0.75s, random, 30%
+
+img: outside_burger/outside_burger.png
+
+act: clear flag_inside_burger
+act: detach burger_staff
+act: detach burger_man
+act: detach burger_woman
+
+txt: You are outside a burger place in the downtown commercial district. The streets are littered with trash, and lit by the neon glows of signs advertising goods and services.
+
+opt: Enter the burger place
+act: inside_burger
+
+opt: Call a taxi
+act: taxi
+
+
+

@@ -812,6 +812,87 @@ void draw( render_t* render, int bitmap_index, int x, int y ) {
     }
 }
 
+void draw_width( render_t* render, int bitmap_index, float x, float y, int draw_w ) {
+  //  scale_for_resolution( render, &x, &y );
+    if( render->screen ) {
+    //    palrle_blit( render->yarn->assets.bitmaps->items[ bitmap_index ], x, y, render->screen, render->screen_width, render->screen_height );
+    } else {
+        float width = render->screen_width;
+        float height = render->screen_height;
+        float x1 = x / width;
+        float y1 = y / height;
+        float x2 = x1 + ((float)draw_w) / width;
+        float y2 = y1 + render->bitmap_height[ bitmap_index ] / height;
+
+        GLfloat vertices[] = {
+            2.0f * x1 - 1.0f, 2.0f * y1 - 1.0f, 0.0f, 0.0f,
+            2.0f * x2 - 1.0f, 2.0f * y1 - 1.0f, ((float)draw_w) / 320.0f, 0.0f,
+            2.0f * x2 - 1.0f, 2.0f * y2 - 1.0f, ((float)draw_w) / 320.0f, 1.0f,
+            2.0f * x1 - 1.0f, 2.0f * y2 - 1.0f, 0.0f, 1.0f,
+        };
+        glBindBuffer( GL_ARRAY_BUFFER, render->vertexbuffer );
+        glEnableVertexAttribArray( 0 );
+        glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof( GLfloat ), 0 );
+        glBufferData( GL_ARRAY_BUFFER, 4 * 4 * sizeof( GLfloat ), vertices, GL_STATIC_DRAW );
+
+        uint32_t color = 0xffffffff;
+        float a = ( ( color >> 24 ) & 0xff ) / 255.0f;
+        float r = ( ( color >> 16 ) & 0xff ) / 255.0f;
+        float g = ( ( color >> 8  ) & 0xff ) / 255.0f;
+        float b = ( ( color       ) & 0xff ) / 255.0f;
+        glUseProgram( render->shader );
+        glActiveTexture( GL_TEXTURE0 );
+        glBindTexture( GL_TEXTURE_2D, render->textures[ bitmap_index ] );
+        glUniform1i( glGetUniformLocation( render->shader, "tex0" ), 0 );
+        glUniform4f( glGetUniformLocation( render->shader, "col" ), r, g, b, a );
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+        glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+        glBindTexture( GL_TEXTURE_2D, 0 );
+    }
+}
+
+
+
+void draw_color( render_t* render, int bitmap_index, int x, int y, uint32_t color ) {
+    scale_for_resolution( render, &x, &y );
+    if( render->screen ) {
+        palrle_blit( render->yarn->assets.bitmaps->items[ bitmap_index ], x, y, render->screen, render->screen_width, render->screen_height );
+    } else {
+        float width = render->screen_width;
+        float height = render->screen_height;
+        float x1 = x / width;
+        float y1 = y / height;
+        float x2 = x1 + render->bitmap_width[ bitmap_index ] / width;
+        float y2 = y1 + render->bitmap_height[ bitmap_index ] / height;
+
+        GLfloat vertices[] = {
+            2.0f * x1 - 1.0f, 2.0f * y1 - 1.0f, 0.0f, 0.0f,
+            2.0f * x2 - 1.0f, 2.0f * y1 - 1.0f, 1.0f, 0.0f,
+            2.0f * x2 - 1.0f, 2.0f * y2 - 1.0f, 1.0f, 1.0f,
+            2.0f * x1 - 1.0f, 2.0f * y2 - 1.0f, 0.0f, 1.0f,
+        };
+        glBindBuffer( GL_ARRAY_BUFFER, render->vertexbuffer );
+        glEnableVertexAttribArray( 0 );
+        glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof( GLfloat ), 0 );
+        glBufferData( GL_ARRAY_BUFFER, 4 * 4 * sizeof( GLfloat ), vertices, GL_STATIC_DRAW );
+
+        float a = ( ( color >> 24 ) & 0xff ) / 255.0f;
+        float r = ( ( color >> 16 ) & 0xff ) / 255.0f;
+        float g = ( ( color >> 8  ) & 0xff ) / 255.0f;
+        float b = ( ( color       ) & 0xff ) / 255.0f;
+        glUseProgram( render->shader );
+        glActiveTexture( GL_TEXTURE0 );
+        glBindTexture( GL_TEXTURE_2D, render->textures[ bitmap_index ] );
+        glUniform1i( glGetUniformLocation( render->shader, "tex0" ), 0 );
+        glUniform4f( glGetUniformLocation( render->shader, "col" ), r, g, b, a );
+        glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
+        glBindTexture( GL_TEXTURE_2D, 0 );
+    }
+}
+
 void draw_flip( render_t* render, int bitmap_index, int x, int y ) {
     scale_for_resolution( render, &x, &y );
     if( render->screen ) {

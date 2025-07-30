@@ -1130,17 +1130,24 @@ palrle_data_t* convert_bitmap( string image_filename, int width, int height, str
     string ini_filename = cstr_cat( image_filename, ".ini" ); 
 
     bool is_face = false;
+    string folder = "";
     if( cstr_starts( image_filename, "faces/" ) ) {
         is_face = true;
         image_filename = cstr_mid( image_filename,  6, 0 );
+        folder = "faces/";
     } else if( cstr_starts( image_filename, "images/" ) ) {
         is_face = false;
         image_filename = cstr_mid( image_filename,  7, 0 );
+        folder = "images/";
+    } else if( cstr_starts( image_filename, "icons/" ) ) {
+        is_face = false;
+        image_filename = cstr_mid( image_filename,  6, 0 );
+        folder = "icons/";
     } else {
-        NULL;
+        return NULL;
     }
 
-    string processed_filename_no_ext = cstr_format( ".cache/processed/%s/%s/%dx%d/%s_%s", is_face ? "faces" : "images",
+    string processed_filename_no_ext = cstr_format( ".cache/processed/%s%s/%dx%d/%s_%s", folder,
         cstr( cbasename( palette_filename ) ), width, height,
         cstr( cbasename( image_filename ) ), cstr_mid( cextname( image_filename ), 1, 0 ) ) ;
 
@@ -1149,13 +1156,13 @@ palrle_data_t* convert_bitmap( string image_filename, int width, int height, str
 
     if( !file_exists( processed_filename ) || !file_exists( intermediate_processed_filename ) ||
         g_cache_version != YARNSPIN_VERSION ||
-        file_more_recent( cstr_cat( is_face ? "faces/" : "images/", image_filename ), processed_filename ) ||
-        file_more_recent( cstr_cat( is_face ? "faces/" : "images/", image_filename ), intermediate_processed_filename ) ||
-        file_more_recent( is_face ? "faces/settings.ini" : "images/settings.ini", processed_filename ) || 
+        file_more_recent( cstr_cat( folder, image_filename ), processed_filename ) ||
+        file_more_recent( cstr_cat( folder, image_filename ), intermediate_processed_filename ) ||
+        file_more_recent( cstr_cat( folder, "settings.ini" ), processed_filename ) || 
         ( file_exists( ini_filename ) && file_more_recent( ini_filename, processed_filename ) ) ) {
 
         int w, h, c;
-        stbi_uc* img = stbi_load( cstr_cat( is_face ? "faces/" : "images/", image_filename ), &w, &h, &c, 4 );
+        stbi_uc* img = stbi_load( cstr_cat( folder, image_filename ), &w, &h, &c, 4 );
         if( !img ) {
             return NULL;
         }
@@ -1170,7 +1177,7 @@ palrle_data_t* convert_bitmap( string image_filename, int width, int height, str
         uint8_t* pixels = (uint8_t*) malloc( 2 * outw * outh );
 
         process_settings_t settings;
-        bool have_settings = load_settings( &settings, is_face ? "faces/settings.ini" : "images/settings.ini" );
+        bool have_settings = load_settings( &settings, cstr_cat( folder, "settings.ini" ) );
         if( file_exists( ini_filename ) ) {
             load_settings( &settings, ini_filename );
         }
@@ -1484,31 +1491,38 @@ qoi_data_t* convert_rgb( string image_filename, int width, int height, int bpp, 
     string ini_filename = cstr_cat( image_filename, ".ini" ); 
 
     bool is_face = false;
+    string folder = "";
     if( cstr_starts( image_filename, "faces/" ) ) {
         is_face = true;
         image_filename = cstr_mid( image_filename,  6, 0 );
+        folder = "faces/";
     } else if( cstr_starts( image_filename, "images/" ) ) {
         is_face = false;
         image_filename = cstr_mid( image_filename,  7, 0 );
+        folder = "images/";
+    } else if( cstr_starts( image_filename, "icons/" ) ) {
+        is_face = false;
+        image_filename = cstr_mid( image_filename,  6, 0 );
+        folder = "icons/";
     } else {
-        NULL;
+        return NULL;
     }
 
-    string processed_filename_no_ext = cstr_format( ".cache/processed/%s/%dx%d/%s_%s", is_face ? "faces" : "images",
-        width, height, cstr( cbasename( image_filename ) ), cstr_mid( cextname( image_filename ), 1, 0 ) ) ;
+    string processed_filename_no_ext = cstr_format( ".cache/processed/%s%dx%d/%s_%s", folder,
+        width, height, cstr_left( cstr( image_filename ), cstr_len( image_filename ) - cstr_len( cextname( image_filename ) ) ), cstr_mid( cextname( image_filename ), 1, 0 ) ) ;
 
     string processed_filename = cstr_cat( processed_filename_no_ext, jpeg ? ".jpg" : ".qoi" );
     string intermediate_processed_filename = cstr_cat( processed_filename_no_ext, ".png" );
 
     if( !file_exists( processed_filename ) || !file_exists( intermediate_processed_filename ) ||
         g_cache_version != YARNSPIN_VERSION ||
-        file_more_recent( cstr_cat( is_face ? "faces/" : "images/", image_filename ), processed_filename ) ||
-        file_more_recent( cstr_cat( is_face ? "faces/" : "images/", image_filename ), intermediate_processed_filename ) ||
-        file_more_recent( is_face ? "faces/settings.ini" : "images/settings.ini", processed_filename ) ||
+        file_more_recent( cstr_cat( folder, image_filename ), processed_filename ) ||
+        file_more_recent( cstr_cat( folder, image_filename ), intermediate_processed_filename ) ||
+        file_more_recent( cstr_cat( folder, "settings.ini" ), processed_filename ) ||
         ( file_exists( ini_filename ) && file_more_recent( ini_filename, processed_filename ) ) ) {
 
         int w, h, c;
-        stbi_uc* img = stbi_load( cstr_cat( is_face ? "faces/" : "images/", image_filename ), &w, &h, &c, 4 );
+        stbi_uc* img = stbi_load( cstr_cat( folder, image_filename ), &w, &h, &c, 4 );
         if( !img ) {
             return NULL;
         }
@@ -1521,7 +1535,7 @@ qoi_data_t* convert_rgb( string image_filename, int width, int height, int bpp, 
         int outh = height;
 
         process_settings_t settings;
-        bool have_settings = load_settings( &settings, is_face ? "faces/settings.ini" : "images/settings.ini" );
+        bool have_settings = load_settings( &settings, cstr_cat( folder, "settings.ini" ) );
         if( file_exists( ini_filename ) ) {
             load_settings( &settings, ini_filename );
         }

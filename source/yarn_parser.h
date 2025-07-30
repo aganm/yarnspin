@@ -22,6 +22,7 @@ typedef enum section_type_t {
     SECTION_TYPE_LOCATION,
     SECTION_TYPE_DIALOG,
     SECTION_TYPE_CHARACTER,
+    SECTION_TYPE_ITEM,
 } section_type_t;
 
 
@@ -36,7 +37,7 @@ typedef struct parser_section_t {
 
 bool is_multi_item_keyword( string keyword ) {
     char const* multi_item_keywords[] = { 
-        "display_filters", "flags", "items",
+        "display_filters", "flags",
         "font_txt", "font_opt", "font_dialog", "font_say", "font_response", "font_chr", "font_use", "font_name",
         "debug_set_flags", "debug_get_items", "debug_attach_chars", "mus", "amb", "snd", "auto"
     };
@@ -52,7 +53,7 @@ bool is_multi_item_keyword( string keyword ) {
 bool is_global_keyword( string keyword ) {
 
     char const* global_keywords[] = {
-        "title", "author", "version", "start", "items", "flags",
+        "title", "author", "version", "start", "flags",
         "palette", "resolution", "colormode", "screenmode", "display_filters", "alone_text", "nothing_text",
         "font_txt", "font_opt", "font_dialog", "font_say", "font_response", "font_chr", "font_use", "font_name",
         "background_location", "background_dialog", "location_print_speed", "dialog_print_speed",
@@ -76,7 +77,9 @@ bool is_section_keyword( string keyword ) {
     char const* section_keywords[] = {
         "mus", "amb", "snd",  "scr",
         "img", "txt", "opt", "act", "use", "chr", "auto",
-        "say", "name", "short", "face",
+        "say", "name", "short", "face", 
+        "icon", 
+        "item",
     };
     for( int i = 0; i < ARRAY_COUNT( section_keywords ); ++i ) {
         if( cstr_compare_nocase( keyword, section_keywords[ i ] ) == 0 ) {
@@ -182,7 +185,7 @@ section_type_t find_section_type( string identifier ) {
         }
     }
 
-    char const* location_types[] = { "txt", "opt", "img", "chr" };
+    char const* location_types[] = { "txt", "opt" };
     for( int i = 0; i < ARRAY_COUNT( location_types ); ++i ) {
         if( cstr_compare_nocase( identifier, location_types[ i ] ) == 0 ) {
             return SECTION_TYPE_LOCATION;
@@ -196,10 +199,17 @@ section_type_t find_section_type( string identifier ) {
         }
     }
 
-    char const* character_types[] = { "name", "short", "face" };
+    char const* character_types[] = { "short", "face" };
     for( int i = 0; i < ARRAY_COUNT( character_types ); ++i ) {
         if( cstr_compare_nocase( identifier, character_types[ i ] ) == 0 ) {
             return SECTION_TYPE_CHARACTER;
+        }
+    }
+
+    char const* item_types[] = { "icon" };
+    for( int i = 0; i < ARRAY_COUNT( character_types ); ++i ) {
+        if( cstr_compare_nocase( identifier, item_types[ i ] ) == 0 ) {
+            return SECTION_TYPE_ITEM;
         }
     }
 
