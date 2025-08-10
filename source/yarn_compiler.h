@@ -371,13 +371,16 @@ bool extract_declaration_fields( parser_section_t* section, yarn_t* yarn, compil
             for( int i = 0; i < decl->data->count; ++i ) {
                 string_id str = cstr_trim( decl->data->items[ i ] );
                 skip_word_if_match( &str, "not" );
+                bool is_item = skip_word_if_match( &str, "got" );
                 if( cstr_len( str ) > 0 ) {
                     flag_t flag;
                     flag.flag = str;
                     flag.filename = decl->filename;
                     flag.line_number = decl->line_number;
-                    add_unique_flag( context->flags_tested, &flag );
-                    add_unique_id( yarn->flag_ids, str );
+                    if( !is_item ) {
+			    add_unique_flag( context->flags_tested, &flag );
+			    add_unique_id( yarn->flag_ids, str );
+                    }
                 } else {
                     printf( "%s(%d): invalid conditional declaration, flag '%s' is not valid\n", decl->filename, decl->line_number, decl->data->items[ i ] );
                     no_error = false;
@@ -711,24 +714,38 @@ bool compile_auto( array_param(string)* data_param, yarn_act_t* compiled_action,
 }
 
 
-bool compile_cond( array_param(string)* data_param, yarn_cond_or_t* compiled_cond, string filename, int line_number, yarn_t* yarn ) {
+bool compile_cond( array_param(string)* data_param, yarn_cond_or_t* compiled_cond, string filename, int line_number, yarn_t* yarn, compiler_context_t* context ) {
     array(string)* data = ARRAY_CAST( data_param );
     for( int i = 0; i < data->count; ++i ) {
         yarn_cond_flag_t flag;
         flag.is_not = false;
-        flag.flag_index = -1;
+        flag.is_got = false;
+        flag.index = -1;
 
         string_id str = cstr_trim( data->items[ i ] );
         if( skip_word_if_match( &str, "not" ) ) {
             flag.is_not = true;
         }
+        if( skip_word_if_match( &str, "got" ) ) {
+            flag.is_got = true;
+        }
 
-        int flag_index = find_flag_index( str, yarn );
-        if( flag_index >= 0 ) {
-            flag.flag_index = flag_index;
+        if( !flag.is_got ) {
+            int flag_index = find_flag_index( str, yarn );
+            if( flag_index >= 0 ) {
+                flag.index = flag_index;
+            } else {
+                printf( "%s(%d): invalid conditional declaration, flag '%s' is not recognized\n", filename, line_number, data->items[ i ] );
+                return false;
+            }
         } else {
-            printf( "%s(%d): invalid conditional declaration, flag '%s' is not recognized\n", filename, line_number, data->items[ i ] );
-            return false;
+            int item_index = find_item_index( str, yarn );
+            if( item_index >= 0 ) {
+                flag.index = item_index;
+            } else {
+                printf( "%s(%d): invalid conditional declaration, item '%s' is not recognized\n", filename, line_number, data->items[ i ] );
+                return false;
+            }
         }
         array_add( compiled_cond->flags, &flag );
     }
@@ -895,7 +912,7 @@ bool compile_screen( parser_section_t* section, yarn_t* yarn, compiler_context_t
                 cond_inst = *empty_cond();
                 cond = &cond_inst;
             }
-            no_error = no_error && compile_cond( decl->data, array_add( cond->ands, empty_cond_or() ), decl->filename, decl->line_number, yarn );
+            no_error = no_error && compile_cond( decl->data, array_add( cond->ands, empty_cond_or() ), decl->filename, decl->line_number, yarn, context );
         } else {
             printf( "%s(%d): unknown keyword '%s'\n", decl->filename, decl->line_number, decl->keyword );
             no_error = false;
@@ -1065,7 +1082,7 @@ bool compile_location( parser_section_t* section, yarn_t* yarn, compiler_context
                 cond_inst = *empty_cond();
                 cond = &cond_inst;
             }
-            no_error = no_error && compile_cond( decl->data, array_add( cond->ands, empty_cond_or() ), decl->filename, decl->line_number, yarn );
+            no_error = no_error && compile_cond( decl->data, array_add( cond->ands, empty_cond_or() ), decl->filename, decl->line_number, yarn, context );
         } else {
             printf( "%s(%d): unknown keyword '%s'\n", decl->filename, decl->line_number, decl->keyword );
             no_error = false;
@@ -1190,7 +1207,7 @@ bool compile_dialog( parser_section_t* section, yarn_t* yarn, compiler_context_t
                 cond_inst = *empty_cond();
                 cond = &cond_inst;
             }
-            no_error = no_error && compile_cond( decl->data, array_add( cond->ands, empty_cond_or() ), decl->filename, decl->line_number, yarn );
+            no_error = no_error && compile_cond( decl->data, array_add( cond->ands, empty_cond_or() ), decl->filename, decl->line_number, yarn, context );
         } else {
             printf( "%s(%d): unknown keyword '%s'\n", decl->filename, decl->line_number, decl->keyword );
             no_error = false;

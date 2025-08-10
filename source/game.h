@@ -775,11 +775,25 @@ bool test_cond( game_t* game, yarn_cond_t* cond ) {
         yarn_cond_or_t* ors = &cond->ands->items[ i ];
         for( int j = 0; j < ors->flags->count; ++j ) {
             yarn_cond_flag_t* flag = &ors->flags->items[ j ];
-            bool flag_val = game->state.flags->items[ flag->flag_index ];
-            if( flag->is_not ) {
-                flag_val = !flag_val;
+            if( !flag->is_got ) {
+                bool flag_val = game->state.flags->items[ flag->index ];
+                if( flag->is_not ) {
+                    flag_val = !flag_val;
+                }
+                or_result = or_result || flag_val;
+            } else {
+                bool item_val = false;
+                for( int k = 0; k < game->state.items->count; ++k ) {
+                    if( game->state.items->items[ k ] == flag->index ) {
+                        item_val = true;
+                        break;
+                    }
+                }
+                if( flag->is_not ) {
+                    item_val = !item_val;
+                }
+                or_result = or_result || item_val;
             }
-            or_result = or_result || flag_val;
         }
         result = result && or_result;
     }

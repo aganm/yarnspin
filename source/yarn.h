@@ -64,7 +64,8 @@ void read_int_array( buffer_t* in, array_param(int)* array ) {
 
 typedef struct yarn_cond_flag_t {
     bool is_not;
-    int flag_index;
+    bool is_got;
+    int index;
 } yarn_cond_flag_t;
 
 
@@ -84,7 +85,8 @@ void save_cond_or( buffer_t* out, yarn_cond_or_t* cond_or ) {
     buffer_write_i32( out, &cond_or->flags->count, 1 );
     for( int i = 0; i < cond_or->flags->count; ++i ) {
         buffer_write_bool( out, &cond_or->flags->items[ i ].is_not, 1 );
-        buffer_write_i32( out, &cond_or->flags->items[ i ].flag_index, 1 );
+        buffer_write_bool( out, &cond_or->flags->items[ i ].is_got, 1 );
+        buffer_write_i32( out, &cond_or->flags->items[ i ].index, 1 );
     }
 }
 
@@ -119,7 +121,8 @@ void load_cond( buffer_t* in, yarn_cond_t* cond ) {
         for( int j = 0; j < flags_count; ++j ) {
             yarn_cond_flag_t flag;
             flag.is_not = read_bool( in );
-            flag.flag_index = read_int( in );
+            flag.is_got = read_bool( in );
+            flag.index = read_int( in );
             array_add( cond_or.flags, &flag);
         }
         array_add( cond->ands, &cond_or );
